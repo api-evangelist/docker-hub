@@ -10,6 +10,8 @@ Docker Hub is the world's largest container image registry, providing a cloud-ba
 |------|-------------|
 | [Docker Hub API](https://docs.docker.com/docker-hub/api/latest/) | Programmatic access to repositories, images, tags, organizations, teams, webhooks, and access tokens. |
 
+**OpenAPI:** [openapi/docker-hub-openapi.yml](openapi/docker-hub-openapi.yml) (OpenAPI 3.0.3, version 2-beta, `https://hub.docker.com/v2`)
+
 ## Resources
 
 | Resource | URL |
