@@ -1,0 +1,13 @@
+{
+  "repo": "docker-hub",
+  "feeds": [
+    {
+      "source": "https://www.docker.com/blog/",
+      "feed_url": "https://www.docker.com/feed/",
+      "saved": 10,
+      "title": "Docker"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:27:09Z"
+}
