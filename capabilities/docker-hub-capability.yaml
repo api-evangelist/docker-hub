@@ -1,0 +1,1848 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Docker HUB API
+  description: Docker Hub is a service provided by Docker for finding and sharing container images with your team. It is the
+    world's largest library and community for container images. In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/)
+    and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API
+    that allows you to interact with Docker Hub. Browse through the Docker Hub API documentation to explore the supported
+    endpoints.
+  tags:
+  - Docker
+  - Hub
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: docker-hub
+    baseUri: https://hub.docker.com
+    description: Docker HUB API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{DOCKER_HUB_TOKEN}}'
+    resources:
+    - name: v2-users-login
+      path: /v2/users/login
+      operations:
+      - name: postuserslogin
+        method: POST
+        description: Create an authentication token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-users-2fa-login
+      path: /v2/users/2fa-login
+      operations:
+      - name: postusers2falogin
+        method: POST
+        description: Second factor authentication
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-auth-token
+      path: /v2/auth/token
+      operations:
+      - name: authcreateaccesstoken
+        method: POST
+        description: Create access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-access-tokens
+      path: /v2/access-tokens
+      operations:
+      - name: post-v2-access-tokens
+        method: POST
+        description: Create personal access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-v2-access-tokens
+        method: GET
+        description: List personal access tokens
+        inputParameters:
+        - name: page
+          in: query
+          type: number
+        - name: page_size
+          in: query
+          type: number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-access-tokens-uuid
+      path: /v2/access-tokens/{uuid}
+      operations:
+      - name: patch-v2-access-tokens-uuid
+        method: PATCH
+        description: Update personal access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-v2-access-tokens-uuid
+        method: GET
+        description: Get personal access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-v2-access-tokens-uuid
+        method: DELETE
+        description: Delete personal access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-auditlogs-account-actions
+      path: /v2/auditlogs/{account}/actions
+      operations:
+      - name: auditlogs-listauditactions
+        method: GET
+        description: List audit log actions
+        inputParameters:
+        - name: account
+          in: path
+          type: string
+          required: true
+          description: Namespace to query audit log actions for.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-auditlogs-account
+      path: /v2/auditlogs/{account}
+      operations:
+      - name: auditlogs-listauditlogs
+        method: GET
+        description: List audit log events
+        inputParameters:
+        - name: account
+          in: path
+          type: string
+          required: true
+          description: Namespace to query audit logs for.
+        - name: action
+          in: query
+          type: string
+          description: action name one of ["repo.tag.push", ...]. Optional parameter to filter specific audit log actions.
+        - name: name
+          in: query
+          type: string
+          description: name. Optional parameter to filter audit log events to a specific name. For repository events, this
+            is the name of the repository. For organization events, this
+        - name: actor
+          in: query
+          type: string
+          description: actor name. Optional parameter to filter audit log events to the specific user who triggered the event.
+        - name: from
+          in: query
+          type: string
+          description: Start of the time window you wish to query audit events for.
+        - name: to
+          in: query
+          type: string
+          description: End of the time window you wish to query audit events for.
+        - name: page
+          in: query
+          type: integer
+          description: page - specify page number. Page number to get.
+        - name: page_size
+          in: query
+          type: integer
+          description: page_size - specify page size. Number of events to return per page.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-name-settings
+      path: /v2/orgs/{name}/settings
+      operations:
+      - name: get-v2-orgs-name-settings
+        method: GET
+        description: Get organization settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: put-v2-orgs-name-settings
+        method: PUT
+        description: Update organization settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-name-access-tokens
+      path: /v2/orgs/{name}/access-tokens
+      operations:
+      - name: post-v2-orgs-name-access-tokens
+        method: POST
+        description: Create access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-v2-orgs-name-access-tokens
+        method: GET
+        description: List access tokens
+        inputParameters:
+        - name: page
+          in: query
+          type: number
+        - name: page_size
+          in: query
+          type: number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-access-tokens-access-token-id
+      path: /v2/orgs/{org_name}/access-tokens/{access_token_id}
+      operations:
+      - name: get-v2-orgs-org-name-access-tokens-access-token-
+        method: GET
+        description: Get access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: patch-v2-orgs-org-name-access-tokens-access-toke
+        method: PATCH
+        description: Update access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-v2-orgs-org-name-access-tokens-access-tok
+        method: DELETE
+        description: Delete access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-namespaces-namespace-repositories-repository-
+      path: /v2/namespaces/{namespace}/repositories/{repository}/tags
+      operations:
+      - name: listrepositorytags
+        method: GET
+        description: List repository tags
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Page number to get. Defaults to 1.
+        - name: page_size
+          in: query
+          type: integer
+          description: Number of items to get per page. Defaults to 10. Max of 100.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-namespaces-namespace-repositories-repository-
+      path: /v2/namespaces/{namespace}/repositories/{repository}/tags/{tag}
+      operations:
+      - name: getrepositorytag
+        method: GET
+        description: Read repository tag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-namespaces-namespace-repositories-repository-
+      path: /v2/namespaces/{namespace}/repositories/{repository}/immutabletags
+      operations:
+      - name: updaterepositoryimmutabletags
+        method: PATCH
+        description: Update repository immutable tags
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-namespaces-namespace-repositories-repository-
+      path: /v2/namespaces/{namespace}/repositories/{repository}/immutabletags/verify
+      operations:
+      - name: verifyrepositoryimmutabletags
+        method: POST
+        description: Verify repository immutable tags
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-repositories-namespace-repository-groups
+      path: /v2/repositories/{namespace}/{repository}/groups
+      operations:
+      - name: createrepositorygroup
+        method: POST
+        description: Assign a group (Team) to a repository for access
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-namespaces-namespace-repositories
+      path: /v2/namespaces/{namespace}/repositories
+      operations:
+      - name: listnamespacerepositories
+        method: GET
+        description: List repositories in a namespace
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Page number to get. Defaults to 1.
+        - name: page_size
+          in: query
+          type: integer
+          description: Number of repositories to get per page. Defaults to 10. Max of 100.
+        - name: name
+          in: query
+          type: string
+          description: Filter repositories by name (partial match).
+        - name: ordering
+          in: query
+          type: string
+          description: 'Order repositories by the specified field. Prefix with ''-'' for descending order. Available options:
+            - `name` / `-name`: Repository name (ascending/descending) -'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createrepository
+        method: POST
+        description: Create a new repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-namespaces-namespace-repositories-repository
+      path: /v2/namespaces/{namespace}/repositories/{repository}
+      operations:
+      - name: getrepository
+        method: GET
+        description: Get repository in a namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-members
+      path: /v2/orgs/{org_name}/members
+      operations:
+      - name: get-v2-orgs-org-name-members
+        method: GET
+        description: List org members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-members-export
+      path: /v2/orgs/{org_name}/members/export
+      operations:
+      - name: get-v2-orgs-org-name-members-export
+        method: GET
+        description: Export org members CSV
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-members-username
+      path: /v2/orgs/{org_name}/members/{username}
+      operations:
+      - name: put-v2-orgs-org-name-members-username
+        method: PUT
+        description: Update org member (role)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-v2-orgs-org-name-members-username
+        method: DELETE
+        description: Remove member from org
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-invites
+      path: /v2/orgs/{org_name}/invites
+      operations:
+      - name: get-v2-orgs-org-name-invites
+        method: GET
+        description: List org invites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-groups
+      path: /v2/orgs/{org_name}/groups
+      operations:
+      - name: get-v2-orgs-org-name-groups
+        method: GET
+        description: Get groups of an organization
+        inputParameters:
+        - name: username
+          in: query
+          type: string
+          description: Get groups for the specified username in the organization.
+        - name: search
+          in: query
+          type: string
+          description: Get groups for the specified group in the organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: post-v2-orgs-org-name-groups
+        method: POST
+        description: Create a new group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-groups-group-name
+      path: /v2/orgs/{org_name}/groups/{group_name}
+      operations:
+      - name: get-v2-orgs-org-name-groups-group-name
+        method: GET
+        description: Get a group of an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: put-v2-orgs-org-name-groups-group-name
+        method: PUT
+        description: Update the details for an organization group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: patch-v2-orgs-org-name-groups-group-name
+        method: PATCH
+        description: Update some details for an organization group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-v2-orgs-org-name-groups-group-name
+        method: DELETE
+        description: Delete an organization group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-groups-group-name-members
+      path: /v2/orgs/{org_name}/groups/{group_name}/members
+      operations:
+      - name: get-v2-orgs-org-name-groups-group-name-members
+        method: GET
+        description: List members of a group
+        inputParameters:
+        - name: search
+          in: query
+          type: string
+          description: Search members by username, full_name or email.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: post-v2-orgs-org-name-groups-group-name-members
+        method: POST
+        description: Add a member to a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org-name-groups-group-name-members-usern
+      path: /v2/orgs/{org_name}/groups/{group_name}/members/{username}
+      operations:
+      - name: delete-v2-orgs-org-name-groups-group-name-member
+        method: DELETE
+        description: Remove a user from a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-invites-id
+      path: /v2/invites/{id}
+      operations:
+      - name: delete-v2-invites-id
+        method: DELETE
+        description: Cancel an invite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-invites-id-resend
+      path: /v2/invites/{id}/resend
+      operations:
+      - name: patch-v2-invites-id-resend
+        method: PATCH
+        description: Resend an invite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-invites-bulk
+      path: /v2/invites/bulk
+      operations:
+      - name: post-v2-invites-bulk
+        method: POST
+        description: Bulk create invites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-serviceproviderconfig
+      path: /v2/scim/2.0/ServiceProviderConfig
+      operations:
+      - name: get-v2-scim-2-0-serviceproviderconfig
+        method: GET
+        description: Get service provider config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-resourcetypes
+      path: /v2/scim/2.0/ResourceTypes
+      operations:
+      - name: get-v2-scim-2-0-resourcetypes
+        method: GET
+        description: List resource types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-resourcetypes-name
+      path: /v2/scim/2.0/ResourceTypes/{name}
+      operations:
+      - name: get-v2-scim-2-0-resourcetypes-name
+        method: GET
+        description: Get a resource type
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-schemas
+      path: /v2/scim/2.0/Schemas
+      operations:
+      - name: get-v2-scim-2-0-schemas
+        method: GET
+        description: List schemas
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-schemas-id
+      path: /v2/scim/2.0/Schemas/{id}
+      operations:
+      - name: get-v2-scim-2-0-schemas-id
+        method: GET
+        description: Get a schema
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-users
+      path: /v2/scim/2.0/Users
+      operations:
+      - name: get-v2-scim-2-0-users
+        method: GET
+        description: List users
+        inputParameters:
+        - name: startIndex
+          in: query
+          type: integer
+        - name: count
+          in: query
+          type: integer
+        - name: filter
+          in: query
+          type: string
+        - name: sortOrder
+          in: query
+          type: string
+        - name: sortBy
+          in: query
+          type: string
+          description: User attribute to sort by.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: post-v2-scim-2-0-users
+        method: POST
+        description: Create user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2-0-users-id
+      path: /v2/scim/2.0/Users/{id}
+      operations:
+      - name: get-v2-scim-2-0-users-id
+        method: GET
+        description: Get a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: put-v2-scim-2-0-users-id
+        method: PUT
+        description: Update a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: docker-hub-rest
+    description: REST adapter for Docker HUB API.
+    resources:
+    - path: /v2/users/login
+      name: postuserslogin
+      operations:
+      - method: POST
+        name: postuserslogin
+        description: Create an authentication token
+        call: docker-hub.postuserslogin
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/users/2fa-login
+      name: postusers2falogin
+      operations:
+      - method: POST
+        name: postusers2falogin
+        description: Second factor authentication
+        call: docker-hub.postusers2falogin
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/auth/token
+      name: authcreateaccesstoken
+      operations:
+      - method: POST
+        name: authcreateaccesstoken
+        description: Create access token
+        call: docker-hub.authcreateaccesstoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/access-tokens
+      name: post-v2-access-tokens
+      operations:
+      - method: POST
+        name: post-v2-access-tokens
+        description: Create personal access token
+        call: docker-hub.post-v2-access-tokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/access-tokens
+      name: get-v2-access-tokens
+      operations:
+      - method: GET
+        name: get-v2-access-tokens
+        description: List personal access tokens
+        call: docker-hub.get-v2-access-tokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/access-tokens/{uuid}
+      name: patch-v2-access-tokens-uuid
+      operations:
+      - method: PATCH
+        name: patch-v2-access-tokens-uuid
+        description: Update personal access token
+        call: docker-hub.patch-v2-access-tokens-uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/access-tokens/{uuid}
+      name: get-v2-access-tokens-uuid
+      operations:
+      - method: GET
+        name: get-v2-access-tokens-uuid
+        description: Get personal access token
+        call: docker-hub.get-v2-access-tokens-uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/access-tokens/{uuid}
+      name: delete-v2-access-tokens-uuid
+      operations:
+      - method: DELETE
+        name: delete-v2-access-tokens-uuid
+        description: Delete personal access token
+        call: docker-hub.delete-v2-access-tokens-uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/auditlogs/{account}/actions
+      name: auditlogs-listauditactions
+      operations:
+      - method: GET
+        name: auditlogs-listauditactions
+        description: List audit log actions
+        call: docker-hub.auditlogs-listauditactions
+        with:
+          account: rest.account
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/auditlogs/{account}
+      name: auditlogs-listauditlogs
+      operations:
+      - method: GET
+        name: auditlogs-listauditlogs
+        description: List audit log events
+        call: docker-hub.auditlogs-listauditlogs
+        with:
+          account: rest.account
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{name}/settings
+      name: get-v2-orgs-name-settings
+      operations:
+      - method: GET
+        name: get-v2-orgs-name-settings
+        description: Get organization settings
+        call: docker-hub.get-v2-orgs-name-settings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{name}/settings
+      name: put-v2-orgs-name-settings
+      operations:
+      - method: PUT
+        name: put-v2-orgs-name-settings
+        description: Update organization settings
+        call: docker-hub.put-v2-orgs-name-settings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{name}/access-tokens
+      name: post-v2-orgs-name-access-tokens
+      operations:
+      - method: POST
+        name: post-v2-orgs-name-access-tokens
+        description: Create access token
+        call: docker-hub.post-v2-orgs-name-access-tokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{name}/access-tokens
+      name: get-v2-orgs-name-access-tokens
+      operations:
+      - method: GET
+        name: get-v2-orgs-name-access-tokens
+        description: List access tokens
+        call: docker-hub.get-v2-orgs-name-access-tokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/access-tokens/{access_token_id}
+      name: get-v2-orgs-org-name-access-tokens-access-token
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-access-tokens-access-token-
+        description: Get access token
+        call: docker-hub.get-v2-orgs-org-name-access-tokens-access-token-
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/access-tokens/{access_token_id}
+      name: patch-v2-orgs-org-name-access-tokens-access-toke
+      operations:
+      - method: PATCH
+        name: patch-v2-orgs-org-name-access-tokens-access-toke
+        description: Update access token
+        call: docker-hub.patch-v2-orgs-org-name-access-tokens-access-toke
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/access-tokens/{access_token_id}
+      name: delete-v2-orgs-org-name-access-tokens-access-tok
+      operations:
+      - method: DELETE
+        name: delete-v2-orgs-org-name-access-tokens-access-tok
+        description: Delete access token
+        call: docker-hub.delete-v2-orgs-org-name-access-tokens-access-tok
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories/{repository}/tags
+      name: listrepositorytags
+      operations:
+      - method: GET
+        name: listrepositorytags
+        description: List repository tags
+        call: docker-hub.listrepositorytags
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories/{repository}/tags/{tag}
+      name: getrepositorytag
+      operations:
+      - method: GET
+        name: getrepositorytag
+        description: Read repository tag
+        call: docker-hub.getrepositorytag
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories/{repository}/immutabletags
+      name: updaterepositoryimmutabletags
+      operations:
+      - method: PATCH
+        name: updaterepositoryimmutabletags
+        description: Update repository immutable tags
+        call: docker-hub.updaterepositoryimmutabletags
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories/{repository}/immutabletags/verify
+      name: verifyrepositoryimmutabletags
+      operations:
+      - method: POST
+        name: verifyrepositoryimmutabletags
+        description: Verify repository immutable tags
+        call: docker-hub.verifyrepositoryimmutabletags
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/repositories/{namespace}/{repository}/groups
+      name: createrepositorygroup
+      operations:
+      - method: POST
+        name: createrepositorygroup
+        description: Assign a group (Team) to a repository for access
+        call: docker-hub.createrepositorygroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories
+      name: listnamespacerepositories
+      operations:
+      - method: GET
+        name: listnamespacerepositories
+        description: List repositories in a namespace
+        call: docker-hub.listnamespacerepositories
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories
+      name: createrepository
+      operations:
+      - method: POST
+        name: createrepository
+        description: Create a new repository
+        call: docker-hub.createrepository
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/namespaces/{namespace}/repositories/{repository}
+      name: getrepository
+      operations:
+      - method: GET
+        name: getrepository
+        description: Get repository in a namespace
+        call: docker-hub.getrepository
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/members
+      name: get-v2-orgs-org-name-members
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-members
+        description: List org members
+        call: docker-hub.get-v2-orgs-org-name-members
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/members/export
+      name: get-v2-orgs-org-name-members-export
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-members-export
+        description: Export org members CSV
+        call: docker-hub.get-v2-orgs-org-name-members-export
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/members/{username}
+      name: put-v2-orgs-org-name-members-username
+      operations:
+      - method: PUT
+        name: put-v2-orgs-org-name-members-username
+        description: Update org member (role)
+        call: docker-hub.put-v2-orgs-org-name-members-username
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/members/{username}
+      name: delete-v2-orgs-org-name-members-username
+      operations:
+      - method: DELETE
+        name: delete-v2-orgs-org-name-members-username
+        description: Remove member from org
+        call: docker-hub.delete-v2-orgs-org-name-members-username
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/invites
+      name: get-v2-orgs-org-name-invites
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-invites
+        description: List org invites
+        call: docker-hub.get-v2-orgs-org-name-invites
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups
+      name: get-v2-orgs-org-name-groups
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-groups
+        description: Get groups of an organization
+        call: docker-hub.get-v2-orgs-org-name-groups
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups
+      name: post-v2-orgs-org-name-groups
+      operations:
+      - method: POST
+        name: post-v2-orgs-org-name-groups
+        description: Create a new group
+        call: docker-hub.post-v2-orgs-org-name-groups
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}
+      name: get-v2-orgs-org-name-groups-group-name
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-groups-group-name
+        description: Get a group of an organization
+        call: docker-hub.get-v2-orgs-org-name-groups-group-name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}
+      name: put-v2-orgs-org-name-groups-group-name
+      operations:
+      - method: PUT
+        name: put-v2-orgs-org-name-groups-group-name
+        description: Update the details for an organization group
+        call: docker-hub.put-v2-orgs-org-name-groups-group-name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}
+      name: patch-v2-orgs-org-name-groups-group-name
+      operations:
+      - method: PATCH
+        name: patch-v2-orgs-org-name-groups-group-name
+        description: Update some details for an organization group
+        call: docker-hub.patch-v2-orgs-org-name-groups-group-name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}
+      name: delete-v2-orgs-org-name-groups-group-name
+      operations:
+      - method: DELETE
+        name: delete-v2-orgs-org-name-groups-group-name
+        description: Delete an organization group
+        call: docker-hub.delete-v2-orgs-org-name-groups-group-name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}/members
+      name: get-v2-orgs-org-name-groups-group-name-members
+      operations:
+      - method: GET
+        name: get-v2-orgs-org-name-groups-group-name-members
+        description: List members of a group
+        call: docker-hub.get-v2-orgs-org-name-groups-group-name-members
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}/members
+      name: post-v2-orgs-org-name-groups-group-name-members
+      operations:
+      - method: POST
+        name: post-v2-orgs-org-name-groups-group-name-members
+        description: Add a member to a group
+        call: docker-hub.post-v2-orgs-org-name-groups-group-name-members
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/orgs/{org_name}/groups/{group_name}/members/{username}
+      name: delete-v2-orgs-org-name-groups-group-name-member
+      operations:
+      - method: DELETE
+        name: delete-v2-orgs-org-name-groups-group-name-member
+        description: Remove a user from a group
+        call: docker-hub.delete-v2-orgs-org-name-groups-group-name-member
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/invites/{id}
+      name: delete-v2-invites-id
+      operations:
+      - method: DELETE
+        name: delete-v2-invites-id
+        description: Cancel an invite
+        call: docker-hub.delete-v2-invites-id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/invites/{id}/resend
+      name: patch-v2-invites-id-resend
+      operations:
+      - method: PATCH
+        name: patch-v2-invites-id-resend
+        description: Resend an invite
+        call: docker-hub.patch-v2-invites-id-resend
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/invites/bulk
+      name: post-v2-invites-bulk
+      operations:
+      - method: POST
+        name: post-v2-invites-bulk
+        description: Bulk create invites
+        call: docker-hub.post-v2-invites-bulk
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/ServiceProviderConfig
+      name: get-v2-scim-2-0-serviceproviderconfig
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-serviceproviderconfig
+        description: Get service provider config
+        call: docker-hub.get-v2-scim-2-0-serviceproviderconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/ResourceTypes
+      name: get-v2-scim-2-0-resourcetypes
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-resourcetypes
+        description: List resource types
+        call: docker-hub.get-v2-scim-2-0-resourcetypes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/ResourceTypes/{name}
+      name: get-v2-scim-2-0-resourcetypes-name
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-resourcetypes-name
+        description: Get a resource type
+        call: docker-hub.get-v2-scim-2-0-resourcetypes-name
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/Schemas
+      name: get-v2-scim-2-0-schemas
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-schemas
+        description: List schemas
+        call: docker-hub.get-v2-scim-2-0-schemas
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/Schemas/{id}
+      name: get-v2-scim-2-0-schemas-id
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-schemas-id
+        description: Get a schema
+        call: docker-hub.get-v2-scim-2-0-schemas-id
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/Users
+      name: get-v2-scim-2-0-users
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-users
+        description: List users
+        call: docker-hub.get-v2-scim-2-0-users
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/Users
+      name: post-v2-scim-2-0-users
+      operations:
+      - method: POST
+        name: post-v2-scim-2-0-users
+        description: Create user
+        call: docker-hub.post-v2-scim-2-0-users
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/Users/{id}
+      name: get-v2-scim-2-0-users-id
+      operations:
+      - method: GET
+        name: get-v2-scim-2-0-users-id
+        description: Get a user
+        call: docker-hub.get-v2-scim-2-0-users-id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/scim/2.0/Users/{id}
+      name: put-v2-scim-2-0-users-id
+      operations:
+      - method: PUT
+        name: put-v2-scim-2-0-users-id
+        description: Update a user
+        call: docker-hub.put-v2-scim-2-0-users-id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: docker-hub-mcp
+    transport: http
+    description: MCP adapter for Docker HUB API for AI agent use.
+    tools:
+    - name: postuserslogin
+      description: Create an authentication token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.postuserslogin
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: postusers2falogin
+      description: Second factor authentication
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.postusers2falogin
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: authcreateaccesstoken
+      description: Create access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.authcreateaccesstoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v2-access-tokens
+      description: Create personal access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.post-v2-access-tokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-access-tokens
+      description: List personal access tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-access-tokens
+      with:
+        page: tools.page
+        page_size: tools.page_size
+      inputParameters:
+      - name: page
+        type: number
+        description: page
+      - name: page_size
+        type: number
+        description: page_size
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: patch-v2-access-tokens-uuid
+      description: Update personal access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.patch-v2-access-tokens-uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-access-tokens-uuid
+      description: Get personal access token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-access-tokens-uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v2-access-tokens-uuid
+      description: Delete personal access token
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub.delete-v2-access-tokens-uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: auditlogs-listauditactions
+      description: List audit log actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.auditlogs-listauditactions
+      with:
+        account: tools.account
+      inputParameters:
+      - name: account
+        type: string
+        description: Namespace to query audit log actions for.
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: auditlogs-listauditlogs
+      description: List audit log events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.auditlogs-listauditlogs
+      with:
+        account: tools.account
+        action: tools.action
+        name: tools.name
+        actor: tools.actor
+        from: tools.from
+        to: tools.to
+        page: tools.page
+        page_size: tools.page_size
+      inputParameters:
+      - name: account
+        type: string
+        description: Namespace to query audit logs for.
+        required: true
+      - name: action
+        type: string
+        description: action name one of ["repo.tag.push", ...]. Optional parameter to filter specific audit log actions.
+      - name: name
+        type: string
+        description: name. Optional parameter to filter audit log events to a specific name. For repository events, this is
+          the name of the repository. For organization events, this
+      - name: actor
+        type: string
+        description: actor name. Optional parameter to filter audit log events to the specific user who triggered the event.
+      - name: from
+        type: string
+        description: Start of the time window you wish to query audit events for.
+      - name: to
+        type: string
+        description: End of the time window you wish to query audit events for.
+      - name: page
+        type: integer
+        description: page - specify page number. Page number to get.
+      - name: page_size
+        type: integer
+        description: page_size - specify page size. Number of events to return per page.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-name-settings
+      description: Get organization settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-name-settings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: put-v2-orgs-name-settings
+      description: Update organization settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub.put-v2-orgs-name-settings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v2-orgs-name-access-tokens
+      description: Create access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.post-v2-orgs-name-access-tokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-name-access-tokens
+      description: List access tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-name-access-tokens
+      with:
+        page: tools.page
+        page_size: tools.page_size
+      inputParameters:
+      - name: page
+        type: number
+        description: page
+      - name: page_size
+        type: number
+        description: page_size
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-access-tokens-access-token-
+      description: Get access token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-access-tokens-access-token-
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: patch-v2-orgs-org-name-access-tokens-access-toke
+      description: Update access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.patch-v2-orgs-org-name-access-tokens-access-toke
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v2-orgs-org-name-access-tokens-access-tok
+      description: Delete access token
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub.delete-v2-orgs-org-name-access-tokens-access-tok
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listrepositorytags
+      description: List repository tags
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.listrepositorytags
+      with:
+        page: tools.page
+        page_size: tools.page_size
+      inputParameters:
+      - name: page
+        type: integer
+        description: Page number to get. Defaults to 1.
+      - name: page_size
+        type: integer
+        description: Number of items to get per page. Defaults to 10. Max of 100.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getrepositorytag
+      description: Read repository tag
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.getrepositorytag
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updaterepositoryimmutabletags
+      description: Update repository immutable tags
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.updaterepositoryimmutabletags
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: verifyrepositoryimmutabletags
+      description: Verify repository immutable tags
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.verifyrepositoryimmutabletags
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createrepositorygroup
+      description: Assign a group (Team) to a repository for access
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.createrepositorygroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listnamespacerepositories
+      description: List repositories in a namespace
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.listnamespacerepositories
+      with:
+        page: tools.page
+        page_size: tools.page_size
+        name: tools.name
+        ordering: tools.ordering
+      inputParameters:
+      - name: page
+        type: integer
+        description: Page number to get. Defaults to 1.
+      - name: page_size
+        type: integer
+        description: Number of repositories to get per page. Defaults to 10. Max of 100.
+      - name: name
+        type: string
+        description: Filter repositories by name (partial match).
+      - name: ordering
+        type: string
+        description: 'Order repositories by the specified field. Prefix with ''-'' for descending order. Available options:
+          - `name` / `-name`: Repository name (ascending/descending) -'
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createrepository
+      description: Create a new repository
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.createrepository
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getrepository
+      description: Get repository in a namespace
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.getrepository
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-members
+      description: List org members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-members
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-members-export
+      description: Export org members CSV
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-members-export
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: put-v2-orgs-org-name-members-username
+      description: Update org member (role)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub.put-v2-orgs-org-name-members-username
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v2-orgs-org-name-members-username
+      description: Remove member from org
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub.delete-v2-orgs-org-name-members-username
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-invites
+      description: List org invites
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-invites
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-groups
+      description: Get groups of an organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-groups
+      with:
+        username: tools.username
+        search: tools.search
+      inputParameters:
+      - name: username
+        type: string
+        description: Get groups for the specified username in the organization.
+      - name: search
+        type: string
+        description: Get groups for the specified group in the organization.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v2-orgs-org-name-groups
+      description: Create a new group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.post-v2-orgs-org-name-groups
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-groups-group-name
+      description: Get a group of an organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-groups-group-name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: put-v2-orgs-org-name-groups-group-name
+      description: Update the details for an organization group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub.put-v2-orgs-org-name-groups-group-name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: patch-v2-orgs-org-name-groups-group-name
+      description: Update some details for an organization group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.patch-v2-orgs-org-name-groups-group-name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v2-orgs-org-name-groups-group-name
+      description: Delete an organization group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub.delete-v2-orgs-org-name-groups-group-name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-orgs-org-name-groups-group-name-members
+      description: List members of a group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-orgs-org-name-groups-group-name-members
+      with:
+        search: tools.search
+      inputParameters:
+      - name: search
+        type: string
+        description: Search members by username, full_name or email.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v2-orgs-org-name-groups-group-name-members
+      description: Add a member to a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.post-v2-orgs-org-name-groups-group-name-members
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v2-orgs-org-name-groups-group-name-member
+      description: Remove a user from a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub.delete-v2-orgs-org-name-groups-group-name-member
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v2-invites-id
+      description: Cancel an invite
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub.delete-v2-invites-id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: patch-v2-invites-id-resend
+      description: Resend an invite
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.patch-v2-invites-id-resend
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v2-invites-bulk
+      description: Bulk create invites
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.post-v2-invites-bulk
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-serviceproviderconfig
+      description: Get service provider config
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-serviceproviderconfig
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-resourcetypes
+      description: List resource types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-resourcetypes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-resourcetypes-name
+      description: Get a resource type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-resourcetypes-name
+      with:
+        name: tools.name
+      inputParameters:
+      - name: name
+        type: string
+        description: name
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-schemas
+      description: List schemas
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-schemas
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-schemas-id
+      description: Get a schema
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-schemas-id
+      with:
+        id: tools.id
+      inputParameters:
+      - name: id
+        type: string
+        description: id
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-users
+      description: List users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-users
+      with:
+        startIndex: tools.startIndex
+        count: tools.count
+        filter: tools.filter
+        sortOrder: tools.sortOrder
+        sortBy: tools.sortBy
+      inputParameters:
+      - name: startIndex
+        type: integer
+        description: startIndex
+      - name: count
+        type: integer
+        description: count
+      - name: filter
+        type: string
+        description: filter
+      - name: sortOrder
+        type: string
+        description: sortOrder
+      - name: sortBy
+        type: string
+        description: User attribute to sort by.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v2-scim-2-0-users
+      description: Create user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub.post-v2-scim-2-0-users
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v2-scim-2-0-users-id
+      description: Get a user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub.get-v2-scim-2-0-users-id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: put-v2-scim-2-0-users-id
+      description: Update a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub.put-v2-scim-2-0-users-id
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    DOCKER_HUB_TOKEN: DOCKER_HUB_TOKEN
