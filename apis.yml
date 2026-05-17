@@ -69,7 +69,7 @@ common:
     type: PrivacyPolicy
   - url: https://status.docker.com/
     name: Status Page
-    type: Status
+    type: StatusPage
   - url: https://github.com/docker
     name: GitHub
     type: GitHub
