@@ -1,0 +1,379 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Docker HUB API — scim
+  description: 'Docker HUB API — scim. 9 operations. Lead operation: List resource types. Self-contained Naftiko capability
+    covering one Docker Hub business surface.'
+  tags:
+  - Docker Hub
+  - scim
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    DOCKER_HUB_API_KEY: DOCKER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-hub-scim
+    baseUri: https://hub.docker.com
+    description: Docker HUB API — scim business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-scim-2.0-ResourceTypes
+      path: /v2/scim/2.0/ResourceTypes
+      operations:
+      - name: get
+        method: GET
+        description: List resource types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2.0-ResourceTypes-name
+      path: /v2/scim/2.0/ResourceTypes/{name}
+      operations:
+      - name: get
+        method: GET
+        description: Get a resource type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+    - name: v2-scim-2.0-Schemas
+      path: /v2/scim/2.0/Schemas
+      operations:
+      - name: get
+        method: GET
+        description: List schemas
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2.0-Schemas-id
+      path: /v2/scim/2.0/Schemas/{id}
+      operations:
+      - name: get
+        method: GET
+        description: Get a schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: v2-scim-2.0-ServiceProviderConfig
+      path: /v2/scim/2.0/ServiceProviderConfig
+      operations:
+      - name: get
+        method: GET
+        description: Get service provider config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-scim-2.0-Users
+      path: /v2/scim/2.0/Users
+      operations:
+      - name: get
+        method: GET
+        description: List users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: startIndex
+          in: query
+          type: integer
+        - name: count
+          in: query
+          type: integer
+        - name: filter
+          in: query
+          type: string
+        - name: sortOrder
+          in: query
+          type: string
+        - name: sortBy
+          in: query
+          type: string
+          description: User attribute to sort by.
+      - name: post
+        method: POST
+        description: Create user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: v2-scim-2.0-Users-id
+      path: /v2/scim/2.0/Users/{id}
+      operations:
+      - name: get
+        method: GET
+        description: Get a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: put
+        method: PUT
+        description: Update a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.DOCKER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-hub-scim-rest
+    port: 8080
+    description: REST adapter for Docker HUB API — scim. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/scim/2-0/resourcetypes
+      name: v2-scim-2-0-resourcetypes
+      description: REST surface for v2-scim-2.0-ResourceTypes.
+      operations:
+      - method: GET
+        name: get
+        description: List resource types
+        call: docker-hub-scim.get
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/scim/2-0/resourcetypes/{name}
+      name: v2-scim-2-0-resourcetypes-name
+      description: REST surface for v2-scim-2.0-ResourceTypes-name.
+      operations:
+      - method: GET
+        name: get
+        description: Get a resource type
+        call: docker-hub-scim.get
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/scim/2-0/schemas
+      name: v2-scim-2-0-schemas
+      description: REST surface for v2-scim-2.0-Schemas.
+      operations:
+      - method: GET
+        name: get
+        description: List schemas
+        call: docker-hub-scim.get
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/scim/2-0/schemas/{id}
+      name: v2-scim-2-0-schemas-id
+      description: REST surface for v2-scim-2.0-Schemas-id.
+      operations:
+      - method: GET
+        name: get
+        description: Get a schema
+        call: docker-hub-scim.get
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/scim/2-0/serviceproviderconfig
+      name: v2-scim-2-0-serviceproviderconfig
+      description: REST surface for v2-scim-2.0-ServiceProviderConfig.
+      operations:
+      - method: GET
+        name: get
+        description: Get service provider config
+        call: docker-hub-scim.get
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/scim/2-0/users
+      name: v2-scim-2-0-users
+      description: REST surface for v2-scim-2.0-Users.
+      operations:
+      - method: GET
+        name: get
+        description: List users
+        call: docker-hub-scim.get
+        with:
+          startIndex: rest.startIndex
+          count: rest.count
+          filter: rest.filter
+          sortOrder: rest.sortOrder
+          sortBy: rest.sortBy
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: post
+        description: Create user
+        call: docker-hub-scim.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/scim/2-0/users/{id}
+      name: v2-scim-2-0-users-id
+      description: REST surface for v2-scim-2.0-Users-id.
+      operations:
+      - method: GET
+        name: get
+        description: Get a user
+        call: docker-hub-scim.get
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: put
+        description: Update a user
+        call: docker-hub-scim.put
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-hub-scim-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Docker HUB API — scim. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-resource-types
+      description: List resource types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-resource-type
+      description: Get a resource type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-schemas
+      description: List schemas
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-schema
+      description: Get a schema
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-service-provider-config
+      description: Get service provider config
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-users
+      description: List users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      with:
+        startIndex: tools.startIndex
+        count: tools.count
+        filter: tools.filter
+        sortOrder: tools.sortOrder
+        sortBy: tools.sortBy
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-user
+      description: Create user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub-scim.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user
+      description: Get a user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-user
+      description: Update a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub-scim.put
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

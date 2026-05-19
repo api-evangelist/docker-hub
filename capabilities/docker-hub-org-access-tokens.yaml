@@ -1,0 +1,210 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Docker HUB API — org-access-tokens
+  description: 'Docker HUB API — org-access-tokens. 5 operations. Lead operation: Create access token. Self-contained Naftiko
+    capability covering one Docker Hub business surface.'
+  tags:
+  - Docker Hub
+  - org-access-tokens
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    DOCKER_HUB_API_KEY: DOCKER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-hub-org-access-tokens
+    baseUri: https://hub.docker.com
+    description: Docker HUB API — org-access-tokens business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-orgs-name-access-tokens
+      path: /v2/orgs/{name}/access-tokens
+      operations:
+      - name: post
+        method: POST
+        description: Create access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: get
+        method: GET
+        description: List access tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: number
+        - name: page_size
+          in: query
+          type: number
+    - name: v2-orgs-org_name-access-tokens-access_token_id
+      path: /v2/orgs/{org_name}/access-tokens/{access_token_id}
+      operations:
+      - name: get
+        method: GET
+        description: Get access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: patch
+        method: PATCH
+        description: Update access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: delete
+        method: DELETE
+        description: Delete access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.DOCKER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-hub-org-access-tokens-rest
+    port: 8080
+    description: REST adapter for Docker HUB API — org-access-tokens. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v2/orgs/{name}/access-tokens
+      name: v2-orgs-name-access-tokens
+      description: REST surface for v2-orgs-name-access-tokens.
+      operations:
+      - method: POST
+        name: post
+        description: Create access token
+        call: docker-hub-org-access-tokens.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: get
+        description: List access tokens
+        call: docker-hub-org-access-tokens.get
+        with:
+          page: rest.page
+          page_size: rest.page_size
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/access-tokens/{access-token-id}
+      name: v2-orgs-org-name-access-tokens-access-token-id
+      description: REST surface for v2-orgs-org_name-access-tokens-access_token_id.
+      operations:
+      - method: GET
+        name: get
+        description: Get access token
+        call: docker-hub-org-access-tokens.get
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patch
+        description: Update access token
+        call: docker-hub-org-access-tokens.patch
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete
+        description: Delete access token
+        call: docker-hub-org-access-tokens.delete
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-hub-org-access-tokens-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Docker HUB API — org-access-tokens. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: create-access-token
+      description: Create access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub-org-access-tokens.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-access-tokens
+      description: List access tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-org-access-tokens.get
+      with:
+        page: tools.page
+        page_size: tools.page_size
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-access-token
+      description: Get access token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-org-access-tokens.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-access-token
+      description: Update access token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub-org-access-tokens.patch
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-access-token
+      description: Delete access token
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub-org-access-tokens.delete
+      outputParameters:
+      - type: object
+        mapping: $.

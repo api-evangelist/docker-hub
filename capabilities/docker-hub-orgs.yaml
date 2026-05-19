@@ -1,0 +1,169 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Docker HUB API — orgs
+  description: 'Docker HUB API — orgs. 4 operations. Lead operation: List org members. Self-contained Naftiko capability covering
+    one Docker Hub business surface.'
+  tags:
+  - Docker Hub
+  - orgs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    DOCKER_HUB_API_KEY: DOCKER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-hub-orgs
+    baseUri: https://hub.docker.com
+    description: Docker HUB API — orgs business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-orgs-org_name-members
+      path: /v2/orgs/{org_name}/members
+      operations:
+      - name: get
+        method: GET
+        description: List org members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org_name-members-export
+      path: /v2/orgs/{org_name}/members/export
+      operations:
+      - name: get
+        method: GET
+        description: Export org members CSV
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org_name-members-username
+      path: /v2/orgs/{org_name}/members/{username}
+      operations:
+      - name: put
+        method: PUT
+        description: Update org member (role)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: delete
+        method: DELETE
+        description: Remove member from org
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.DOCKER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-hub-orgs-rest
+    port: 8080
+    description: REST adapter for Docker HUB API — orgs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/orgs/{org-name}/members
+      name: v2-orgs-org-name-members
+      description: REST surface for v2-orgs-org_name-members.
+      operations:
+      - method: GET
+        name: get
+        description: List org members
+        call: docker-hub-orgs.get
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/members/export
+      name: v2-orgs-org-name-members-export
+      description: REST surface for v2-orgs-org_name-members-export.
+      operations:
+      - method: GET
+        name: get
+        description: Export org members CSV
+        call: docker-hub-orgs.get
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/members/{username}
+      name: v2-orgs-org-name-members-username
+      description: REST surface for v2-orgs-org_name-members-username.
+      operations:
+      - method: PUT
+        name: put
+        description: Update org member (role)
+        call: docker-hub-orgs.put
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete
+        description: Remove member from org
+        call: docker-hub-orgs.delete
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-hub-orgs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Docker HUB API — orgs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-org-members
+      description: List org members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-orgs.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: export-org-members-csv
+      description: Export org members CSV
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-orgs.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-org-member-role
+      description: Update org member (role)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub-orgs.put
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-member-org
+      description: Remove member from org
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub-orgs.delete
+      outputParameters:
+      - type: object
+        mapping: $.

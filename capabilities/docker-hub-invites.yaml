@@ -1,0 +1,176 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Docker HUB API — invites
+  description: 'Docker HUB API — invites. 4 operations. Lead operation: Bulk create invites. Self-contained Naftiko capability
+    covering one Docker Hub business surface.'
+  tags:
+  - Docker Hub
+  - invites
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    DOCKER_HUB_API_KEY: DOCKER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-hub-invites
+    baseUri: https://hub.docker.com
+    description: Docker HUB API — invites business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-invites-bulk
+      path: /v2/invites/bulk
+      operations:
+      - name: post
+        method: POST
+        description: Bulk create invites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: v2-invites-id
+      path: /v2/invites/{id}
+      operations:
+      - name: delete
+        method: DELETE
+        description: Cancel an invite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-invites-id-resend
+      path: /v2/invites/{id}/resend
+      operations:
+      - name: patch
+        method: PATCH
+        description: Resend an invite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org_name-invites
+      path: /v2/orgs/{org_name}/invites
+      operations:
+      - name: get
+        method: GET
+        description: List org invites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.DOCKER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-hub-invites-rest
+    port: 8080
+    description: REST adapter for Docker HUB API — invites. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/invites/bulk
+      name: v2-invites-bulk
+      description: REST surface for v2-invites-bulk.
+      operations:
+      - method: POST
+        name: post
+        description: Bulk create invites
+        call: docker-hub-invites.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/invites/{id}
+      name: v2-invites-id
+      description: REST surface for v2-invites-id.
+      operations:
+      - method: DELETE
+        name: delete
+        description: Cancel an invite
+        call: docker-hub-invites.delete
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/invites/{id}/resend
+      name: v2-invites-id-resend
+      description: REST surface for v2-invites-id-resend.
+      operations:
+      - method: PATCH
+        name: patch
+        description: Resend an invite
+        call: docker-hub-invites.patch
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/invites
+      name: v2-orgs-org-name-invites
+      description: REST surface for v2-orgs-org_name-invites.
+      operations:
+      - method: GET
+        name: get
+        description: List org invites
+        call: docker-hub-invites.get
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-hub-invites-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Docker HUB API — invites. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: bulk-create-invites
+      description: Bulk create invites
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub-invites.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-invite
+      description: Cancel an invite
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub-invites.delete
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resend-invite
+      description: Resend an invite
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub-invites.patch
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-org-invites
+      description: List org invites
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-invites.get
+      outputParameters:
+      - type: object
+        mapping: $.

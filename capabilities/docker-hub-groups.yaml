@@ -1,0 +1,355 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Docker HUB API — groups
+  description: 'Docker HUB API — groups. 9 operations. Lead operation: Get groups of an organization. Self-contained Naftiko
+    capability covering one Docker Hub business surface.'
+  tags:
+  - Docker Hub
+  - groups
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    DOCKER_HUB_API_KEY: DOCKER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-hub-groups
+    baseUri: https://hub.docker.com
+    description: Docker HUB API — groups business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-orgs-org_name-groups
+      path: /v2/orgs/{org_name}/groups
+      operations:
+      - name: get
+        method: GET
+        description: Get groups of an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: query
+          type: string
+          description: Get groups for the specified username in the organization.
+        - name: search
+          in: query
+          type: string
+          description: Get groups for the specified group in the organization.
+      - name: post
+        method: POST
+        description: Create a new group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: v2-orgs-org_name-groups-group_name
+      path: /v2/orgs/{org_name}/groups/{group_name}
+      operations:
+      - name: get
+        method: GET
+        description: Get a group of an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: put
+        method: PUT
+        description: Update the details for an organization group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: patch
+        method: PATCH
+        description: Update some details for an organization group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: delete
+        method: DELETE
+        description: Delete an organization group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v2-orgs-org_name-groups-group_name-members
+      path: /v2/orgs/{org_name}/groups/{group_name}/members
+      operations:
+      - name: get
+        method: GET
+        description: List members of a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: search
+          in: query
+          type: string
+          description: Search members by username, full_name or email.
+      - name: post
+        method: POST
+        description: Add a member to a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: v2-orgs-org_name-groups-group_name-members-username
+      path: /v2/orgs/{org_name}/groups/{group_name}/members/{username}
+      operations:
+      - name: delete
+        method: DELETE
+        description: Remove a user from a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.DOCKER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-hub-groups-rest
+    port: 8080
+    description: REST adapter for Docker HUB API — groups. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/orgs/{org-name}/groups
+      name: v2-orgs-org-name-groups
+      description: REST surface for v2-orgs-org_name-groups.
+      operations:
+      - method: GET
+        name: get
+        description: Get groups of an organization
+        call: docker-hub-groups.get
+        with:
+          username: rest.username
+          search: rest.search
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: post
+        description: Create a new group
+        call: docker-hub-groups.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/groups/{group-name}
+      name: v2-orgs-org-name-groups-group-name
+      description: REST surface for v2-orgs-org_name-groups-group_name.
+      operations:
+      - method: GET
+        name: get
+        description: Get a group of an organization
+        call: docker-hub-groups.get
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: put
+        description: Update the details for an organization group
+        call: docker-hub-groups.put
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patch
+        description: Update some details for an organization group
+        call: docker-hub-groups.patch
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete
+        description: Delete an organization group
+        call: docker-hub-groups.delete
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/groups/{group-name}/members
+      name: v2-orgs-org-name-groups-group-name-members
+      description: REST surface for v2-orgs-org_name-groups-group_name-members.
+      operations:
+      - method: GET
+        name: get
+        description: List members of a group
+        call: docker-hub-groups.get
+        with:
+          search: rest.search
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: post
+        description: Add a member to a group
+        call: docker-hub-groups.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/orgs/{org-name}/groups/{group-name}/members/{username}
+      name: v2-orgs-org-name-groups-group-name-members-username
+      description: REST surface for v2-orgs-org_name-groups-group_name-members-username.
+      operations:
+      - method: DELETE
+        name: delete
+        description: Remove a user from a group
+        call: docker-hub-groups.delete
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-hub-groups-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Docker HUB API — groups. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-groups-organization
+      description: Get groups of an organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-groups.get
+      with:
+        username: tools.username
+        search: tools.search
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-group
+      description: Create a new group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub-groups.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-group-organization
+      description: Get a group of an organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-groups.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-details-organization-group
+      description: Update the details for an organization group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub-groups.put
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-some-details-organization-group
+      description: Update some details for an organization group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-hub-groups.patch
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-organization-group
+      description: Delete an organization group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub-groups.delete
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-members-group
+      description: List members of a group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-hub-groups.get
+      with:
+        search: tools.search
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-member-group
+      description: Add a member to a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-hub-groups.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-user-group
+      description: Remove a user from a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-hub-groups.delete
+      outputParameters:
+      - type: object
+        mapping: $.
