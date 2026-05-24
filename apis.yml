@@ -106,6 +106,8 @@ common:
 - url: https://www.youtube.com/user/dockerrun
   name: YouTube
   type: YouTube
+- type: LLMsTxt
+  url: https://docs.docker.com/llms.txt
 created: '2024-01-01'
 modified: '2026-05-19'
 specificationVersion: '0.19'
