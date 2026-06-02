@@ -2,12 +2,20 @@
   "repo": "docker-hub",
   "feeds": [
     {
-      "source": "https://www.docker.com/blog/",
+      "source": "https://www.docker.com/blog/feed/",
       "feed_url": "https://www.docker.com/blog/feed/",
-      "title": "Docker",
-      "saved": 6
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://www.docker.com/blog/",
+      "feed_url": "https://www.docker.com/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
-  "post_count": 19,
-  "fetched": "2026-05-17T20:20:35Z"
+  "post_count": 25,
+  "fetched": "2026-06-01T23:35:02Z"
 }
