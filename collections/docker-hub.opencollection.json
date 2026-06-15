@@ -1,0 +1,1625 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "authentication-api",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an authentication token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/users/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and returns a bearer token in JWT format that you can use to authenticate with Docker Hub APIs.\n\nThe returned token is used in the HTTP Authorization header like `Authorization: Bearer {TOKEN}`.\n\n_**As of September 16, 2024, this route requires a personal access token (PAT) instead of a password if your organization has SSO enforced.**_\n\n<div style=\"background-color:rgb(255, 165, 0, .25); padding:5px; border-radius:4px\">\n  <strong>Deprecated</strong>: Use [<a href=\"#tag/authentication-ap"
+        },
+        {
+          "info": {
+            "name": "Second factor authentication",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/users/2fa-login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "When a user has two-factor authentication (2FA) enabled, this is the second call to perform after `/v2/users/login` call.\n\nCreates and returns a bearer token in JWT format that you can use to authenticate with Docker Hub APIs.\n\nThe returned token is used in the HTTP Authorization header like `Authorization: Bearer {TOKEN}`.\n\nMost Docker Hub APIs require this token either to consume or to get detailed information. For example, to list images in a private repository.\n"
+        },
+        {
+          "info": {
+            "name": "Create access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/auth/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and returns a short-lived access token in JWT format for use as a bearer when calling Docker APIs.\n\nIf successful, the access token returned should be used in the HTTP Authorization header like \n`Authorization: Bearer {access_token}`.\n\n_**If your organization has SSO enforced, you must use a personal access token (PAT) instead of a password.**_\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "access-tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List personal access tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/access-tokens",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a paginated list of personal access tokens."
+        },
+        {
+          "info": {
+            "name": "Create personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/access-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates and returns a personal access token."
+        },
+        {
+          "info": {
+            "name": "Get personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/access-tokens/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a personal access token by UUID."
+        },
+        {
+          "info": {
+            "name": "Update personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/access-tokens/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a personal access token partially. You can either update the token's label or enable/disable it.\n"
+        },
+        {
+          "info": {
+            "name": "Delete personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/access-tokens/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a personal access token permanently. This cannot be undone.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "audit-logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List audit log actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/auditlogs/:account/actions",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "path",
+                "description": "Namespace to query audit log actions for."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List audit log actions for a namespace to be used as a filter for querying audit log events.\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "List audit log events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/auditlogs/:account",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "path",
+                "description": "Namespace to query audit logs for."
+              },
+              {
+                "name": "action",
+                "value": "",
+                "type": "query",
+                "description": "action name one of [\"repo.tag.push\", ...]. Optional parameter to filter specific audit log actions.\n"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "name. Optional parameter to filter audit log events to a specific name. For repository events, this is the name of the repository. For organization events, this is the name of the organization. For team member events, this is the username of the team member.\n"
+              },
+              {
+                "name": "actor",
+                "value": "",
+                "type": "query",
+                "description": "actor name. Optional parameter to filter audit log events to the specific user who triggered the event.\n"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time window you wish to query audit events for."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time window you wish to query audit events for."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "page - specify page number. Page number to get."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "page_size - specify page size. Number of events to return per page."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List audit log events for a given namespace.\n\n<span class=\"oat\"></span>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "org-settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:name/settings",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns organization settings by name.\n"
+        },
+        {
+          "info": {
+            "name": "Update organization settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/orgs/:name/settings",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates an organization's settings. Some settings are only used when the organization is on a business subscription.\n\n***Only users with administrative privileges for the organization (owner role) can modify these settings.***\n\nThe following settings are only used on a business subscription:\n- `restricted_images`\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "org-access-tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List access tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:name/access-tokens",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List access tokens for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Create access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/orgs/:name/access-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an access token for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Get access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/access-tokens/:access_token_id",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "access_token_id",
+                "value": "a7a5ef25-8889-43a0-8cc7-f2a94268e861",
+                "type": "path",
+                "description": "The ID of the access token to retrieve"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get details of a specific access token for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Update access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/access-tokens/:access_token_id",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "access_token_id",
+                "value": "a7a5ef25-8889-43a0-8cc7-f2a94268e861",
+                "type": "path",
+                "description": "The ID of the access token to retrieve"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a specific access token for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Delete access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/access-tokens/:access_token_id",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "access_token_id",
+                "value": "a7a5ef25-8889-43a0-8cc7-f2a94268e861",
+                "type": "path",
+                "description": "The ID of the access token to retrieve"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a specific access token for an organization. This action cannot be undone.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List repository tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to get. Defaults to 1."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to get per page. Defaults to 10. Max of 100."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List repository tags"
+        },
+        {
+          "info": {
+            "name": "Check repository tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check repository tags"
+        },
+        {
+          "info": {
+            "name": "Read repository tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags/:tag",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read repository tag"
+        },
+        {
+          "info": {
+            "name": "Check repository tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags/:tag",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check repository tag"
+        },
+        {
+          "info": {
+            "name": "Update repository immutable tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/immutabletags",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the immutable tags configuration for this repository.\n\n**Only users with administrative privileges for the repository can modify these settings.**\n"
+        },
+        {
+          "info": {
+            "name": "Verify repository immutable tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/immutabletags/verify",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Validates  the immutable tags regex pass in parameter and returns a list of tags matching it in this repository.\n\n**Only users with administrative privileges for the repository call this endpoint.**\n"
+        },
+        {
+          "info": {
+            "name": "Assign a group (Team) to a repository for access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/repositories/:namespace/:repository/groups",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Assign a group (Team) to a repository for access"
+        },
+        {
+          "info": {
+            "name": "List repositories in a namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to get. Defaults to 1."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of repositories to get per page. Defaults to 10. Max of 100."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter repositories by name (partial match)."
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Order repositories by the specified field. Prefix with '-' for descending order.\nAvailable options:\n- `name` / `-name`: Repository name (ascending/descending)\n- `last_updated` / `-last_updated`: Last update time (ascending/descending)\n- `pull_count` / `-pull_count`: Number of pulls (ascending/descending)\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of repositories within the specified namespace (organization or user).\n\nPublic repositories are accessible to everyone, while private repositories require appropriate authentication and permissions.\n"
+        },
+        {
+          "info": {
+            "name": "Create a new repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new repository within the specified namespace. The repository will be created\nwith the provided metadata including name, description, and privacy settings.\n"
+        },
+        {
+          "info": {
+            "name": "Get repository in a namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a repository within the specified namespace (organization or user).\n\nPublic repositories are accessible to everyone, while private repositories require appropriate authentication and permissions.\n"
+        },
+        {
+          "info": {
+            "name": "Check repository in a namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check a repository within the specified namespace (organization or user).\n\nPublic repositories are accessible to everyone, while private repositories require appropriate authentication and permissions.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "orgs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List org members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts on 1)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items (rows) per page."
+              },
+              {
+                "name": "invites",
+                "value": "",
+                "type": "query",
+                "description": "Include invites in the response."
+              },
+              {
+                "name": "type",
+                "value": "all",
+                "type": "query"
+              },
+              {
+                "name": "role",
+                "value": "owner",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of members for an organization.\n\n_The following fields are only visible to orgs with insights enabled._\n\n- `last_logged_in_at`\n- `last_seen_at`\n- `last_desktop_version`\n\nTo make visible, please see [View Insights for organization users](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Export org members CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members/export",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Export members of an organization as a CSV\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Update org member (role)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members/:username",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Username, identifier for the user (namespace, DockerID)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the role of a member in the organization.\n***Only users in the \"owners\" group of the organization can use this endpoint.***\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Remove member from org",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members/:username",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Username, identifier for the user (namespace, DockerID)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes the member from the org, ie. all groups in the org, unless they're the last owner\n\n<span class=\"oat\"></span>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "invites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List org invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/invites",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return all pending invites for a given org, only team owners can call this endpoint\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Cancel an invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/invites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Mark the invite as cancelled so it doesn't show up on the list of pending invites\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Resend an invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/invites/:id/resend",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend a pending invite to the user, any org owner can resend an invite\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Bulk create invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/invites/bulk",
+            "headers": [
+              {
+                "name": "X-Analytics-Client-Feature",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create multiple invites by emails or DockerIDs. Only a team owner can create invites.\n\n<span class=\"oat\"></span>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get groups of an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts on 1)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items (rows) per page."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "query",
+                "description": "Get groups for the specified username in the organization."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Get groups for the specified group in the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Create a new group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new group within an organization.\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Get a group of an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Update the details for an organization group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Update some details for an organization group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Delete an organization group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "List members of a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name/members",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts on 1)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items (rows) per page."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search members by username, full_name or email."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the members (users) that are in a group.\nIf user is owner of the org or has otherwise elevated permissions, they can search by email and the result will also contain emails.\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Add a member to a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name/members",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Remove a user from a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name/members/:username",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Username, identifier for the user (namespace, DockerID)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "scim",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get service provider config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/ServiceProviderConfig",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a service provider config for Docker's configuration.\n"
+        },
+        {
+          "info": {
+            "name": "List resource types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/ResourceTypes",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all resource types supported for the SCIM configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Get a resource type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/ResourceTypes/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "User",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a resource type by name.\n"
+        },
+        {
+          "info": {
+            "name": "List schemas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Schemas",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all schemas supported for the SCIM configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Get a schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Schemas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "urn:ietf:params:scim:schemas:core:2.0:User",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a schema by ID.\n"
+        },
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users",
+            "params": [
+              {
+                "name": "startIndex",
+                "value": "1",
+                "type": "query"
+              },
+              {
+                "name": "count",
+                "value": "10",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "userName eq \"jon.snow@docker.com\"",
+                "type": "query"
+              },
+              {
+                "name": "attributes",
+                "value": "userName,displayName",
+                "type": "query",
+                "description": "Comma delimited list of attributes to limit to in the response."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "userName",
+                "type": "query",
+                "description": "User attribute to sort by."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns paginated users for an organization. Use `startIndex` and `count` query parameters to receive paginated results.\n\n**Sorting:**\n\nSorting allows you to specify the order in which resources are returned by specifying a combination of `sortBy` and `sortOrder` query parameters.\n\nThe `sortBy` parameter specifies the attribute whose value will be used to order the returned responses. The `sortOrder` parameter defines the order in which the `sortBy` parameter is applied. Allowed values are \"asce"
+        },
+        {
+          "info": {
+            "name": "Create user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a user. If the user already exists by email, they are assigned to the organization on the \"company\" team.\n"
+        },
+        {
+          "info": {
+            "name": "Get a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "d80f7c79-7730-49d8-9a41-7c42fb622d9c",
+                "type": "path",
+                "description": "The user ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a user by ID.\n"
+        },
+        {
+          "info": {
+            "name": "Update a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "d80f7c79-7730-49d8-9a41-7c42fb622d9c",
+                "type": "path",
+                "description": "The user ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a user. This route is used to change the user's name, activate, and deactivate the user.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
