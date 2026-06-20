@@ -7,7 +7,7 @@ apis:
       The Docker Hub API provides programmatic access to the world's largest container image registry, enabling
       management of repositories, images, tags, organizations, teams, webhooks, and access tokens. It supports
       automation of container image publishing, discovery, and lifecycle management workflows.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://docs.docker.com/docker-hub/api/latest/
     baseURL: https://hub.docker.com/v2
     tags:
@@ -31,7 +31,7 @@ description: >-
   Docker Hub is the world's largest container image registry, providing a cloud-based service for finding, storing,
   sharing, and managing container images. It offers public and private repositories, automated builds, webhooks, and
   integrations with Docker tooling and CI/CD pipelines.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Containers
   - DevOps
