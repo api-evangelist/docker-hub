@@ -51,7 +51,7 @@ common:
     type: Documentation
   - url: https://hub.docker.com/signup
     name: Sign Up
-    type: SignUp
+    type: Signup
   - url: https://hub.docker.com/pricing
     name: Pricing
     type: Pricing
@@ -66,7 +66,7 @@ common:
     type: Support
   - url: https://forums.docker.com/
     name: Community Forum
-    type: Forum
+    type: Forums
   - url: https://www.docker.com/legal/docker-terms-service/
     name: Terms of Service
     type: TermsOfService
@@ -88,7 +88,7 @@ common:
   - url: https://www.youtube.com/user/dockerrun
     name: YouTube
     type: YouTube
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://docs.docker.com/llms.txt
 created: '2024-01-01'
 modified: '2026-05-19'
