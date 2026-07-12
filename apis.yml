@@ -40,6 +40,12 @@ tags:
 type: Index
 access: 3rd-Party
 common:
+  - type: VulnerabilityDisclosure
+    url: security/docker-hub-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/docker-hub-domain-security.yml
+  - type: Authentication
+    url: authentication/docker-hub-authentication.yml
   - url: https://hub.docker.com/
     name: Docker Hub Website
     type: Website
