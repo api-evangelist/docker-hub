@@ -40,6 +40,8 @@ tags:
 type: Index
 access: 3rd-Party
 common:
+  - type: AgenticAccess
+    url: agentic-access/docker-hub-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/docker-hub-vulnerability-disclosure.yml
   - type: DomainSecurity
