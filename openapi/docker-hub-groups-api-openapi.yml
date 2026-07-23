@@ -1,0 +1,513 @@
+openapi: 3.0.3
+info:
+  title: Docker HUB access-tokens groups API
+  version: 2-beta
+  x-logo:
+    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    href: /reference
+  description: 'Docker Hub is a service provided by Docker for finding and sharing container images with your team.
+
+
+    It is the world''s largest library and community for container images.
+
+
+    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+
+
+    Browse through the Docker Hub API documentation to explore the supported endpoints.
+
+    '
+servers:
+- description: Docker HUB API
+  x-audience: public
+  url: https://hub.docker.com
+tags:
+- name: groups
+  x-displayName: Groups (Teams)
+  x-audience: public
+  description: 'The groups endpoints allow you to manage your organization''s teams and their members.
+
+
+    For more information, see [Create and manage a team](https://docs.docker.com/admin/organization/manage/manage-a-team/).
+
+    '
+paths:
+  /v2/orgs/{org_name}/groups:
+    x-audience: public
+    parameters:
+    - $ref: '#/components/parameters/org_name'
+    get:
+      summary: Get groups of an organization
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - in: query
+        name: username
+        schema:
+          type: string
+        description: Get groups for the specified username in the organization.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Get groups for the specified group in the organization.
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  count:
+                    type: number
+                    example: 1
+                  next:
+                    type: string
+                    example: null
+                  previous:
+                    type: string
+                    example: null
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/org_group'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+    post:
+      summary: Create a new group
+      description: 'Create a new group within an organization.
+
+
+        <span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org_group'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+  /v2/orgs/{org_name}/groups/{group_name}:
+    x-audience: public
+    parameters:
+    - $ref: '#/components/parameters/org_name'
+    - $ref: '#/components/parameters/group_name'
+    get:
+      summary: Get a group of an organization
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org_group'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+    put:
+      summary: Update the details for an organization group
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org_group'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+    patch:
+      summary: Update some details for an organization group
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org_group'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+    delete:
+      summary: Delete an organization group
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: Group deleted successfully
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+  /v2/orgs/{org_name}/groups/{group_name}/members:
+    x-audience: public
+    get:
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/org_name'
+      - $ref: '#/components/parameters/group_name'
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search members by username, full_name or email.
+      summary: List members of a group
+      description: 'List the members (users) that are in a group.
+
+        If user is owner of the org or has otherwise elevated permissions, they can search by email and the result will also contain emails.
+
+
+        <span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  count:
+                    type: number
+                    example: 1
+                  next:
+                    type: string
+                    example: null
+                  previous:
+                    type: string
+                    example: null
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/group_member'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+    post:
+      parameters:
+      - $ref: '#/components/parameters/org_name'
+      - $ref: '#/components/parameters/group_name'
+      summary: Add a member to a group
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/add_member_to_org_group'
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_error'
+  /v2/orgs/{org_name}/groups/{group_name}/members/{username}:
+    x-audience: public
+    parameters:
+    - $ref: '#/components/parameters/org_name'
+    - $ref: '#/components/parameters/group_name'
+    - $ref: '#/components/parameters/username'
+    delete:
+      summary: Remove a user from a group
+      description: '<span class="oat"></span>
+
+        '
+      tags:
+      - groups
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: User removed successfully
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+components:
+  schemas:
+    group_member:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0ab70deb065a43fcacd55d48caa945d8
+          description: The UUID trimmed
+        company:
+          type: string
+          example: Docker Inc
+        date_joined:
+          type: string
+          format: date-time
+          example: '2021-01-05T21:06:53.506400Z'
+        full_name:
+          type: string
+          example: John Snow
+        gravatar_email:
+          type: string
+        gravatar_url:
+          type: string
+        location:
+          type: string
+        profile_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - User
+          - Org
+          example: User
+        username:
+          type: string
+          example: dockeruser
+        email:
+          type: string
+          example: dockeruser@docker.com
+    org_group:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 10
+          description: Group ID
+        uuid:
+          type: string
+          description: UUID for the group
+        name:
+          type: string
+          example: mygroup
+          description: Name of the group
+        description:
+          type: string
+          example: Groups description
+          description: Description of the group
+        member_count:
+          type: number
+          example: 10
+          description: Member count of the group
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+  requestBodies:
+    add_member_to_org_group:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - member
+            properties:
+              member:
+                type: string
+                example: jonsnow
+  responses:
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    internal_error:
+      description: Internal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
+    group_name:
+      in: path
+      name: group_name
+      description: Name of the group (team) in the organization.
+      schema:
+        type: string
+        example: developers
+      required: true
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearerSCIMAuth:
+      type: http
+      scheme: bearer
+x-tagGroups:
+- name: General
+  tags:
+  - changelog
+  - resources
+  - rate-limiting
+  - authentication
+- name: API
+  tags:
+  - authentication-api
+  - access-tokens
+  - images
+  - audit-logs
+  - org-settings
+  - repositories
+  - scim
+  - orgs
+  - org-access-tokens
+  - groups
+  - invites

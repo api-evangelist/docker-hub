@@ -1,0 +1,560 @@
+openapi: 3.0.3
+info:
+  title: Docker HUB access-tokens audit-logs API
+  version: 2-beta
+  x-logo:
+    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    href: /reference
+  description: 'Docker Hub is a service provided by Docker for finding and sharing container images with your team.
+
+
+    It is the world''s largest library and community for container images.
+
+
+    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+
+
+    Browse through the Docker Hub API documentation to explore the supported endpoints.
+
+    '
+servers:
+- description: Docker HUB API
+  x-audience: public
+  url: https://hub.docker.com
+tags:
+- name: audit-logs
+  x-displayName: Audit Logs
+  description: 'The Audit Logs API endpoints allow you to query audit log events across a namespace.
+
+
+    For more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).
+
+    '
+paths:
+  /v2/auditlogs/{account}/actions:
+    get:
+      summary: List audit log actions
+      description: 'List audit log actions for a namespace to be used as a filter for querying audit log events.
+
+
+        <span class="oat"></span>
+
+        '
+      operationId: AuditLogs_ListAuditActions
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAuditActionsResponse'
+              examples:
+                response:
+                  value:
+                    actions:
+                      billing:
+                        actions:
+                        - name: plan.upgrade
+                          description: Occurs when your organization’s billing plan is upgraded to a higher tier plan.
+                          label: Plan Upgraded
+                        - name: plan.downgrade
+                          description: Occurs when your organization’s billing plan is downgraded to a lower tier plan.
+                          label: Plan Downgraded
+                        - name: plan.seat_add
+                          description: Occurs when a seat is added to your organization’s billing plan.
+                          label: Seat Added
+                        - name: plan.seat_remove
+                          description: Occurs when a seat is removed from your organization’s billing plan.
+                          label: Seat Removed
+                        - name: plan.cycle_change
+                          description: Occurs when there is a change in the recurring interval that your organization is charged.
+                          label: Billing Cycle Changed
+                        - name: plan.downgrade_cancel
+                          description: Occurs when a scheduled plan downgrade for your organization is canceled.
+                          label: Plan Downgrade Canceled
+                        - name: plan.seat_removal_cancel
+                          description: Occurs when a scheduled seat removal for an organization’s billing plan is canceled.
+                          label: Seat Removal Canceled
+                        - name: plan.upgrade.request
+                          description: Occurs when a user in your organization requests a plan upgrade.
+                          label: Plan Upgrade Requested
+                        - name: plan.downgrade.request
+                          description: Occurs when a user in your organization requests a plan downgrade.
+                          label: Plan Downgrade Requested
+                        - name: plan.seat_add.request
+                          description: Occurs when a user in your organization requests an increase in the number of seats.
+                          label: Seat Addition Requested
+                        - name: plan.seat_removal.request
+                          description: Occurs when a user in your organization requests a decrease in the number of seats.
+                          label: Seat Removal Requested
+                        - name: plan.cycle_change.request
+                          description: Occurs when a user in your organization requests a change in the billing cycle.
+                          label: Billing Cycle Change Requested
+                        - name: plan.downgrade_cancel.request
+                          description: Occurs when a user in your organization requests a cancellation of a scheduled plan downgrade.
+                          label: Plan Downgrade Cancellation Requested
+                        - name: plan.seat_removal_cancel.request
+                          description: Occurs when a user in your organization requests a cancellation of a scheduled seat removal.
+                          label: Seat Removal Cancellation Requested
+                        - name: plan.product_change
+                          description: Occurs when there is a change in the product that your organization subscribes to.
+                          label: Billing Product Changed
+                        label: Billing
+                      enterprise:
+                        actions:
+                        - name: setting.policy.create
+                          description: Details of adding an admin settings policy
+                          label: Policy created
+                        - name: setting.policy.update
+                          description: Details of updating an admin settings policy
+                          label: Policy updated
+                        - name: setting.policy.delete
+                          description: Details of deleting an admin settings policy
+                          label: Policy deleted
+                        - name: setting.policy.transfer
+                          description: Details of transferring an admin settings policy to another owner
+                          label: Policy transferred
+                        - name: sso.connection.create
+                          description: Details of creating a new org/company SSO connection
+                          label: Create SSO Connection
+                        - name: sso.connection.update
+                          description: Details of updating an existing org/company SSO connection
+                          label: Update SSO Connection
+                        - name: sso.connection.delete
+                          description: Details of deleting an existing org/company SSO connection
+                          label: Delete SSO Connection
+                        - name: sso.connection.enforcement_toggle
+                          description: Details of toggling enforcement on an existing org/company SSO connection
+                          label: Enforce SSO
+                        - name: sso.connection.scim_toggle
+                          description: Details of toggling SCIM on an existing org/company SSO connection
+                          label: Enforce SCIM
+                        - name: sso.connection.scim_token_refresh
+                          description: Details of a SCIM token refresh on an existing org/company SSO connection
+                          label: Refresh SCIM Token
+                        - name: sso.connection.connection_type_change
+                          description: Details of a connection type change on an existing org/company SSO connection
+                          label: Change SSO Connection Type
+                        - name: sso.connection.jit_toggle
+                          description: Details of a JIT toggle on an existing org/company SSO connection
+                          label: Toggle JIT provisioning
+                        label: Enterprise
+                      offload:
+                        actions:
+                        - name: lease.start
+                          description: Details of the started Offload lease.
+                          label: Offload lease start
+                        - name: lease.end
+                          description: Details of the ended Offload lease.
+                          label: Offload lease end
+                        label: Offload
+                      oidc:
+                        actions:
+                        - name: connection.create
+                          description: Details of creating an OIDC connection.
+                          label: OIDC connection created
+                        - name: connection.update
+                          description: Details of updating an OIDC connection.
+                          label: OIDC connection updated
+                        - name: connection.delete
+                          description: Details of deleting an OIDC connection.
+                          label: OIDC connection deleted
+                        label: OIDC
+                      org:
+                        actions:
+                        - name: create
+                          description: Activities related to the creation of a new organization
+                          label: Organization Created
+                        - name: member.add
+                          description: Details of the member added to your organization
+                          label: Organization Member Added
+                        - name: member.remove
+                          description: Details about the member removed from your organization
+                          label: Organization Member Removed
+                        - name: member.role.change
+                          description: Details about the role changed for a member in your organization
+                          label: Member Role Changed
+                        - name: member.invite.send
+                          description: Details of the member invited to your organization
+                          label: Org Member Invited
+                        - name: team.create
+                          description: Activities related to the creation of a team
+                          label: Organization Created
+                        - name: team.update
+                          description: Activities related to the modification of a team
+                          label: Organization Deleted
+                        - name: team.delete
+                          description: Activities related to the deletion of a team
+                          label: Organization Deleted
+                        - name: team.member.add
+                          description: Details of the member added to your team
+                          label: Team Member Added
+                        - name: team.member.remove
+                          description: Details of the member removed from your team
+                          label: Team Member Removed
+                        - name: domain.create
+                          description: Details of the single sign-on domain added to your organization
+                          label: Single Sign-On domain added
+                        - name: domain.verify
+                          description: Details of the single sign-on domain verified for your organization
+                          label: Single Sign-On domain verified
+                        - name: domain.delete
+                          description: Details of the single sign-on domain removed from your organization
+                          label: Single Sign-On domain deleted
+                        - name: domain.auto-provisioning.toggle
+                          description: Details of toggling the Auto-Provisioning feature on a domain on or off
+                          label: Organization Auto-Provisioning Toggled
+                        - name: settings.update
+                          description: Details related to the organization setting that was updated
+                          label: Organization Settings Updated
+                        - name: registry_access.enabled
+                          description: Activities related to enabling Registry Access Management
+                          label: Registry Access Management enabled
+                        - name: registry_access.disabled
+                          description: Activities related to disabling Registry Access Management
+                          label: Registry Access Management disabled
+                        - name: registry_access.registry_added
+                          description: Activities related to the addition of a registry
+                          label: Registry Access Management registry added
+                        - name: registry_access.registry_updated
+                          description: Details related to the registry that was updated
+                          label: Registry Access Management registry updated
+                        - name: registry_access.registry_removed
+                          description: Activities related to the removal of a registry
+                          label: Registry Access Management registry removed
+                        - name: access_token.create
+                          description: Access token created in organization
+                          label: Access token created
+                        - name: access_token.update
+                          description: Access token updated in organization
+                          label: Access token updated
+                        - name: access_token.delete
+                          description: Access token deleted in organization
+                          label: Access token deleted
+                        - name: customrole.create
+                          description: A custom role was created
+                          label: Custom role created
+                        - name: customrole.update
+                          description: An existing custom role was updated
+                          label: Custom role updated
+                        - name: customrole.delete
+                          description: A custom role was deleted
+                          label: Custom role deleted
+                        - name: securepolicyconfigure.create
+                          description: A secure policy configuration was created
+                          label: Secure Policy Configuration created
+                        - name: securepolicyconfigure.update
+                          description: A secure policy configuration was updated
+                          label: Secure Policy Configuration updated
+                        - name: securepolicyconfigure.delete
+                          description: A secure policy configuration was deleted
+                          label: Secure Policy Configuration deleted
+                        - name: securepolicyclient.create
+                          description: A secure policy client was created
+                          label: Secure Policy Client created
+                        - name: securepolicyclient.update
+                          description: A secure policy client was updated
+                          label: Secure Policy Client updated
+                        - name: securepolicyclient.delete
+                          description: A secure policy client was deleted
+                          label: Secure Policy Client deleted
+                        - name: securepolicyprofile.create
+                          description: A secure policy profile was created
+                          label: Secure Policy Profile created
+                        - name: securepolicyprofile.update
+                          description: A secure policy profile was updated
+                          label: Secure Policy Profile updated
+                        - name: securepolicyprofile.delete
+                          description: A secure policy profile was deleted
+                          label: Secure Policy Profile deleted
+                        label: Organization
+                      repo:
+                        actions:
+                        - name: create
+                          description: Activities related to the creation of a new repository
+                          label: Repository Created
+                        - name: update
+                          description: Activities related to the modification of a repository
+                          label: Repository Updated
+                        - name: delete
+                          description: Activities related to the deletion of a repository
+                          label: Repository Deleted
+                        - name: change_privacy
+                          description: Details related to the privacy policies that were updated
+                          label: Privacy Changed
+                        - name: category.updated
+                          description: Details related to updating a repository categories
+                          label: Categories updated
+                        - name: immutable.tags.updated
+                          description: Details related to updating tag immutability of a repository
+                          label: Tag immutability updated
+                        - name: tag.push
+                          description: Activities related to the tags pushed
+                          label: Tag Pushed
+                        - name: tag.delete
+                          description: Activities related to the tags deleted
+                          label: Tag Deleted
+                        label: Repository
+        '429':
+          description: ''
+          content:
+            application/json:
+              schema: {}
+              examples:
+                response:
+                  value:
+                    detail: Rate limit exceeded
+                    error: false
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: account
+        description: Namespace to query audit log actions for.
+        in: path
+        required: true
+        schema:
+          type: string
+      tags:
+      - audit-logs
+  /v2/auditlogs/{account}:
+    get:
+      summary: List audit log events
+      description: 'List audit log events for a given namespace.
+
+
+        <span class="oat"></span>
+
+        '
+      operationId: AuditLogs_ListAuditLogs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAuditLogsResponse'
+              examples:
+                response:
+                  value:
+                    logs:
+                    - account: docker
+                      action: repo.tag.push
+                      name: docker/example
+                      actor: docker
+                      data:
+                        digest: sha256:c1ae9c435032a276f80220c7d9b40f76266bbe79243d34f9cda30b76fe114dfa
+                        tag: latest
+                      timestamp: '2021-02-19T01:34:35Z'
+                      action_description: 'pushed the tag latest with the digest sha256:c1ae9c435032a to the repository docker/example
+
+                        '
+        '429':
+          description: ''
+          content:
+            application/json:
+              schema: {}
+              examples:
+                response:
+                  value:
+                    detail: Rate limit exceeded
+                    error: false
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: account
+        description: Namespace to query audit logs for.
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: action
+        description: 'action name one of ["repo.tag.push", ...]. Optional parameter to filter specific audit log actions.
+
+          '
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: name
+        description: 'name. Optional parameter to filter audit log events to a specific name. For repository events, this is the name of the repository. For organization events, this is the name of the organization. For team member events, this is the username of the team member.
+
+          '
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: actor
+        description: 'actor name. Optional parameter to filter audit log events to the specific user who triggered the event.
+
+          '
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: from
+        description: Start of the time window you wish to query audit events for.
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        description: End of the time window you wish to query audit events for.
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        description: page - specify page number. Page number to get.
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: page_size
+        description: page_size - specify page size. Number of events to return per page.
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      tags:
+      - audit-logs
+components:
+  schemas:
+    rpcStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
+    GetAuditActionsResponse:
+      type: object
+      properties:
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AuditLogActions'
+          description: Map of audit log actions.
+      description: GetAuditActions response.
+    GetAuditLogsResponse:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLog'
+          description: List of audit log events.
+      description: GetAuditLogs response.
+    AuditLogActions:
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogAction'
+          description: List of audit log actions.
+        label:
+          type: string
+          description: Grouping label for a particular set of audit log actions.
+    protobufAny:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    AuditLogAction:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of audit log action.
+        description:
+          type: string
+          description: Description of audit log action.
+        label:
+          type: string
+          description: Label for audit log action.
+      description: Audit Log action
+    AuditLog:
+      type: object
+      properties:
+        account:
+          type: string
+        action:
+          type: string
+        name:
+          type: string
+        actor:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+        timestamp:
+          type: string
+          format: date-time
+        action_description:
+          type: string
+      description: Audit log event.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearerSCIMAuth:
+      type: http
+      scheme: bearer
+x-tagGroups:
+- name: General
+  tags:
+  - changelog
+  - resources
+  - rate-limiting
+  - authentication
+- name: API
+  tags:
+  - authentication-api
+  - access-tokens
+  - images
+  - audit-logs
+  - org-settings
+  - repositories
+  - scim
+  - orgs
+  - org-access-tokens
+  - groups
+  - invites

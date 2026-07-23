@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  title: Docker HUB access-tokens authentication-api API
+  version: 2-beta
+  x-logo:
+    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    href: /reference
+  description: 'Docker Hub is a service provided by Docker for finding and sharing container images with your team.
+
+
+    It is the world''s largest library and community for container images.
+
+
+    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+
+
+    Browse through the Docker Hub API documentation to explore the supported endpoints.
+
+    '
+servers:
+- description: Docker HUB API
+  x-audience: public
+  url: https://hub.docker.com
+tags:
+- name: authentication-api
+  x-displayName: Authentication
+  description: 'The authentication endpoints allow you to authenticate with Docker Hub APIs.
+
+
+    For more information, see [Authentication](#tag/authentication).
+
+    '
+paths:
+  /v2/users/login:
+    post:
+      tags:
+      - authentication-api
+      summary: Create an authentication token
+      operationId: PostUsersLogin
+      security: []
+      deprecated: true
+      description: "Creates and returns a bearer token in JWT format that you can use to authenticate with Docker Hub APIs.\n\nThe returned token is used in the HTTP Authorization header like `Authorization: Bearer {TOKEN}`.\n\n_**As of September 16, 2024, this route requires a personal access token (PAT) instead of a password if your organization has SSO enforced.**_\n\n<div style=\"background-color:rgb(255, 165, 0, .25); padding:5px; border-radius:4px\">\n  <strong>Deprecated</strong>: Use [<a href=\"#tag/authentication-api/operation/AuthCreateAccessToken\">Create access token</a>] instead.\n</div>\n"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersLoginRequest'
+        description: Login details.
+        required: true
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostUsersLoginSuccessResponse'
+        '401':
+          description: Authentication failed or second factor required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostUsersLoginErrorResponse'
+  /v2/users/2fa-login:
+    post:
+      tags:
+      - authentication-api
+      summary: Second factor authentication
+      operationId: PostUsers2FALogin
+      security: []
+      description: 'When a user has two-factor authentication (2FA) enabled, this is the second call to perform after `/v2/users/login` call.
+
+
+        Creates and returns a bearer token in JWT format that you can use to authenticate with Docker Hub APIs.
+
+
+        The returned token is used in the HTTP Authorization header like `Authorization: Bearer {TOKEN}`.
+
+
+        Most Docker Hub APIs require this token either to consume or to get detailed information. For example, to list images in a private repository.
+
+        '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users2FALoginRequest'
+        description: Login details.
+        required: true
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostUsersLoginSuccessResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostUsers2FALoginErrorResponse'
+  /v2/auth/token:
+    post:
+      tags:
+      - authentication-api
+      security: []
+      summary: Create access token
+      operationId: AuthCreateAccessToken
+      description: "Creates and returns a short-lived access token in JWT format for use as a bearer when calling Docker APIs.\n\nIf successful, the access token returned should be used in the HTTP Authorization header like \n`Authorization: Bearer {access_token}`.\n\n_**If your organization has SSO enforced, you must use a personal access token (PAT) instead of a password.**_\n"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Request to create access token
+              type: object
+              required:
+              - identifier
+              - secret
+              properties:
+                identifier:
+                  description: 'The identifier of the account to create an access token for. If using a password or personal access token,
+
+                    this must be a username. If using an organization access token, this must be an organization name.
+
+                    '
+                  type: string
+                  example: myusername
+                secret:
+                  description: 'The secret of the account to create an access token for. This can be a password, personal access token, or
+
+                    organization access token.
+
+                    '
+                  type: string
+                  example: dckr_pat_124509ugsdjga93
+      responses:
+        '200':
+          description: Token created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthCreateTokenResponse'
+        '401':
+          description: Authentication failed
+          $ref: '#/components/responses/unauthorized'
+components:
+  schemas:
+    PostUsersLoginErrorResponse:
+      description: failed user login response or second factor required
+      type: object
+      required:
+      - detail
+      properties:
+        detail:
+          description: Description of the error.
+          type: string
+          example: Incorrect authentication credentials
+          nullable: false
+        login_2fa_token:
+          description: 'Short time lived token to be used on `/v2/users/2fa-login` to complete the authentication. This field is present only if 2FA is enabled.
+
+            '
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          nullable: true
+    UsersLoginRequest:
+      description: User login details
+      type: object
+      required:
+      - username
+      - password
+      properties:
+        username:
+          description: The username of the Docker Hub account to authenticate with.
+          type: string
+          example: myusername
+        password:
+          description: 'The password or personal access token (PAT) of the Docker Hub account to authenticate with.
+
+            '
+          type: string
+          example: p@ssw0rd
+    Users2FALoginRequest:
+      description: Second factor user login details
+      type: object
+      required:
+      - login_2fa_token
+      - code
+      properties:
+        login_2fa_token:
+          description: The intermediate 2FA token returned from `/v2/users/login` API.
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        code:
+          description: 'The Time-based One-Time Password of the Docker Hub account to authenticate with.
+
+            '
+          type: string
+          example: 123456
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+    PostUsersLoginSuccessResponse:
+      description: successful user login response
+      type: object
+      properties:
+        token:
+          description: 'Created authentication token.
+
+            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
+
+            '
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          nullable: false
+    AuthCreateTokenResponse:
+      description: successful access token response
+      type: object
+      properties:
+        access_token:
+          description: The created access token. This expires in 10 minutes.
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    PostUsers2FALoginErrorResponse:
+      description: failed second factor login response.
+      type: object
+      properties:
+        detail:
+          description: Description of the error.
+          type: string
+          example: Incorrect authentication credentials
+          nullable: false
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearerSCIMAuth:
+      type: http
+      scheme: bearer
+x-tagGroups:
+- name: General
+  tags:
+  - changelog
+  - resources
+  - rate-limiting
+  - authentication
+- name: API
+  tags:
+  - authentication-api
+  - access-tokens
+  - images
+  - audit-logs
+  - org-settings
+  - repositories
+  - scim
+  - orgs
+  - org-access-tokens
+  - groups
+  - invites

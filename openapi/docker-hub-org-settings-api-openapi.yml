@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: Docker HUB access-tokens org-settings API
+  version: 2-beta
+  x-logo:
+    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    href: /reference
+  description: 'Docker Hub is a service provided by Docker for finding and sharing container images with your team.
+
+
+    It is the world''s largest library and community for container images.
+
+
+    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+
+
+    Browse through the Docker Hub API documentation to explore the supported endpoints.
+
+    '
+servers:
+- description: Docker HUB API
+  x-audience: public
+  url: https://hub.docker.com
+tags:
+- name: org-settings
+  x-displayName: Org Settings
+  description: 'The Org Settings API endpoints allow you to manage your organization''s settings.
+
+    '
+paths:
+  /v2/orgs/{name}/settings:
+    parameters:
+    - in: path
+      name: name
+      description: Name of the organization.
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get organization settings
+      description: 'Returns organization settings by name.
+
+        '
+      tags:
+      - org-settings
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgSettings'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update organization settings
+      description: 'Updates an organization''s settings. Some settings are only used when the organization is on a business subscription.
+
+
+        ***Only users with administrative privileges for the organization (owner role) can modify these settings.***
+
+
+        The following settings are only used on a business subscription:
+
+        - `restricted_images`
+
+        '
+      tags:
+      - org-settings
+      security:
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - restricted_images
+              properties:
+                restricted_images:
+                  allOf:
+                  - $ref: '#/components/schemas/restricted_images'
+                  - type: object
+                    required:
+                    - enabled
+                    - allow_official_images
+                    - allow_verified_publishers
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgSettings'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    orgSettings:
+      type: object
+      properties:
+        restricted_images:
+          $ref: '#/components/schemas/restricted_images'
+    restricted_images:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether or not to restrict image usage for users in the organization.
+          example: true
+        allow_official_images:
+          type: boolean
+          description: Allow usage of official images if "enabled" is `true`.
+          example: true
+        allow_verified_publishers:
+          type: boolean
+          description: Allow usage of verified publisher images if "enabled" is `true`.
+          example: true
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+        message:
+          type: string
+  responses:
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearerSCIMAuth:
+      type: http
+      scheme: bearer
+x-tagGroups:
+- name: General
+  tags:
+  - changelog
+  - resources
+  - rate-limiting
+  - authentication
+- name: API
+  tags:
+  - authentication-api
+  - access-tokens
+  - images
+  - audit-logs
+  - org-settings
+  - repositories
+  - scim
+  - orgs
+  - org-access-tokens
+  - groups
+  - invites

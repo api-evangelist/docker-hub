@@ -1,0 +1,458 @@
+openapi: 3.0.3
+info:
+  title: Docker HUB access-tokens orgs API
+  version: 2-beta
+  x-logo:
+    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    href: /reference
+  description: 'Docker Hub is a service provided by Docker for finding and sharing container images with your team.
+
+
+    It is the world''s largest library and community for container images.
+
+
+    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+
+
+    Browse through the Docker Hub API documentation to explore the supported endpoints.
+
+    '
+servers:
+- description: Docker HUB API
+  x-audience: public
+  url: https://hub.docker.com
+tags:
+- name: orgs
+  x-displayName: Organizations
+  x-audience: public
+  description: 'The organization endpoints allow you to interact with and manage your organizations.
+
+
+    For more information, see [Organization administration overview](https://docs.docker.com/admin/organization/).
+
+    '
+paths:
+  /v2/orgs/{org_name}/members:
+    parameters:
+    - $ref: '#/components/parameters/org_name'
+    - $ref: '#/components/parameters/search'
+    - $ref: '#/components/parameters/page'
+    - $ref: '#/components/parameters/page_size'
+    - $ref: '#/components/parameters/invites'
+    - $ref: '#/components/parameters/type'
+    - $ref: '#/components/parameters/role'
+    get:
+      summary: List org members
+      description: 'Returns a list of members for an organization.
+
+
+        _The following fields are only visible to orgs with insights enabled._
+
+
+        - `last_logged_in_at`
+
+        - `last_seen_at`
+
+        - `last_desktop_version`
+
+
+        To make visible, please see [View Insights for organization users](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).
+
+
+        <span class="oat"></span>
+
+        '
+      tags:
+      - orgs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: List of members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/org_member_paginated'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+  /v2/orgs/{org_name}/members/export:
+    parameters:
+    - $ref: '#/components/parameters/org_name'
+    get:
+      summary: Export org members CSV
+      description: 'Export members of an organization as a CSV
+
+
+        <span class="oat"></span>
+
+        '
+      tags:
+      - orgs
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Exported members
+          content:
+            text/csv:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - Name
+                  - Username
+                  - Email
+                  - Type
+                  - Role
+                  - Date Joined
+                  properties:
+                    Name:
+                      type: string
+                      description: First and last name of the member
+                    Username:
+                      type: string
+                      description: Username of the member
+                    Email:
+                      type: string
+                      description: Email address of the member
+                    Type:
+                      type: string
+                      description: Type of the member
+                      enum:
+                      - Invitee
+                      - User
+                    Permission:
+                      type: string
+                      description: Permission of the member
+                      enum:
+                      - Owner
+                      - Member
+                    Teams:
+                      type: string
+                      description: Comma-separated list of teams the member is part of
+                      example: team-1, team-2
+                    Date Joined:
+                      type: string
+                      description: Date the member joined the organization
+                      example: 2020-01-01 15:00:51.193355 +0000 UTC
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              example: attachment;filename="{org_name}-members-{timestamp}.csv"
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+  /v2/orgs/{org_name}/members/{username}:
+    x-audience: public
+    parameters:
+    - $ref: '#/components/parameters/org_name'
+    - $ref: '#/components/parameters/username'
+    put:
+      summary: Update org member (role)
+      description: 'Updates the role of a member in the organization.
+
+        ***Only users in the "owners" group of the organization can use this endpoint.***
+
+
+        <span class="oat"></span>
+
+        '
+      tags:
+      - orgs
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+              - role
+              properties:
+                role:
+                  type: string
+                  description: Role of the member
+                  enum:
+                  - owner
+                  - editor
+                  - member
+      responses:
+        '200':
+          description: Member role updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org_member'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+    delete:
+      summary: Remove member from org
+      description: 'Removes the member from the org, ie. all groups in the org, unless they''re the last owner
+
+
+        <span class="oat"></span>
+
+        '
+      tags:
+      - orgs
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: Member removed successfully
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+    org_member:
+      allOf:
+      - $ref: '#/components/schemas/user'
+      properties:
+        email:
+          type: string
+          description: User's email address
+          example: example@docker.com
+        role:
+          type: string
+          description: User's role in the Organization
+          enum:
+          - Owner
+          - Member
+          - Invitee
+          example: Owner
+        groups:
+          type: array
+          description: Groups (Teams) that the user is member of
+          items:
+            type: string
+          example:
+          - developers
+          - owners
+        is_guest:
+          type: boolean
+          description: If the organization has verified domains, members that have email addresses outside of those domains will be flagged as guests.
+          example: false
+        primary_email:
+          type: string
+          description: The user's email primary address.
+          example: example@docker.com
+          deprecated: true
+        last_logged_in_at:
+          type: string
+          format: date-time
+          description: "Last time the user logged in. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
+          example: '2021-01-05T21:06:53.506400Z'
+        last_seen_at:
+          type: string
+          format: date-time
+          description: "Last time the user was seen. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
+          example: '2021-01-05T21:06:53.506400Z'
+        last_desktop_version:
+          type: string
+          description: "Last desktop version the user used. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
+          example: 4.29.0
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0ab70deb065a43fcacd55d48caa945d8
+          description: The UUID trimmed
+        company:
+          type: string
+          example: Docker Inc
+        date_joined:
+          type: string
+          example: '2021-01-05T21:06:53.506400Z'
+        full_name:
+          type: string
+          example: Jon Snow
+        gravatar_email:
+          type: string
+        gravatar_url:
+          type: string
+        location:
+          type: string
+        profile_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - User
+          - Org
+          example: User
+        username:
+          type: string
+          example: dockeruser
+    org_member_paginated:
+      type: object
+      properties:
+        count:
+          type: number
+          description: The total number of items that match with the search.
+          example: 120
+        previous:
+          type: string
+          description: The URL or link for the previous page of items.
+          example: https://hub.docker.com/v2/some/resources/items?page=1&page_size=20
+        next:
+          type: string
+          description: The URL or link for the next page of items.
+          example: https://hub.docker.com/v2/some/resources/items?page=3&page_size=20
+        results:
+          type: array
+          description: List of accounts.
+          items:
+            $ref: '#/components/schemas/org_member'
+  responses:
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    type:
+      in: query
+      name: type
+      schema:
+        type: string
+        enum:
+        - all
+        - invitee
+        - member
+      example: all
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
+    role:
+      in: query
+      name: role
+      schema:
+        type: string
+        enum:
+        - owner
+        - editor
+        - member
+      example: owner
+    search:
+      in: query
+      name: search
+      schema:
+        type: integer
+      description: Search term.
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
+    invites:
+      in: query
+      name: invites
+      description: Include invites in the response.
+      schema:
+        type: boolean
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearerSCIMAuth:
+      type: http
+      scheme: bearer
+x-tagGroups:
+- name: General
+  tags:
+  - changelog
+  - resources
+  - rate-limiting
+  - authentication
+- name: API
+  tags:
+  - authentication-api
+  - access-tokens
+  - images
+  - audit-logs
+  - org-settings
+  - repositories
+  - scim
+  - orgs
+  - org-access-tokens
+  - groups
+  - invites
