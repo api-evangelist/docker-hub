@@ -1,37 +1,215 @@
 aid: docker-hub
 url: https://raw.githubusercontent.com/api-evangelist/docker-hub/refs/heads/main/apis.yml
 apis:
-  - aid: docker-hub:docker-hub-api
-    name: Docker Hub API
-    description: >-
-      The Docker Hub API provides programmatic access to the world's largest container image registry, enabling
-      management of repositories, images, tags, organizations, teams, webhooks, and access tokens. It supports
-      automation of container image publishing, discovery, and lifecycle management workflows.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.docker.com/docker-hub/api/latest/
-    baseURL: https://hub.docker.com/v2
-    tags:
-      - Containers
-      - DevOps
-      - Docker
-      - Images
-      - Registry
-      - Repositories
-    properties:
-      - url: https://docs.docker.com/docker-hub/api/latest/
-        type: Documentation
-      - url: https://hub.docker.com/v2
-        type: BaseURL
-      - url: https://docs.docker.com/reference/api/hub/latest/
-        type: OpenAPI
-      - url: openapi/docker-hub-openapi.yml
-        type: OpenAPI
+- aid: docker-hub:docker-hub-access-tokens-api
+  name: Docker Hub access-tokens API
+  description: >-
+    The Personal Access Token endpoints lets you manage personal access tokens. For more information,
+    see [Access Tokens](https://docs.docker.com/security/access-tokens/).
+
+
+    You can use a personal access token instead of a password in the [Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/)
+    or in the [Create an authentication token](#operation/PostUsersLogin) route to obtain a bearer token.
+
+
+    ### Scopes
+
+
+    For each scope grouping (in this case "repo"), you only need to define 1 scope as any lower scopes
+    are assumed.
+
+    For example: If you define `repo:write`, the API assumes the scope of both `repo:read` *and* `repo:public_read`
+    as well.
+
+    If you were to define both `repo:write` *and* `repo:read`, then `repo:read` is assumed by `repo:write`
+    and ignored.
+
+
+    ***Treat your personal access token like your password and keep it secret. You cannot retrieve your
+    token after it is generated.***
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - access-tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-access-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-audit-logs-api
+  name: Docker Hub audit-logs API
+  description: >-
+    The Audit Logs API endpoints allow you to query audit log events across a namespace.
+
+
+    For more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - audit-logs
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-audit-logs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-authentication-api-api
+  name: Docker Hub authentication-api API
+  description: >-
+    The authentication endpoints allow you to authenticate with Docker Hub APIs.
+
+
+    For more information, see [Authentication](#tag/authentication).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - authentication-api
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-authentication-api-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-groups-api
+  name: Docker Hub groups API
+  description: >-
+    The groups endpoints allow you to manage your organization's teams and their members.
+
+
+    For more information, see [Create and manage a team](https://docs.docker.com/admin/organization/manage/manage-a-team/).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - groups
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-invites-api
+  name: Docker Hub invites API
+  description: >-
+    The invites endpoints allow you to manage invites for users to join your Docker organization.
+
+
+    For more information, see [Invite members](https://docs.docker.com/admin/organization/manage/members/#invite-members).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - invites
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-invites-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-org-access-tokens-api
+  name: Docker Hub org-access-tokens API
+  description: >-
+    The organization access token endpoints allow you to manage organization access tokens (OATs). See
+    [Organization access tokens](https://docs.docker.com/security/for-admins/access-tokens/) for more
+    information.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - org-access-tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-org-access-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-org-settings-api
+  name: Docker Hub org-settings API
+  description: The Org Settings API endpoints allow you to manage your organization's settings.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - org-settings
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-org-settings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-orgs-api
+  name: Docker Hub orgs API
+  description: >-
+    The organization endpoints allow you to interact with and manage your organizations.
+
+
+    For more information, see [Organization administration overview](https://docs.docker.com/admin/organization/).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - orgs
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-orgs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-repositories-api
+  name: Docker Hub repositories API
+  description: The repository endpoints allow you to access your repository's tags.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - repositories
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-repositories-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-scim-api
+  name: Docker Hub scim API
+  description: >-
+    SCIM is a provisioning system that lets you manage users within your identity provider (IdP).
+
+
+    For more information, see [System for Cross-domain Identity management](https://docs.docker.com/security/for-admins/provisioning/scim/).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - scim
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-scim-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
 name: Docker Hub
 description: >-
   Docker Hub is the world's largest container image registry, providing a cloud-based service for finding, storing,
   sharing, and managing container images. It offers public and private repositories, automated builds, webhooks, and
   integrations with Docker tooling and CI/CD pipelines.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/docker-hub.png
 tags:
   - Containers
   - DevOps
