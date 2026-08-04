@@ -1,0 +1,32 @@
+{
+  "provider": "docker-hub",
+  "sources": [
+    "docker-hub-access-tokens-api-openapi.yml",
+    "docker-hub-audit-logs-api-openapi.yml",
+    "docker-hub-authentication-api-api-openapi.yml",
+    "docker-hub-groups-api-openapi.yml",
+    "docker-hub-invites-api-openapi.yml",
+    "docker-hub-org-access-tokens-api-openapi.yml",
+    "docker-hub-org-settings-api-openapi.yml",
+    "docker-hub-orgs-api-openapi.yml",
+    "docker-hub-repositories-api-openapi.yml",
+    "docker-hub-scim-api-openapi.yml"
+  ],
+  "outputs": [
+    "docker-hub-access-tokens-api-openapi.yml",
+    "docker-hub-audit-logs-api-openapi.yml",
+    "docker-hub-authentication-api-api-openapi.yml",
+    "docker-hub-groups-api-openapi.yml",
+    "docker-hub-invites-api-openapi.yml",
+    "docker-hub-org-access-tokens-api-openapi.yml",
+    "docker-hub-org-settings-api-openapi.yml",
+    "docker-hub-orgs-api-openapi.yml",
+    "docker-hub-repositories-api-openapi.yml",
+    "docker-hub-scim-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
