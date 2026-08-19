@@ -1,0 +1,155 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens org-access-tokens API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "org-access-tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List access tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:name/access-tokens",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List access tokens for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Create access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/orgs/:name/access-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an access token for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Get access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/access-tokens/:access_token_id",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "access_token_id",
+                "value": "a7a5ef25-8889-43a0-8cc7-f2a94268e861",
+                "type": "path",
+                "description": "The ID of the access token to retrieve"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get details of a specific access token for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Update access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/access-tokens/:access_token_id",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "access_token_id",
+                "value": "a7a5ef25-8889-43a0-8cc7-f2a94268e861",
+                "type": "path",
+                "description": "The ID of the access token to retrieve"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a specific access token for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Delete access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/access-tokens/:access_token_id",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "access_token_id",
+                "value": "a7a5ef25-8889-43a0-8cc7-f2a94268e861",
+                "type": "path",
+                "description": "The ID of the access token to retrieve"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a specific access token for an organization. This action cannot be undone.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

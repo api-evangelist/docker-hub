@@ -1,0 +1,160 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens orgs API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "orgs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List org members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts on 1)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items (rows) per page."
+              },
+              {
+                "name": "invites",
+                "value": "",
+                "type": "query",
+                "description": "Include invites in the response."
+              },
+              {
+                "name": "type",
+                "value": "all",
+                "type": "query"
+              },
+              {
+                "name": "role",
+                "value": "owner",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of members for an organization.\n\n_The following fields are only visible to orgs with insights enabled._\n\n- `last_logged_in_at`\n- `last_seen_at`\n- `last_desktop_version`\n\nTo make visible, please see [View Insights for organization users](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Export org members CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members/export",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Export members of an organization as a CSV\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Update org member (role)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members/:username",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Username, identifier for the user (namespace, DockerID)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the role of a member in the organization.\n***Only users in the \"owners\" group of the organization can use this endpoint.***\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Remove member from org",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/members/:username",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Username, identifier for the user (namespace, DockerID)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes the member from the org, ie. all groups in the org, unless they're the last owner\n\n<span class=\"oat\"></span>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

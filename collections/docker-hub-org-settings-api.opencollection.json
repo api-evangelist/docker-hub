@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens org-settings API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "org-settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:name/settings",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns organization settings by name.\n"
+        },
+        {
+          "info": {
+            "name": "Update organization settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/orgs/:name/settings",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates an organization's settings. Some settings are only used when the organization is on a business subscription.\n\n***Only users with administrative privileges for the organization (owner role) can modify these settings.***\n\nThe following settings are only used on a business subscription:\n- `restricted_images`\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

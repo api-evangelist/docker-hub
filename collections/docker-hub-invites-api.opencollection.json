@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens invites API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "invites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List org invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/invites",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return all pending invites for a given org, only team owners can call this endpoint\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Cancel an invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/invites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Mark the invite as cancelled so it doesn't show up on the list of pending invites\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Resend an invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/invites/:id/resend",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend a pending invite to the user, any org owner can resend an invite\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Bulk create invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/invites/bulk",
+            "headers": [
+              {
+                "name": "X-Analytics-Client-Feature",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create multiple invites by emails or DockerIDs. Only a team owner can create invites.\n\n<span class=\"oat\"></span>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

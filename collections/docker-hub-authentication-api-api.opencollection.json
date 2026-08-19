@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens authentication-api API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "authentication-api",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an authentication token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/users/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and returns a bearer token in JWT format that you can use to authenticate with Docker Hub APIs.\n\nThe returned token is used in the HTTP Authorization header like `Authorization: Bearer {TOKEN}`.\n\n_**As of September 16, 2024, this route requires a personal access token (PAT) instead of a password if your organization has SSO enforced.**_\n\n<div style=\"background-color:rgb(255, 165, 0, .25); padding:5px; border-radius:4px\">\n  <strong>Deprecated</strong>: Use [<a href=\"#tag/authentication-ap"
+        },
+        {
+          "info": {
+            "name": "Second factor authentication",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/users/2fa-login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "When a user has two-factor authentication (2FA) enabled, this is the second call to perform after `/v2/users/login` call.\n\nCreates and returns a bearer token in JWT format that you can use to authenticate with Docker Hub APIs.\n\nThe returned token is used in the HTTP Authorization header like `Authorization: Bearer {TOKEN}`.\n\nMost Docker Hub APIs require this token either to consume or to get detailed information. For example, to list images in a private repository.\n"
+        },
+        {
+          "info": {
+            "name": "Create access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/auth/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and returns a short-lived access token in JWT format for use as a bearer when calling Docker APIs.\n\nIf successful, the access token returned should be used in the HTTP Authorization header like \n`Authorization: Bearer {access_token}`.\n\n_**If your organization has SSO enforced, you must use a personal access token (PAT) instead of a password.**_\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

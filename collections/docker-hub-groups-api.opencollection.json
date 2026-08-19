@@ -1,0 +1,331 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens groups API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get groups of an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts on 1)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items (rows) per page."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "query",
+                "description": "Get groups for the specified username in the organization."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Get groups for the specified group in the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Create a new group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new group within an organization.\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Get a group of an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Update the details for an organization group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Update some details for an organization group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Delete an organization group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "List members of a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name/members",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts on 1)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items (rows) per page."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search members by username, full_name or email."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the members (users) that are in a group.\nIf user is owner of the org or has otherwise elevated permissions, they can search by email and the result will also contain emails.\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Add a member to a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name/members",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "Remove a user from a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/orgs/:org_name/groups/:group_name/members/:username",
+            "params": [
+              {
+                "name": "org_name",
+                "value": "myorganization",
+                "type": "path",
+                "description": "Name of the organization (namespace)."
+              },
+              {
+                "name": "group_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the group (team) in the organization."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Username, identifier for the user (namespace, DockerID)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "<span class=\"oat\"></span>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

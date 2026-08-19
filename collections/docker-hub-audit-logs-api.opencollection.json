@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens audit-logs API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "audit-logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List audit log actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/auditlogs/:account/actions",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "path",
+                "description": "Namespace to query audit log actions for."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List audit log actions for a namespace to be used as a filter for querying audit log events.\n\n<span class=\"oat\"></span>\n"
+        },
+        {
+          "info": {
+            "name": "List audit log events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/auditlogs/:account",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "path",
+                "description": "Namespace to query audit logs for."
+              },
+              {
+                "name": "action",
+                "value": "",
+                "type": "query",
+                "description": "action name one of [\"repo.tag.push\", ...]. Optional parameter to filter specific audit log actions.\n"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "name. Optional parameter to filter audit log events to a specific name. For repository events, this is the name of the repository. For organization events, this is the name of the organization. For team member events, this is the username of the team member.\n"
+              },
+              {
+                "name": "actor",
+                "value": "",
+                "type": "query",
+                "description": "actor name. Optional parameter to filter audit log events to the specific user who triggered the event.\n"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time window you wish to query audit events for."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time window you wish to query audit events for."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "page - specify page number. Page number to get."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "page_size - specify page size. Number of events to return per page."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List audit log events for a given namespace.\n\n<span class=\"oat\"></span>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

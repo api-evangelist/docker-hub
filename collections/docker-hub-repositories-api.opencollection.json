@@ -1,0 +1,363 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens repositories API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List repository tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to get. Defaults to 1."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to get per page. Defaults to 10. Max of 100."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List repository tags"
+        },
+        {
+          "info": {
+            "name": "Check repository tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check repository tags"
+        },
+        {
+          "info": {
+            "name": "Read repository tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags/:tag",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read repository tag"
+        },
+        {
+          "info": {
+            "name": "Check repository tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/tags/:tag",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check repository tag"
+        },
+        {
+          "info": {
+            "name": "Update repository immutable tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/immutabletags",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the immutable tags configuration for this repository.\n\n**Only users with administrative privileges for the repository can modify these settings.**\n"
+        },
+        {
+          "info": {
+            "name": "Verify repository immutable tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository/immutabletags/verify",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Validates  the immutable tags regex pass in parameter and returns a list of tags matching it in this repository.\n\n**Only users with administrative privileges for the repository call this endpoint.**\n"
+        },
+        {
+          "info": {
+            "name": "Assign a group (Team) to a repository for access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/repositories/:namespace/:repository/groups",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Assign a group (Team) to a repository for access"
+        },
+        {
+          "info": {
+            "name": "List repositories in a namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to get. Defaults to 1."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of repositories to get per page. Defaults to 10. Max of 100."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter repositories by name (partial match)."
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Order repositories by the specified field. Prefix with '-' for descending order.\nAvailable options:\n- `name` / `-name`: Repository name (ascending/descending)\n- `last_updated` / `-last_updated`: Last update time (ascending/descending)\n- `pull_count` / `-pull_count`: Number of pulls (ascending/descending)\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of repositories within the specified namespace (organization or user).\n\nPublic repositories are accessible to everyone, while private repositories require appropriate authentication and permissions.\n"
+        },
+        {
+          "info": {
+            "name": "Create a new repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new repository within the specified namespace. The repository will be created\nwith the provided metadata including name, description, and privacy settings.\n"
+        },
+        {
+          "info": {
+            "name": "Get repository in a namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a repository within the specified namespace (organization or user).\n\nPublic repositories are accessible to everyone, while private repositories require appropriate authentication and permissions.\n"
+        },
+        {
+          "info": {
+            "name": "Check repository in a namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://hub.docker.com/v2/namespaces/:namespace/repositories/:repository",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repository",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check a repository within the specified namespace (organization or user).\n\nPublic repositories are accessible to everyone, while private repositories require appropriate authentication and permissions.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,225 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens scim API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "scim",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get service provider config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/ServiceProviderConfig",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a service provider config for Docker's configuration.\n"
+        },
+        {
+          "info": {
+            "name": "List resource types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/ResourceTypes",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all resource types supported for the SCIM configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Get a resource type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/ResourceTypes/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "User",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a resource type by name.\n"
+        },
+        {
+          "info": {
+            "name": "List schemas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Schemas",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all schemas supported for the SCIM configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Get a schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Schemas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "urn:ietf:params:scim:schemas:core:2.0:User",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a schema by ID.\n"
+        },
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users",
+            "params": [
+              {
+                "name": "startIndex",
+                "value": "1",
+                "type": "query"
+              },
+              {
+                "name": "count",
+                "value": "10",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "userName eq \"jon.snow@docker.com\"",
+                "type": "query"
+              },
+              {
+                "name": "attributes",
+                "value": "userName,displayName",
+                "type": "query",
+                "description": "Comma delimited list of attributes to limit to in the response."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "userName",
+                "type": "query",
+                "description": "User attribute to sort by."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns paginated users for an organization. Use `startIndex` and `count` query parameters to receive paginated results.\n\n**Sorting:**\n\nSorting allows you to specify the order in which resources are returned by specifying a combination of `sortBy` and `sortOrder` query parameters.\n\nThe `sortBy` parameter specifies the attribute whose value will be used to order the returned responses. The `sortOrder` parameter defines the order in which the `sortBy` parameter is applied. Allowed values are \"asce"
+        },
+        {
+          "info": {
+            "name": "Create user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a user. If the user already exists by email, they are assigned to the organization on the \"company\" team.\n"
+        },
+        {
+          "info": {
+            "name": "Get a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "d80f7c79-7730-49d8-9a41-7c42fb622d9c",
+                "type": "path",
+                "description": "The user ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a user by ID.\n"
+        },
+        {
+          "info": {
+            "name": "Update a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://hub.docker.com/v2/scim/2.0/Users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "d80f7c79-7730-49d8-9a41-7c42fb622d9c",
+                "type": "path",
+                "description": "The user ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a user. This route is used to change the user's name, activate, and deactivate the user.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,134 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Docker HUB access-tokens API",
+    "version": "2-beta"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "access-tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List personal access tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/access-tokens",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a paginated list of personal access tokens."
+        },
+        {
+          "info": {
+            "name": "Create personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://hub.docker.com/v2/access-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates and returns a personal access token."
+        },
+        {
+          "info": {
+            "name": "Get personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://hub.docker.com/v2/access-tokens/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a personal access token by UUID."
+        },
+        {
+          "info": {
+            "name": "Update personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://hub.docker.com/v2/access-tokens/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a personal access token partially. You can either update the token's label or enable/disable it.\n"
+        },
+        {
+          "info": {
+            "name": "Delete personal access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://hub.docker.com/v2/access-tokens/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a personal access token permanently. This cannot be undone.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

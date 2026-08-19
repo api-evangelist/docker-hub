@@ -1,0 +1,722 @@
+{
+  "item": [
+    {
+      "id": "7da35cff-3e5d-4f55-a156-023eefc3f1be",
+      "name": "audit-logs",
+      "description": {
+        "content": "The Audit Logs API endpoints allow you to query audit log events across a namespace.\n\nFor more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4fc6a47c-73df-497b-bfa6-c8e872180af0",
+          "name": "List audit log actions",
+          "request": {
+            "name": "List audit log actions",
+            "description": {
+              "content": "List audit log actions for a namespace to be used as a filter for querying audit log events.\n\n<span class=\"oat\"></span>\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "auditlogs",
+                ":account",
+                "actions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account",
+                  "description": "(Required) Namespace to query audit log actions for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3d3fa8b8-c34a-4cf6-aea4-ff374ed7e127",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit log actions for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"actions\": {\n    \"billing\": {\n      \"actions\": [\n        {\n          \"name\": \"plan.upgrade\",\n          \"description\": \"Occurs when your organization’s billing plan is upgraded to a higher tier plan.\",\n          \"label\": \"Plan Upgraded\"\n        },\n        {\n          \"name\": \"plan.downgrade\",\n          \"description\": \"Occurs when your organization’s billing plan is downgraded to a lower tier plan.\",\n          \"label\": \"Plan Downgraded\"\n        },\n        {\n          \"name\": \"plan.seat_add\",\n          \"description\": \"Occurs when a seat is added to your organization’s billing plan.\",\n          \"label\": \"Seat Added\"\n        },\n        {\n          \"name\": \"plan.seat_remove\",\n          \"description\": \"Occurs when a seat is removed from your organization’s billing plan.\",\n          \"label\": \"Seat Removed\"\n        },\n        {\n          \"name\": \"plan.cycle_change\",\n          \"description\": \"Occurs when there is a change in the recurring interval that your organization is charged.\",\n          \"label\": \"Billing Cycle Changed\"\n        },\n        {\n          \"name\": \"plan.downgrade_cancel\",\n          \"description\": \"Occurs when a scheduled plan downgrade for your organization is canceled.\",\n          \"label\": \"Plan Downgrade Canceled\"\n        },\n        {\n          \"name\": \"plan.seat_removal_cancel\",\n          \"description\": \"Occurs when a scheduled seat removal for an organization’s billing plan is canceled.\",\n          \"label\": \"Seat Removal Canceled\"\n        },\n        {\n          \"name\": \"plan.upgrade.request\",\n          \"description\": \"Occurs when a user in your organization requests a plan upgrade.\",\n          \"label\": \"Plan Upgrade Requested\"\n        },\n        {\n          \"name\": \"plan.downgrade.request\",\n          \"description\": \"Occurs when a user in your organization requests a plan downgrade.\",\n          \"label\": \"Plan Downgrade Requested\"\n        },\n        {\n          \"name\": \"plan.seat_add.request\",\n          \"description\": \"Occurs when a user in your organization requests an increase in the number of seats.\",\n          \"label\": \"Seat Addition Requested\"\n        },\n        {\n          \"name\": \"plan.seat_removal.request\",\n          \"description\": \"Occurs when a user in your organization requests a decrease in the number of seats.\",\n          \"label\": \"Seat Removal Requested\"\n        },\n        {\n          \"name\": \"plan.cycle_change.request\",\n          \"description\": \"Occurs when a user in your organization requests a change in the billing cycle.\",\n          \"label\": \"Billing Cycle Change Requested\"\n        },\n        {\n          \"name\": \"plan.downgrade_cancel.request\",\n          \"description\": \"Occurs when a user in your organization requests a cancellation of a scheduled plan downgrade.\",\n          \"label\": \"Plan Downgrade Cancellation Requested\"\n        },\n        {\n          \"name\": \"plan.seat_removal_cancel.request\",\n          \"description\": \"Occurs when a user in your organization requests a cancellation of a scheduled seat removal.\",\n          \"label\": \"Seat Removal Cancellation Requested\"\n        },\n        {\n          \"name\": \"plan.product_change\",\n          \"description\": \"Occurs when there is a change in the product that your organization subscribes to.\",\n          \"label\": \"Billing Product Changed\"\n        }\n      ],\n      \"label\": \"Billing\"\n    },\n    \"enterprise\": {\n      \"actions\": [\n        {\n          \"name\": \"setting.policy.create\",\n          \"description\": \"Details of adding an admin settings policy\",\n          \"label\": \"Policy created\"\n        },\n        {\n          \"name\": \"setting.policy.update\",\n          \"description\": \"Details of updating an admin settings policy\",\n          \"label\": \"Policy updated\"\n        },\n        {\n          \"name\": \"setting.policy.delete\",\n          \"description\": \"Details of deleting an admin settings policy\",\n          \"label\": \"Policy deleted\"\n        },\n        {\n          \"name\": \"setting.policy.transfer\",\n          \"description\": \"Details of transferring an admin settings policy to another owner\",\n          \"label\": \"Policy transferred\"\n        },\n        {\n          \"name\": \"sso.connection.create\",\n          \"description\": \"Details of creating a new org/company SSO connection\",\n          \"label\": \"Create SSO Connection\"\n        },\n        {\n          \"name\": \"sso.connection.update\",\n          \"description\": \"Details of updating an existing org/company SSO connection\",\n          \"label\": \"Update SSO Connection\"\n        },\n        {\n          \"name\": \"sso.connection.delete\",\n          \"description\": \"Details of deleting an existing org/company SSO connection\",\n          \"label\": \"Delete SSO Connection\"\n        },\n        {\n          \"name\": \"sso.connection.enforcement_toggle\",\n          \"description\": \"Details of toggling enforcement on an existing org/company SSO connection\",\n          \"label\": \"Enforce SSO\"\n        },\n        {\n          \"name\": \"sso.connection.scim_toggle\",\n          \"description\": \"Details of toggling SCIM on an existing org/company SSO connection\",\n          \"label\": \"Enforce SCIM\"\n        },\n        {\n          \"name\": \"sso.connection.scim_token_refresh\",\n          \"description\": \"Details of a SCIM token refresh on an existing org/company SSO connection\",\n          \"label\": \"Refresh SCIM Token\"\n        },\n        {\n          \"name\": \"sso.connection.connection_type_change\",\n          \"description\": \"Details of a connection type change on an existing org/company SSO connection\",\n          \"label\": \"Change SSO Connection Type\"\n        },\n        {\n          \"name\": \"sso.connection.jit_toggle\",\n          \"description\": \"Details of a JIT toggle on an existing org/company SSO connection\",\n          \"label\": \"Toggle JIT provisioning\"\n        }\n      ],\n      \"label\": \"Enterprise\"\n    },\n    \"offload\": {\n      \"actions\": [\n        {\n          \"name\": \"lease.start\",\n          \"description\": \"Details of the started Offload lease.\",\n          \"label\": \"Offload lease start\"\n        },\n        {\n          \"name\": \"lease.end\",\n          \"description\": \"Details of the ended Offload lease.\",\n          \"label\": \"Offload lease end\"\n        }\n      ],\n      \"label\": \"Offload\"\n    },\n    \"oidc\": {\n      \"actions\": [\n        {\n          \"name\": \"connection.create\",\n          \"description\": \"Details of creating an OIDC connection.\",\n          \"label\": \"OIDC connection created\"\n        },\n        {\n          \"name\": \"connection.update\",\n          \"description\": \"Details of updating an OIDC connection.\",\n          \"label\": \"OIDC connection updated\"\n        },\n        {\n          \"name\": \"connection.delete\",\n          \"description\": \"Details of deleting an OIDC connection.\",\n          \"label\": \"OIDC connection deleted\"\n        }\n      ],\n      \"label\": \"OIDC\"\n    },\n    \"org\": {\n      \"actions\": [\n        {\n          \"name\": \"create\",\n          \"description\": \"Activities related to the creation of a new organization\",\n          \"label\": \"Organization Created\"\n        },\n        {\n          \"name\": \"member.add\",\n          \"description\": \"Details of the member added to your organization\",\n          \"label\": \"Organization Member Added\"\n        },\n        {\n          \"name\": \"member.remove\",\n          \"description\": \"Details about the member removed from your organization\",\n          \"label\": \"Organization Member Removed\"\n        },\n        {\n          \"name\": \"member.role.change\",\n          \"description\": \"Details about the role changed for a member in your organization\",\n          \"label\": \"Member Role Changed\"\n        },\n        {\n          \"name\": \"member.invite.send\",\n          \"description\": \"Details of the member invited to your organization\",\n          \"label\": \"Org Member Invited\"\n        },\n        {\n          \"name\": \"team.create\",\n          \"description\": \"Activities related to the creation of a team\",\n          \"label\": \"Organization Created\"\n        },\n        {\n          \"name\": \"team.update\",\n          \"description\": \"Activities related to the modification of a team\",\n          \"label\": \"Organization Deleted\"\n        },\n        {\n          \"name\": \"team.delete\",\n          \"description\": \"Activities related to the deletion of a team\",\n          \"label\": \"Organization Deleted\"\n        },\n        {\n          \"name\": \"team.member.add\",\n          \"description\": \"Details of the member added to your team\",\n          \"label\": \"Team Member Added\"\n        },\n        {\n          \"name\": \"team.member.remove\",\n          \"description\": \"Details of the member removed from your team\",\n          \"label\": \"Team Member Removed\"\n        },\n        {\n          \"name\": \"domain.create\",\n          \"description\": \"Details of the single sign-on domain added to your organization\",\n          \"label\": \"Single Sign-On domain added\"\n        },\n        {\n          \"name\": \"domain.verify\",\n          \"description\": \"Details of the single sign-on domain verified for your organization\",\n          \"label\": \"Single Sign-On domain verified\"\n        },\n        {\n          \"name\": \"domain.delete\",\n          \"description\": \"Details of the single sign-on domain removed from your organization\",\n          \"label\": \"Single Sign-On domain deleted\"\n        },\n        {\n          \"name\": \"domain.auto-provisioning.toggle\",\n          \"description\": \"Details of toggling the Auto-Provisioning feature on a domain on or off\",\n          \"label\": \"Organization Auto-Provisioning Toggled\"\n        },\n        {\n          \"name\": \"settings.update\",\n          \"description\": \"Details related to the organization setting that was updated\",\n          \"label\": \"Organization Settings Updated\"\n        },\n        {\n          \"name\": \"registry_access.enabled\",\n          \"description\": \"Activities related to enabling Registry Access Management\",\n          \"label\": \"Registry Access Management enabled\"\n        },\n        {\n          \"name\": \"registry_access.disabled\",\n          \"description\": \"Activities related to disabling Registry Access Management\",\n          \"label\": \"Registry Access Management disabled\"\n        },\n        {\n          \"name\": \"registry_access.registry_added\",\n          \"description\": \"Activities related to the addition of a registry\",\n          \"label\": \"Registry Access Management registry added\"\n        },\n        {\n          \"name\": \"registry_access.registry_updated\",\n          \"description\": \"Details related to the registry that was updated\",\n          \"label\": \"Registry Access Management registry updated\"\n        },\n        {\n          \"name\": \"registry_access.registry_removed\",\n          \"description\": \"Activities related to the removal of a registry\",\n          \"label\": \"Registry Access Management registry removed\"\n        },\n        {\n          \"name\": \"access_token.create\",\n          \"description\": \"Access token created in organization\",\n          \"label\": \"Access token created\"\n        },\n        {\n          \"name\": \"access_token.update\",\n          \"description\": \"Access token updated in organization\",\n          \"label\": \"Access token updated\"\n        },\n        {\n          \"name\": \"access_token.delete\",\n          \"description\": \"Access token deleted in organization\",\n          \"label\": \"Access token deleted\"\n        },\n        {\n          \"name\": \"customrole.create\",\n          \"description\": \"A custom role was created\",\n          \"label\": \"Custom role created\"\n        },\n        {\n          \"name\": \"customrole.update\",\n          \"description\": \"An existing custom role was updated\",\n          \"label\": \"Custom role updated\"\n        },\n        {\n          \"name\": \"customrole.delete\",\n          \"description\": \"A custom role was deleted\",\n          \"label\": \"Custom role deleted\"\n        },\n        {\n          \"name\": \"securepolicyconfigure.create\",\n          \"description\": \"A secure policy configuration was created\",\n          \"label\": \"Secure Policy Configuration created\"\n        },\n        {\n          \"name\": \"securepolicyconfigure.update\",\n          \"description\": \"A secure policy configuration was updated\",\n          \"label\": \"Secure Policy Configuration updated\"\n        },\n        {\n          \"name\": \"securepolicyconfigure.delete\",\n          \"description\": \"A secure policy configuration was deleted\",\n          \"label\": \"Secure Policy Configuration deleted\"\n        },\n        {\n          \"name\": \"securepolicyclient.create\",\n          \"description\": \"A secure policy client was created\",\n          \"label\": \"Secure Policy Client created\"\n        },\n        {\n          \"name\": \"securepolicyclient.update\",\n          \"description\": \"A secure policy client was updated\",\n          \"label\": \"Secure Policy Client updated\"\n        },\n        {\n          \"name\": \"securepolicyclient.delete\",\n          \"description\": \"A secure policy client was deleted\",\n          \"label\": \"Secure Policy Client deleted\"\n        },\n        {\n          \"name\": \"securepolicyprofile.create\",\n          \"description\": \"A secure policy profile was created\",\n          \"label\": \"Secure Policy Profile created\"\n        },\n        {\n          \"name\": \"securepolicyprofile.update\",\n          \"description\": \"A secure policy profile was updated\",\n          \"label\": \"Secure Policy Profile updated\"\n        },\n        {\n          \"name\": \"securepolicyprofile.delete\",\n          \"description\": \"A secure policy profile was deleted\",\n          \"label\": \"Secure Policy Profile deleted\"\n        }\n      ],\n      \"label\": \"Organization\"\n    },\n    \"repo\": {\n      \"actions\": [\n        {\n          \"name\": \"create\",\n          \"description\": \"Activities related to the creation of a new repository\",\n          \"label\": \"Repository Created\"\n        },\n        {\n          \"name\": \"update\",\n          \"description\": \"Activities related to the modification of a repository\",\n          \"label\": \"Repository Updated\"\n        },\n        {\n          \"name\": \"delete\",\n          \"description\": \"Activities related to the deletion of a repository\",\n          \"label\": \"Repository Deleted\"\n        },\n        {\n          \"name\": \"change_privacy\",\n          \"description\": \"Details related to the privacy policies that were updated\",\n          \"label\": \"Privacy Changed\"\n        },\n        {\n          \"name\": \"category.updated\",\n          \"description\": \"Details related to updating a repository categories\",\n          \"label\": \"Categories updated\"\n        },\n        {\n          \"name\": \"immutable.tags.updated\",\n          \"description\": \"Details related to updating tag immutability of a repository\",\n          \"label\": \"Tag immutability updated\"\n        },\n        {\n          \"name\": \"tag.push\",\n          \"description\": \"Activities related to the tags pushed\",\n          \"label\": \"Tag Pushed\"\n        },\n        {\n          \"name\": \"tag.delete\",\n          \"description\": \"Activities related to the tags deleted\",\n          \"label\": \"Tag Deleted\"\n        }\n      ],\n      \"label\": \"Repository\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66de5470-0030-422e-a6ce-85f7686e6e0c",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit log actions for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Rate limit exceeded\",\n  \"error\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e31386e-56c8-40d4-8def-109f916e4e91",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit log actions for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29c58af1-0462-4fe5-b455-9a3d43e371b4",
+              "name": "An unexpected error response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit log actions for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9560,\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"type_url\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"type_url\": \"string\",\n      \"value\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc0bb51c-62e4-40cb-b5c8-281b7f99b1b3",
+          "name": "List audit log events",
+          "request": {
+            "name": "List audit log events",
+            "description": {
+              "content": "List audit log events for a given namespace.\n\n<span class=\"oat\"></span>\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "auditlogs",
+                ":account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "action",
+                  "value": "<string>",
+                  "description": "action name one of [\"repo.tag.push\", ...]. Optional parameter to filter specific audit log actions.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "name. Optional parameter to filter audit log events to a specific name. For repository events, this is the name of the repository. For organization events, this is the name of the organization. For team member events, this is the username of the team member.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "actor",
+                  "value": "<string>",
+                  "description": "actor name. Optional parameter to filter audit log events to the specific user who triggered the event.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>",
+                  "description": "Start of the time window you wish to query audit events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>",
+                  "description": "End of the time window you wish to query audit events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "page - specify page number. Page number to get."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "25",
+                  "description": "page_size - specify page size. Number of events to return per page."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account",
+                  "description": "(Required) Namespace to query audit logs for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5adedb5e-3cfb-444b-9214-1fc8715ae68b",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "action",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "actor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit logs for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"logs\": [\n    {\n      \"account\": \"docker\",\n      \"action\": \"repo.tag.push\",\n      \"name\": \"docker/example\",\n      \"actor\": \"docker\",\n      \"data\": {\n        \"digest\": \"sha256:c1ae9c435032a276f80220c7d9b40f76266bbe79243d34f9cda30b76fe114dfa\",\n        \"tag\": \"latest\"\n      },\n      \"timestamp\": \"2021-02-19T01:34:35Z\",\n      \"action_description\": \"pushed the tag latest with the digest sha256:c1ae9c435032a to the repository docker/example\\n\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e25da03-0485-4d96-88c8-7a20eaefb860",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "action",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "actor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit logs for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Rate limit exceeded\",\n  \"error\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62915577-e247-408a-a163-826292ed3a0a",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "action",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "actor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit logs for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eec31ced-73b9-4816-89d8-07d1afb4e24d",
+              "name": "An unexpected error response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "auditlogs",
+                    ":account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "action",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "actor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account",
+                      "description": "(Required) Namespace to query audit logs for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1612,\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"type_url\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"type_url\": \"string\",\n      \"value\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://hub.docker.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d8ef96dc-4c08-4c55-95c7-a57ddb178523",
+    "name": "Docker HUB access-tokens audit-logs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Docker Hub is a service provided by Docker for finding and sharing container images with your team.\n\nIt is the world's largest library and community for container images.\n\nIn addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.\n\nBrowse through the Docker Hub API documentation to explore the supported endpoints.\n",
+      "type": "text/plain"
+    }
+  }
+}
