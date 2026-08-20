@@ -30,6 +30,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Access Tokens
+  tags_raw:
   - access-tokens
   properties:
   - type: OpenAPI
@@ -48,6 +50,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Audit Logs
+  tags_raw:
   - audit-logs
   properties:
   - type: OpenAPI
@@ -84,6 +88,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Group
+  tags_raw:
   - groups
   properties:
   - type: OpenAPI
@@ -102,6 +108,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Invites
+  tags_raw:
   - invites
   properties:
   - type: OpenAPI
@@ -151,6 +159,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Organization
+  tags_raw:
   - orgs
   properties:
   - type: OpenAPI
@@ -165,6 +175,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Repositories
+  tags_raw:
   - repositories
   properties:
   - type: OpenAPI
@@ -183,6 +195,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - SCIM
+  tags_raw:
   - scim
   properties:
   - type: OpenAPI
