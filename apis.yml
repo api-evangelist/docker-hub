@@ -30,7 +30,7 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Access Tokens
+  - access-tokens
   tags_raw:
   - access-tokens
   properties:
@@ -50,7 +50,7 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Audit Logs
+  - audit-logs
   tags_raw:
   - audit-logs
   properties:
@@ -70,6 +70,8 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
+  - Authentication API
+  tags_raw:
   - authentication-api
   properties:
   - type: OpenAPI
@@ -159,7 +161,7 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Organization
+  - orgs
   tags_raw:
   - orgs
   properties:
@@ -175,7 +177,7 @@ apis:
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Repositories
+  - repositories
   tags_raw:
   - repositories
   properties:
