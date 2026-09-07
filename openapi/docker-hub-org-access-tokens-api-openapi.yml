@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens org-access-tokens API
+  title: Docker HUB access-tokens Org Access Tokens API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -173,170 +173,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    getOrgAccessTokenResponse:
-      allOf:
-      - $ref: '#/components/schemas/orgAccessToken'
-      - type: object
-        properties:
-          resources:
-            type: array
-            description: Resources this token has access to
-            items:
-              $ref: '#/components/schemas/orgAccessTokenResource'
-    createOrgAccessTokenRequest:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Label for the access token
-          example: My organization token
-          required: true
-        description:
-          type: string
-          description: Description of the access token
-          example: Token for CI/CD pipeline
-        resources:
-          type: array
-          description: Resources this token has access to
-          items:
-            $ref: '#/components/schemas/orgAccessTokenResource'
-        expires_at:
-          type: string
-          format: date-time
-          description: Expiration date for the token
-          example: '2023-05-20T00:54:18Z'
-          nullable: true
-    orgAccessToken:
-      type: object
-      properties:
-        id:
-          type: string
-          example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
-        label:
-          type: string
-          example: My organization token
-        created_by:
-          type: string
-          example: johndoe
-        is_active:
-          type: boolean
-          example: true
-        created_at:
-          type: string
-          format: date-time
-          example: '2022-05-20T00:54:18Z'
-        expires_at:
-          type: string
-          format: date-time
-          example: '2023-05-20T00:54:18Z'
-          nullable: true
-        last_used_at:
-          type: string
-          format: date-time
-          example: '2022-06-15T12:30:45Z'
-          nullable: true
-    createOrgAccessTokenResponse:
-      type: object
-      allOf:
-      - type: object
-        properties:
-          id:
-            type: string
-            example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
-          label:
-            type: string
-            example: My organization token
-          is_active:
-            type: boolean
-            example: true
-          created_at:
-            type: string
-            format: date-time
-            example: '2022-05-20T00:54:18Z'
-          expires_at:
-            type: string
-            format: date-time
-            example: '2023-05-20T00:54:18Z'
-            nullable: true
-          last_used_at:
-            type: string
-            format: date-time
-            example: '2022-06-15T12:30:45Z'
-            nullable: true
-      - type: object
-        properties:
-          token:
-            type: string
-            description: The actual token value that can be used for authentication
-            example: dckr_oat_7awgM4jG5SQvxcvmNzhKj8PQjxo
-          resources:
-            type: array
-            items:
-              $ref: '#/components/schemas/orgAccessTokenResource'
-    updateOrgAccessTokenRequest:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Label for the access token
-          example: My organization token
-        description:
-          type: string
-          description: Description of the access token
-          example: Token for CI/CD pipeline
-        resources:
-          type: array
-          description: Resources this token has access to
-          items:
-            $ref: '#/components/schemas/orgAccessTokenResource'
-        is_active:
-          type: boolean
-          description: Whether the token is active
-          example: true
-    ValueError:
-      type: object
-      description: Used to error if input validation fails.
-      properties:
-        fields:
-          type: object
-          items:
-            type: string
-        text:
-          type: string
-    updateOrgAccessTokenResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/orgAccessToken'
-      - type: object
-        properties:
-          resources:
-            type: array
-            description: Resources this token has access to
-            items:
-              $ref: '#/components/schemas/orgAccessTokenResource'
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-        message:
-          type: string
-    getOrgAccessTokensResponse:
-      type: object
-      properties:
-        total:
-          type: number
-          example: 10
-        next:
-          type: string
-          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=2&page_size=10
-        previous:
-          type: string
-          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=1&page_size=10
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgAccessToken'
     orgAccessTokenResource:
       type: object
       properties:
@@ -371,6 +207,175 @@ components:
             type: string
             example: scope-image-pull
           required: true
+    getOrgAccessTokenResponse:
+      allOf:
+      - $ref: '#/components/schemas/orgAccessToken'
+      - type: object
+        properties:
+          resources:
+            type: array
+            description: Resources this token has access to
+            items:
+              $ref: '#/components/schemas/orgAccessTokenResource'
+    updateOrgAccessTokenRequest:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Label for the access token
+          example: My organization token
+        description:
+          type: string
+          description: Description of the access token
+          example: Token for CI/CD pipeline
+        resources:
+          type: array
+          description: Resources this token has access to
+          items:
+            $ref: '#/components/schemas/orgAccessTokenResource'
+        is_active:
+          type: boolean
+          description: Whether the token is active
+          example: true
+    getOrgAccessTokensResponse:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 10
+        next:
+          type: string
+          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=2&page_size=10
+        previous:
+          type: string
+          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=1&page_size=10
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/orgAccessToken'
+    ValueError:
+      type: object
+      description: Used to error if input validation fails.
+      properties:
+        fields:
+          type: object
+          items:
+            type: string
+        text:
+          type: string
+    createOrgAccessTokenResponse:
+      type: object
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: string
+            example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
+          label:
+            type: string
+            example: My organization token
+          is_active:
+            type: boolean
+            example: true
+          created_at:
+            type: string
+            format: date-time
+            example: '2022-05-20T00:54:18Z'
+          expires_at:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            example: '2023-05-20T00:54:18Z'
+          last_used_at:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            example: '2022-06-15T12:30:45Z'
+      - type: object
+        properties:
+          token:
+            type: string
+            description: The actual token value that can be used for authentication
+            example: dckr_oat_7awgM4jG5SQvxcvmNzhKj8PQjxo
+          resources:
+            type: array
+            items:
+              $ref: '#/components/schemas/orgAccessTokenResource'
+    createOrgAccessTokenRequest:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Label for the access token
+          example: My organization token
+          required: true
+        description:
+          type: string
+          description: Description of the access token
+          example: Token for CI/CD pipeline
+        resources:
+          type: array
+          description: Resources this token has access to
+          items:
+            $ref: '#/components/schemas/orgAccessTokenResource'
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Expiration date for the token
+          example: '2023-05-20T00:54:18Z'
+    orgAccessToken:
+      type: object
+      properties:
+        id:
+          type: string
+          example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
+        label:
+          type: string
+          example: My organization token
+        created_by:
+          type: string
+          example: johndoe
+        is_active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-05-20T00:54:18Z'
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-05-20T00:54:18Z'
+        last_used_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-06-15T12:30:45Z'
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+        message:
+          type: string
+    updateOrgAccessTokenResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/orgAccessToken'
+      - type: object
+        properties:
+          resources:
+            type: array
+            description: Resources this token has access to
+            items:
+              $ref: '#/components/schemas/orgAccessTokenResource'
   responses:
     Forbidden:
       description: Forbidden
@@ -378,8 +383,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
+    NotFound:
+      description: Not Found
       content:
         application/json:
           schema:
@@ -390,8 +395,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ValueError'
-    NotFound:
-      description: Not Found
+    Unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:

@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens orgs API
+  title: Docker HUB access-tokens Orgs API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -231,6 +231,39 @@ paths:
           $ref: '#/components/responses/not_found'
 components:
   schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0ab70deb065a43fcacd55d48caa945d8
+          description: The UUID trimmed
+        company:
+          type: string
+          example: Docker Inc
+        date_joined:
+          type: string
+          example: '2021-01-05T21:06:53.506400Z'
+        full_name:
+          type: string
+          example: Jon Snow
+        gravatar_email:
+          type: string
+        gravatar_url:
+          type: string
+        location:
+          type: string
+        profile_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - User
+          - Org
+          example: User
+        username:
+          type: string
+          example: dockeruser
     error:
       type: object
       properties:
@@ -289,39 +322,6 @@ components:
           type: string
           description: "Last desktop version the user used. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
           example: 4.29.0
-    user:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 0ab70deb065a43fcacd55d48caa945d8
-          description: The UUID trimmed
-        company:
-          type: string
-          example: Docker Inc
-        date_joined:
-          type: string
-          example: '2021-01-05T21:06:53.506400Z'
-        full_name:
-          type: string
-          example: Jon Snow
-        gravatar_email:
-          type: string
-        gravatar_url:
-          type: string
-        location:
-          type: string
-        profile_url:
-          type: string
-        type:
-          type: string
-          enum:
-          - User
-          - Org
-          example: User
-        username:
-          type: string
-          example: dockeruser
     org_member_paginated:
       type: object
       properties:
@@ -343,12 +343,6 @@ components:
           items:
             $ref: '#/components/schemas/org_member'
   responses:
-    bad_request:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     unauthorized:
       description: Unauthorized
       content:
@@ -361,6 +355,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     not_found:
       description: Not Found
       content:
@@ -368,13 +368,25 @@ components:
           schema:
             $ref: '#/components/schemas/error'
   parameters:
-    username:
+    search:
+      in: query
+      name: search
+      schema:
+        type: integer
+      description: Search term.
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
+    org_name:
       in: path
-      name: username
-      description: Username, identifier for the user (namespace, DockerID).
+      name: org_name
+      description: Name of the organization (namespace).
       schema:
         type: string
-        example: jonsnow
+      example: myorganization
       required: true
     type:
       in: query
@@ -386,6 +398,12 @@ components:
         - invitee
         - member
       example: all
+    invites:
+      in: query
+      name: invites
+      description: Include invites in the response.
+      schema:
+        type: boolean
     page:
       in: query
       name: page
@@ -402,31 +420,13 @@ components:
         - editor
         - member
       example: owner
-    search:
-      in: query
-      name: search
-      schema:
-        type: integer
-      description: Search term.
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
-    invites:
-      in: query
-      name: invites
-      description: Include invites in the response.
-      schema:
-        type: boolean
-    org_name:
+    username:
       in: path
-      name: org_name
-      description: Name of the organization (namespace).
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
       schema:
         type: string
-      example: myorganization
+        example: jonsnow
       required: true
   securitySchemes:
     bearerAuth:

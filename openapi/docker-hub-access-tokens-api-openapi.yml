@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens API
+  title: Docker HUB Access Tokens API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -173,6 +173,76 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    createAccessTokensResponse:
+      $ref: '#/components/schemas/accessToken'
+    ValueError:
+      type: object
+      description: Used to error if input validation fails.
+      properties:
+        fields:
+          type: object
+          items:
+            type: string
+        text:
+          type: string
+    patchAccessTokenRequest:
+      type: object
+      properties:
+        token_label:
+          type: string
+          example: My read only token
+          minLength: 1
+          maxLength: 100
+        is_active:
+          type: boolean
+          example: false
+    patchAccessTokenResponse:
+      $ref: '#/components/schemas/accessToken'
+    accessToken:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: b30bbf97-506c-4ecd-aabc-842f3cb484fb
+        client_id:
+          type: string
+          example: HUB
+        creator_ip:
+          type: string
+          example: 127.0.0.1
+        creator_ua:
+          type: string
+          example: some user agent
+        created_at:
+          type: string
+          example: '2021-07-20T12:00:00.000000Z'
+        last_used:
+          type:
+          - string
+          - 'null'
+          example: null
+        generated_by:
+          type: string
+          example: manual
+        is_active:
+          type: boolean
+          example: true
+        token:
+          type: string
+          example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
+        token_label:
+          type: string
+          example: My read only token
+        scopes:
+          type: array
+          example:
+          - repo:read
+          items:
+            type: string
+        expires_at:
+          type: string
+          format: date-time
+          example: '2021-10-28T18:30:19.520861Z'
     createAccessTokenRequest:
       type: object
       required:
@@ -203,17 +273,13 @@ components:
             '
           format: date-time
           example: '2021-10-28T18:30:19.520861Z'
-    patchAccessTokenRequest:
+    Error:
       type: object
       properties:
-        token_label:
+        detail:
           type: string
-          example: My read only token
-          minLength: 1
-          maxLength: 100
-        is_active:
-          type: boolean
-          example: false
+        message:
+          type: string
     getAccessTokensResponse:
       type: object
       properties:
@@ -239,78 +305,7 @@ components:
                 token:
                   type: string
                   example: ''
-    ValueError:
-      type: object
-      description: Used to error if input validation fails.
-      properties:
-        fields:
-          type: object
-          items:
-            type: string
-        text:
-          type: string
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-        message:
-          type: string
-    createAccessTokensResponse:
-      $ref: '#/components/schemas/accessToken'
-    accessToken:
-      type: object
-      properties:
-        uuid:
-          type: string
-          example: b30bbf97-506c-4ecd-aabc-842f3cb484fb
-        client_id:
-          type: string
-          example: HUB
-        creator_ip:
-          type: string
-          example: 127.0.0.1
-        creator_ua:
-          type: string
-          example: some user agent
-        created_at:
-          type: string
-          example: '2021-07-20T12:00:00.000000Z'
-        last_used:
-          type: string
-          example: null
-          nullable: true
-        generated_by:
-          type: string
-          example: manual
-        is_active:
-          type: boolean
-          example: true
-        token:
-          type: string
-          example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
-        token_label:
-          type: string
-          example: My read only token
-        scopes:
-          type: array
-          example:
-          - repo:read
-          items:
-            type: string
-        expires_at:
-          type: string
-          format: date-time
-          example: '2021-10-28T18:30:19.520861Z'
-    patchAccessTokenResponse:
-      $ref: '#/components/schemas/accessToken'
   responses:
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not Found
       content:
@@ -323,6 +318,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ValueError'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

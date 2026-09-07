@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens authentication-api API
+  title: Docker HUB access-tokens Authentication API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -145,41 +145,14 @@ paths:
           $ref: '#/components/responses/unauthorized'
 components:
   schemas:
-    PostUsersLoginErrorResponse:
-      description: failed user login response or second factor required
+    AuthCreateTokenResponse:
+      description: successful access token response
       type: object
-      required:
-      - detail
       properties:
-        detail:
-          description: Description of the error.
-          type: string
-          example: Incorrect authentication credentials
-          nullable: false
-        login_2fa_token:
-          description: 'Short time lived token to be used on `/v2/users/2fa-login` to complete the authentication. This field is present only if 2FA is enabled.
-
-            '
+        access_token:
+          description: The created access token. This expires in 10 minutes.
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-          nullable: true
-    UsersLoginRequest:
-      description: User login details
-      type: object
-      required:
-      - username
-      - password
-      properties:
-        username:
-          description: The username of the Docker Hub account to authenticate with.
-          type: string
-          example: myusername
-        password:
-          description: 'The password or personal access token (PAT) of the Docker Hub account to authenticate with.
-
-            '
-          type: string
-          example: p@ssw0rd
     Users2FALoginRequest:
       description: Second factor user login details
       type: object
@@ -208,6 +181,31 @@ components:
           type: string
         message:
           type: string
+    UsersLoginRequest:
+      description: User login details
+      type: object
+      required:
+      - username
+      - password
+      properties:
+        username:
+          description: The username of the Docker Hub account to authenticate with.
+          type: string
+          example: myusername
+        password:
+          description: 'The password or personal access token (PAT) of the Docker Hub account to authenticate with.
+
+            '
+          type: string
+          example: p@ssw0rd
+    PostUsers2FALoginErrorResponse:
+      description: failed second factor login response.
+      type: object
+      properties:
+        detail:
+          description: Description of the error.
+          type: string
+          example: Incorrect authentication credentials
     PostUsersLoginSuccessResponse:
       description: successful user login response
       type: object
@@ -220,24 +218,24 @@ components:
             '
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-          nullable: false
-    AuthCreateTokenResponse:
-      description: successful access token response
+    PostUsersLoginErrorResponse:
+      description: failed user login response or second factor required
       type: object
-      properties:
-        access_token:
-          description: The created access token. This expires in 10 minutes.
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    PostUsers2FALoginErrorResponse:
-      description: failed second factor login response.
-      type: object
+      required:
+      - detail
       properties:
         detail:
           description: Description of the error.
           type: string
           example: Incorrect authentication credentials
-          nullable: false
+        login_2fa_token:
+          description: 'Short time lived token to be used on `/v2/users/2fa-login` to complete the authentication. This field is present only if 2FA is enabled.
+
+            '
+          type:
+          - string
+          - 'null'
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
   responses:
     unauthorized:
       description: Unauthorized

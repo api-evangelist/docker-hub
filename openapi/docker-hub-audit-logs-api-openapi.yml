@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens audit-logs API
+  title: Docker HUB access-tokens Audit Logs API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -447,36 +447,14 @@ paths:
       - audit-logs
 components:
   schemas:
-    rpcStatus:
+    protobufAny:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        type_url:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/protobufAny'
-    GetAuditActionsResponse:
-      type: object
-      properties:
-        actions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AuditLogActions'
-          description: Map of audit log actions.
-      description: GetAuditActions response.
-    GetAuditLogsResponse:
-      type: object
-      properties:
-        logs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditLog'
-          description: List of audit log events.
-      description: GetAuditLogs response.
+        value:
+          type: string
+          format: byte
     AuditLogActions:
       type: object
       properties:
@@ -488,27 +466,15 @@ components:
         label:
           type: string
           description: Grouping label for a particular set of audit log actions.
-    protobufAny:
+    GetAuditLogsResponse:
       type: object
       properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    AuditLogAction:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of audit log action.
-        description:
-          type: string
-          description: Description of audit log action.
-        label:
-          type: string
-          description: Label for audit log action.
-      description: Audit Log action
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLog'
+          description: List of audit log events.
+      description: GetAuditLogs response.
     AuditLog:
       type: object
       properties:
@@ -530,6 +496,40 @@ components:
         action_description:
           type: string
       description: Audit log event.
+    AuditLogAction:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of audit log action.
+        description:
+          type: string
+          description: Description of audit log action.
+        label:
+          type: string
+          description: Label for audit log action.
+      description: Audit Log action
+    GetAuditActionsResponse:
+      type: object
+      properties:
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AuditLogActions'
+          description: Map of audit log actions.
+      description: GetAuditActions response.
+    rpcStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
   securitySchemes:
     bearerAuth:
       type: http

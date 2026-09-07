@@ -27,6 +27,18 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "docker-hub-access-tokens-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-audit-logs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-authentication-api-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-groups-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-invites-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-org-access-tokens-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-org-settings-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-orgs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-repositories-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "docker-hub-scim-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }
