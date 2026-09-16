@@ -3,8 +3,7 @@ url: https://raw.githubusercontent.com/api-evangelist/docker-hub/refs/heads/main
 apis:
 - aid: docker-hub:docker-hub-access-tokens-api
   name: Docker Hub access-tokens API
-  description: >-
-    The Personal Access Token endpoints lets you manage personal access tokens. For more information,
+  description: 'The Personal Access Token endpoints lets you manage personal access tokens. For more information,
     see [Access Tokens](https://docs.docker.com/security/access-tokens/).
 
 
@@ -26,7 +25,7 @@ apis:
 
 
     ***Treat your personal access token like your password and keep it secret. You cannot retrieve your
-    token after it is generated.***
+    token after it is generated.***'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -42,11 +41,10 @@ apis:
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-audit-logs-api
   name: Docker Hub audit-logs API
-  description: >-
-    The Audit Logs API endpoints allow you to query audit log events across a namespace.
+  description: 'The Audit Logs API endpoints allow you to query audit log events across a namespace.
 
 
-    For more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).
+    For more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -61,12 +59,11 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-authentication-api-api
-  name: Docker Hub authentication-api API
-  description: >-
-    The authentication endpoints allow you to authenticate with Docker Hub APIs.
+  name: Docker Hub authentication-api
+  description: 'The authentication endpoints allow you to authenticate with Docker Hub APIs.
 
 
-    For more information, see [Authentication](#tag/authentication).
+    For more information, see [Authentication](#tag/authentication).'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -82,11 +79,10 @@ apis:
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-groups-api
   name: Docker Hub groups API
-  description: >-
-    The groups endpoints allow you to manage your organization's teams and their members.
+  description: 'The groups endpoints allow you to manage your organization''s teams and their members.
 
 
-    For more information, see [Create and manage a team](https://docs.docker.com/admin/organization/manage/manage-a-team/).
+    For more information, see [Create and manage a team](https://docs.docker.com/admin/organization/manage/manage-a-team/).'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -102,11 +98,10 @@ apis:
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-invites-api
   name: Docker Hub invites API
-  description: >-
-    The invites endpoints allow you to manage invites for users to join your Docker organization.
+  description: 'The invites endpoints allow you to manage invites for users to join your Docker organization.
 
 
-    For more information, see [Invite members](https://docs.docker.com/admin/organization/manage/members/#invite-members).
+    For more information, see [Invite members](https://docs.docker.com/admin/organization/manage/members/#invite-members).'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -122,10 +117,9 @@ apis:
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-org-access-tokens-api
   name: Docker Hub org-access-tokens API
-  description: >-
-    The organization access token endpoints allow you to manage organization access tokens (OATs). See
-    [Organization access tokens](https://docs.docker.com/security/for-admins/access-tokens/) for more
-    information.
+  description: The organization access token endpoints allow you to manage organization access tokens
+    (OATs). See [Organization access tokens](https://docs.docker.com/security/for-admins/access-tokens/)
+    for more information.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -153,11 +147,10 @@ apis:
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-orgs-api
   name: Docker Hub orgs API
-  description: >-
-    The organization endpoints allow you to interact with and manage your organizations.
+  description: 'The organization endpoints allow you to interact with and manage your organizations.
 
 
-    For more information, see [Organization administration overview](https://docs.docker.com/admin/organization/).
+    For more information, see [Organization administration overview](https://docs.docker.com/admin/organization/).'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -189,11 +182,11 @@ apis:
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-scim-api
   name: Docker Hub scim API
-  description: >-
-    SCIM is a provisioning system that lets you manage users within your identity provider (IdP).
+  description: 'SCIM is a provisioning system that lets you manage users within your identity provider
+    (IdP).
 
 
-    For more information, see [System for Cross-domain Identity management](https://docs.docker.com/security/for-admins/provisioning/scim/).
+    For more information, see [System for Cross-domain Identity management](https://docs.docker.com/security/for-admins/provisioning/scim/).'
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
@@ -208,10 +201,9 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 name: Docker Hub
-description: >-
-  Docker Hub is the world's largest container image registry, providing a cloud-based service for finding, storing,
-  sharing, and managing container images. It offers public and private repositories, automated builds, webhooks, and
-  integrations with Docker tooling and CI/CD pipelines.
+description: Docker Hub is the world's largest container image registry, providing a cloud-based service
+  for finding, storing, sharing, and managing container images. It offers public and private repositories,
+  automated builds, webhooks, and integrations with Docker tooling and CI/CD pipelines.
 deliveryModel:
   model: saas
   open_source: false
@@ -240,73 +232,73 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/docker-hub.png
 tags:
-  - Containers
-  - DevOps
-  - Docker
-  - Registry
+- Containers
+- DevOps
+- Docker
+- Registry
 type: Index
 access: 3rd-Party
 common:
-  - type: AgenticAccess
-    url: agentic-access/docker-hub-agentic-access.yml
-  - type: VulnerabilityDisclosure
-    url: security/docker-hub-vulnerability-disclosure.yml
-  - type: DomainSecurity
-    url: security/docker-hub-domain-security.yml
-  - type: Authentication
-    url: authentication/docker-hub-authentication.yml
-  - url: https://hub.docker.com/
-    name: Docker Hub Website
-    type: Website
-  - url: https://docs.docker.com/docker-hub/
-    name: Documentation
-    type: Documentation
-  - url: https://docs.docker.com/docker-hub/api/latest/
-    name: API Documentation
-    type: Documentation
-  - url: https://hub.docker.com/signup
-    name: Sign Up
-    type: Signup
-  - url: https://hub.docker.com/pricing
-    name: Pricing
-    type: Pricing
-  - url: https://docs.docker.com/docker-hub/release-notes/
-    name: Release Notes
-    type: ChangeLog
-  - url: https://www.docker.com/blog/
-    name: Blog
-    type: Blog
-  - url: https://www.docker.com/support/
-    name: Support
-    type: Support
-  - url: https://forums.docker.com/
-    name: Community Forum
-    type: Forums
-  - url: https://www.docker.com/legal/docker-terms-service/
-    name: Terms of Service
-    type: TermsOfService
-  - url: https://www.docker.com/legal/privacy/
-    name: Privacy Policy
-    type: PrivacyPolicy
-  - url: https://status.docker.com/
-    name: Status Page
-    type: StatusPage
-  - url: https://github.com/docker
-    name: GitHub
-    type: GitHub
-  - url: https://x.com/Docker
-    name: X (Twitter)
-    type: X
-  - url: https://www.linkedin.com/company/docker
-    name: LinkedIn
-    type: LinkedIn
-  - url: https://www.youtube.com/user/dockerrun
-    name: YouTube
-    type: YouTube
-  - type: LlmsText
-    url: https://docs.docker.com/llms.txt
+- type: AgenticAccess
+  url: agentic-access/docker-hub-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/docker-hub-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/docker-hub-domain-security.yml
+- type: Authentication
+  url: authentication/docker-hub-authentication.yml
+- url: https://hub.docker.com/
+  name: Docker Hub Website
+  type: Website
+- url: https://docs.docker.com/docker-hub/
+  name: Documentation
+  type: Documentation
+- url: https://docs.docker.com/docker-hub/api/latest/
+  name: API Documentation
+  type: Documentation
+- url: https://hub.docker.com/signup
+  name: Sign Up
+  type: Signup
+- url: https://hub.docker.com/pricing
+  name: Pricing
+  type: Pricing
+- url: https://docs.docker.com/docker-hub/release-notes/
+  name: Release Notes
+  type: ChangeLog
+- url: https://www.docker.com/blog/
+  name: Blog
+  type: Blog
+- url: https://www.docker.com/support/
+  name: Support
+  type: Support
+- url: https://forums.docker.com/
+  name: Community Forum
+  type: Forums
+- url: https://www.docker.com/legal/docker-terms-service/
+  name: Terms of Service
+  type: TermsOfService
+- url: https://www.docker.com/legal/privacy/
+  name: Privacy Policy
+  type: PrivacyPolicy
+- url: https://status.docker.com/
+  name: Status Page
+  type: StatusPage
+- url: https://github.com/docker
+  name: GitHub
+  type: GitHub
+- url: https://x.com/Docker
+  name: X (Twitter)
+  type: X
+- url: https://www.linkedin.com/company/docker
+  name: LinkedIn
+  type: LinkedIn
+- url: https://www.youtube.com/user/dockerrun
+  name: YouTube
+  type: YouTube
+- type: LlmsText
+  url: https://docs.docker.com/llms.txt
 created: '2024-01-01'
-modified: '2026-05-19'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 x-parent: docker
 x-relationship: product
