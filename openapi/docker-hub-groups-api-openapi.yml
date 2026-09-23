@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens Groups API
+  title: Docker HUB Groups API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -11,26 +11,22 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
   url: https://hub.docker.com
 tags:
-- name: groups
+- name: Groups
   x-displayName: Groups (Teams)
   x-audience: public
   description: 'The groups endpoints allow you to manage your organization''s teams and their members.
 
 
-    For more information, see [Create and manage a team](https://docs.docker.com/admin/organization/manage/manage-a-team/).
-
-    '
+    For more information, see Create and manage a team.'
 paths:
   /v2/orgs/{org_name}/groups:
     x-audience: public
@@ -38,11 +34,9 @@ paths:
     - $ref: '#/components/parameters/org_name'
     get:
       summary: Get groups of an organization
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       parameters:
@@ -84,16 +78,13 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: getV2OrgsByOrgNameGroups
+      x-operation-id-source: derived
     post:
       summary: Create a new group
-      description: 'Create a new group within an organization.
-
-
-        <span class="oat"></span>
-
-        '
+      description: Create a new group within an organization.
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       requestBody:
@@ -120,6 +111,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+      operationId: postV2OrgsByOrgNameGroups
+      x-operation-id-source: derived
   /v2/orgs/{org_name}/groups/{group_name}:
     x-audience: public
     parameters:
@@ -127,11 +120,9 @@ paths:
     - $ref: '#/components/parameters/group_name'
     get:
       summary: Get a group of an organization
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       responses:
@@ -147,13 +138,13 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: getV2OrgsByOrgNameGroupsByGroupName
+      x-operation-id-source: derived
     put:
       summary: Update the details for an organization group
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       requestBody:
@@ -180,13 +171,13 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: putV2OrgsByOrgNameGroupsByGroupName
+      x-operation-id-source: derived
     patch:
       summary: Update some details for an organization group
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       requestBody:
@@ -211,13 +202,13 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: patchV2OrgsByOrgNameGroupsByGroupName
+      x-operation-id-source: derived
     delete:
       summary: Delete an organization group
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       responses:
@@ -229,6 +220,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: deleteV2OrgsByOrgNameGroupsByGroupName
+      x-operation-id-source: derived
   /v2/orgs/{org_name}/groups/{group_name}/members:
     x-audience: public
     get:
@@ -247,14 +240,9 @@ paths:
       summary: List members of a group
       description: 'List the members (users) that are in a group.
 
-        If user is owner of the org or has otherwise elevated permissions, they can search by email and the result will also contain emails.
-
-
-        <span class="oat"></span>
-
-        '
+        If user is owner of the org or has otherwise elevated permissions, they can search by email and the result will also contain emails.'
       tags:
-      - groups
+      - Groups
       responses:
         '200':
           description: ''
@@ -281,16 +269,16 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: getV2OrgsByOrgNameGroupsByGroupNameMembers
+      x-operation-id-source: derived
     post:
       parameters:
       - $ref: '#/components/parameters/org_name'
       - $ref: '#/components/parameters/group_name'
       summary: Add a member to a group
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       requestBody:
@@ -306,6 +294,8 @@ paths:
           $ref: '#/components/responses/not_found'
         '500':
           $ref: '#/components/responses/internal_error'
+      operationId: postV2OrgsByOrgNameGroupsByGroupNameMembers
+      x-operation-id-source: derived
   /v2/orgs/{org_name}/groups/{group_name}/members/{username}:
     x-audience: public
     parameters:
@@ -314,11 +304,9 @@ paths:
     - $ref: '#/components/parameters/username'
     delete:
       summary: Remove a user from a group
-      description: '<span class="oat"></span>
-
-        '
+      description: ''
       tags:
-      - groups
+      - Groups
       security:
       - bearerAuth: []
       responses:
@@ -330,27 +318,10 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: deleteV2OrgsByOrgNameGroupsByGroupNameMembersByUsername
+      x-operation-id-source: derived
 components:
-  requestBodies:
-    add_member_to_org_group:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - member
-            properties:
-              member:
-                type: string
-                example: jonsnow
   responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     forbidden:
       description: Forbidden
       content:
@@ -375,18 +346,50 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+    group_name:
+      in: path
+      name: group_name
+      description: Name of the group (team) in the organization.
+      schema:
+        type: string
+        example: developers
+      required: true
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
   schemas:
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
     group_member:
       type: object
       properties:
@@ -424,6 +427,17 @@ components:
         email:
           type: string
           example: dockeruser@docker.com
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
     org_group:
       type: object
       properties:
@@ -446,43 +460,19 @@ components:
           type: number
           example: 10
           description: Member count of the group
-  parameters:
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
+  requestBodies:
+    add_member_to_org_group:
       required: true
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
-    username:
-      in: path
-      name: username
-      description: Username, identifier for the user (namespace, DockerID).
-      schema:
-        type: string
-        example: jonsnow
-      required: true
-    page:
-      in: query
-      name: page
-      description: Page number (starts on 1).
-      schema:
-        type: integer
-    group_name:
-      in: path
-      name: group_name
-      description: Name of the group (team) in the organization.
-      schema:
-        type: string
-        example: developers
-      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - member
+            properties:
+              member:
+                type: string
+                example: jonsnow
   securitySchemes:
     bearerAuth:
       type: http

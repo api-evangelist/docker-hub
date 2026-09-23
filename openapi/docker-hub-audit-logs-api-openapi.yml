@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens Audit Logs API
+  title: Docker HUB Audit Logs API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -11,35 +11,26 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
   url: https://hub.docker.com
 tags:
-- name: audit-logs
+- name: Audit Logs
   x-displayName: Audit Logs
   description: 'The Audit Logs API endpoints allow you to query audit log events across a namespace.
 
 
-    For more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).
-
-    '
+    For more information, see Audit Logs.'
 paths:
   /v2/auditlogs/{account}/actions:
     get:
       summary: List audit log actions
-      description: 'List audit log actions for a namespace to be used as a filter for querying audit log events.
-
-
-        <span class="oat"></span>
-
-        '
+      description: List audit log actions for a namespace to be used as a filter for querying audit log events.
       operationId: AuditLogs_ListAuditActions
       security:
       - bearerAuth: []
@@ -326,16 +317,11 @@ paths:
         schema:
           type: string
       tags:
-      - audit-logs
+      - Audit Logs
   /v2/auditlogs/{account}:
     get:
       summary: List audit log events
-      description: 'List audit log events for a given namespace.
-
-
-        <span class="oat"></span>
-
-        '
+      description: List audit log events for a given namespace.
       operationId: AuditLogs_ListAuditLogs
       security:
       - bearerAuth: []
@@ -444,17 +430,21 @@ paths:
           format: int32
           default: 25
       tags:
-      - audit-logs
+      - Audit Logs
 components:
   schemas:
-    protobufAny:
+    rpcStatus:
       type: object
       properties:
-        type_url:
+        code:
+          type: integer
+          format: int32
+        message:
           type: string
-        value:
-          type: string
-          format: byte
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
     AuditLogActions:
       type: object
       properties:
@@ -466,15 +456,6 @@ components:
         label:
           type: string
           description: Grouping label for a particular set of audit log actions.
-    GetAuditLogsResponse:
-      type: object
-      properties:
-        logs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditLog'
-          description: List of audit log events.
-      description: GetAuditLogs response.
     AuditLog:
       type: object
       properties:
@@ -509,6 +490,15 @@ components:
           type: string
           description: Label for audit log action.
       description: Audit Log action
+    GetAuditLogsResponse:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLog'
+          description: List of audit log events.
+      description: GetAuditLogs response.
     GetAuditActionsResponse:
       type: object
       properties:
@@ -518,18 +508,14 @@ components:
             $ref: '#/components/schemas/AuditLogActions'
           description: Map of audit log actions.
       description: GetAuditActions response.
-    rpcStatus:
+    protobufAny:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        type_url:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/protobufAny'
+        value:
+          type: string
+          format: byte
   securitySchemes:
     bearerAuth:
       type: http

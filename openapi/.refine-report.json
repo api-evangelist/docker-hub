@@ -1,16 +1,7 @@
 {
   "provider": "docker-hub",
   "sources": [
-    "docker-hub-access-tokens-api-openapi.yml",
-    "docker-hub-audit-logs-api-openapi.yml",
-    "docker-hub-authentication-api-api-openapi.yml",
-    "docker-hub-groups-api-openapi.yml",
-    "docker-hub-invites-api-openapi.yml",
-    "docker-hub-org-access-tokens-api-openapi.yml",
-    "docker-hub-org-settings-api-openapi.yml",
-    "docker-hub-orgs-api-openapi.yml",
-    "docker-hub-repositories-api-openapi.yml",
-    "docker-hub-scim-api-openapi.yml"
+    "_original/docker-hub-openapi.yml"
   ],
   "outputs": [
     "docker-hub-access-tokens-api-openapi.yml",
@@ -28,17 +19,20 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "docker-hub-access-tokens-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-audit-logs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-authentication-api-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-groups-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-invites-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-org-access-tokens-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-org-settings-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-orgs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-repositories-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "docker-hub-scim-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "docker-hub-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "docker-hub-access-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-audit-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-authentication-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-invites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-org-access-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-org-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-orgs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-repositories-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "docker-hub-scim-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

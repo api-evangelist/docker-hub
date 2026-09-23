@@ -11,45 +11,25 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
   url: https://hub.docker.com
 tags:
-- name: access-tokens
+- name: Access Tokens
   x-displayName: Personal Access Tokens
-  description: 'The Personal Access Token endpoints lets you manage personal access tokens. For more information, see [Access Tokens](https://docs.docker.com/security/access-tokens/).
-
-
-    You can use a personal access token instead of a password in the [Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/) or in the [Create an authentication token](#operation/PostUsersLogin) route to obtain a bearer token.
-
-
-    ### Scopes
-
-
-    For each scope grouping (in this case "repo"), you only need to define 1 scope as any lower scopes are assumed.
-
-    For example: If you define `repo:write`, the API assumes the scope of both `repo:read` *and* `repo:public_read` as well.
-
-    If you were to define both `repo:write` *and* `repo:read`, then `repo:read` is assumed by `repo:write` and ignored.
-
-
-    ***Treat your personal access token like your password and keep it secret. You cannot retrieve your token after it is generated.***
-
-    '
+  description: The Personal Access Token endpoints lets you manage personal access tokens.
 paths:
   /v2/access-tokens:
     post:
       summary: Create personal access token
       description: Creates and returns a personal access token.
       tags:
-      - access-tokens
+      - Access Tokens
       security:
       - bearerAuth: []
       requestBody:
@@ -69,11 +49,13 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      operationId: postV2AccessTokens
+      x-operation-id-source: derived
     get:
       summary: List personal access tokens
       description: Returns a paginated list of personal access tokens.
       tags:
-      - access-tokens
+      - Access Tokens
       security:
       - bearerAuth: []
       parameters:
@@ -98,6 +80,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      operationId: getV2AccessTokens
+      x-operation-id-source: derived
   /v2/access-tokens/{uuid}:
     parameters:
     - in: path
@@ -107,11 +91,9 @@ paths:
         type: string
     patch:
       summary: Update personal access token
-      description: 'Updates a personal access token partially. You can either update the token''s label or enable/disable it.
-
-        '
+      description: Updates a personal access token partially. You can either update the token's label or enable/disable it.
       tags:
-      - access-tokens
+      - Access Tokens
       security:
       - bearerAuth: []
       requestBody:
@@ -131,11 +113,13 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      operationId: patchV2AccessTokensByUuid
+      x-operation-id-source: derived
     get:
       summary: Get personal access token
       description: Returns a personal access token by UUID.
       tags:
-      - access-tokens
+      - Access Tokens
       security:
       - bearerAuth: []
       responses:
@@ -155,13 +139,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: getV2AccessTokensByUuid
+      x-operation-id-source: derived
     delete:
       summary: Delete personal access token
-      description: 'Deletes a personal access token permanently. This cannot be undone.
-
-        '
+      description: Deletes a personal access token permanently. This cannot be undone.
       tags:
-      - access-tokens
+      - Access Tokens
       security:
       - bearerAuth: []
       responses:
@@ -171,20 +155,10 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: deleteV2AccessTokensByUuid
+      x-operation-id-source: derived
 components:
   schemas:
-    createAccessTokensResponse:
-      $ref: '#/components/schemas/accessToken'
-    ValueError:
-      type: object
-      description: Used to error if input validation fails.
-      properties:
-        fields:
-          type: object
-          items:
-            type: string
-        text:
-          type: string
     patchAccessTokenRequest:
       type: object
       properties:
@@ -196,7 +170,81 @@ components:
         is_active:
           type: boolean
           example: false
+    ValueError:
+      type: object
+      description: Used to error if input validation fails.
+      properties:
+        fields:
+          type: object
+          items:
+            type: string
+        text:
+          type: string
+    createAccessTokenRequest:
+      type: object
+      required:
+      - token_label
+      - scopes
+      properties:
+        token_label:
+          type: string
+          description: Friendly name for you to identify the token.
+          example: My read only token
+          minLength: 1
+          maxLength: 100
+        scopes:
+          type: array
+          description: 'Valid scopes: "repo:admin", "repo:write", "repo:read", "repo:public_read"
+
+            '
+          example:
+          - repo:read
+          items:
+            type: string
+        expires_at:
+          type: string
+          description: 'Optional expiration date for the token.
+
+            If omitted, the token will remain valid indefinitely.
+
+            '
+          format: date-time
+          example: '2021-10-28T18:30:19.520861Z'
     patchAccessTokenResponse:
+      $ref: '#/components/schemas/accessToken'
+    getAccessTokensResponse:
+      type: object
+      properties:
+        count:
+          type: number
+          example: 1
+        next:
+          type: string
+          example: null
+        previous:
+          type: string
+          example: null
+        active_count:
+          type: number
+          example: 1
+        results:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/accessToken'
+            - type: object
+              properties:
+                token:
+                  type: string
+                  example: ''
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+        message:
+          type: string
+    createAccessTokensResponse:
       $ref: '#/components/schemas/accessToken'
     accessToken:
       type: object
@@ -243,81 +291,19 @@ components:
           type: string
           format: date-time
           example: '2021-10-28T18:30:19.520861Z'
-    createAccessTokenRequest:
-      type: object
-      required:
-      - token_label
-      - scopes
-      properties:
-        token_label:
-          type: string
-          description: Friendly name for you to identify the token.
-          example: My read only token
-          minLength: 1
-          maxLength: 100
-        scopes:
-          type: array
-          description: 'Valid scopes: "repo:admin", "repo:write", "repo:read", "repo:public_read"
-
-            '
-          example:
-          - repo:read
-          items:
-            type: string
-        expires_at:
-          type: string
-          description: 'Optional expiration date for the token.
-
-            If omitted, the token will remain valid indefinitely.
-
-            '
-          format: date-time
-          example: '2021-10-28T18:30:19.520861Z'
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-        message:
-          type: string
-    getAccessTokensResponse:
-      type: object
-      properties:
-        count:
-          type: number
-          example: 1
-        next:
-          type: string
-          example: null
-        previous:
-          type: string
-          example: null
-        active_count:
-          type: number
-          example: 1
-        results:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/accessToken'
-            - type: object
-              properties:
-                token:
-                  type: string
-                  example: ''
   responses:
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ValueError'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Unauthorized
       content:

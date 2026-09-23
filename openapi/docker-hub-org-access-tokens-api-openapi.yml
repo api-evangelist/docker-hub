@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens Org Access Tokens API
+  title: Docker HUB Org Access Tokens API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -11,12 +11,10 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
@@ -25,16 +23,12 @@ tags:
 - name: org-access-tokens
   x-displayName: Organization Access Tokens
   x-audience: public
-  description: 'The organization access token endpoints allow you to manage organization access tokens (OATs). See [Organization access tokens](https://docs.docker.com/security/for-admins/access-tokens/) for more information.
-
-    '
+  description: The organization access token endpoints allow you to manage organization access tokens (OATs). See Organization access tokens for more information.
 paths:
   /v2/orgs/{name}/access-tokens:
     post:
       summary: Create access token
-      description: 'Create an access token for an organization.
-
-        '
+      description: Create an access token for an organization.
       tags:
       - org-access-tokens
       security:
@@ -60,11 +54,11 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: postV2OrgsByNameAccessTokens
+      x-operation-id-source: derived
     get:
       summary: List access tokens
-      description: 'List access tokens for an organization.
-
-        '
+      description: List access tokens for an organization.
       tags:
       - org-access-tokens
       security:
@@ -93,6 +87,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: getV2OrgsByNameAccessTokens
+      x-operation-id-source: derived
   /v2/orgs/{org_name}/access-tokens/{access_token_id}:
     parameters:
     - $ref: '#/components/parameters/org_name'
@@ -105,9 +101,7 @@ paths:
       example: a7a5ef25-8889-43a0-8cc7-f2a94268e861
     get:
       summary: Get access token
-      description: 'Get details of a specific access token for an organization.
-
-        '
+      description: Get details of a specific access token for an organization.
       tags:
       - org-access-tokens
       security:
@@ -125,11 +119,11 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: getV2OrgsByOrgNameAccessTokensByAccessTokenId
+      x-operation-id-source: derived
     patch:
       summary: Update access token
-      description: 'Update a specific access token for an organization.
-
-        '
+      description: Update a specific access token for an organization.
       tags:
       - org-access-tokens
       security:
@@ -153,11 +147,11 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: patchV2OrgsByOrgNameAccessTokensByAccessTokenId
+      x-operation-id-source: derived
     delete:
       summary: Delete access token
-      description: 'Delete a specific access token for an organization. This action cannot be undone.
-
-        '
+      description: Delete a specific access token for an organization. This action cannot be undone.
       tags:
       - org-access-tokens
       security:
@@ -171,98 +165,35 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: deleteV2OrgsByOrgNameAccessTokensByAccessTokenId
+      x-operation-id-source: derived
 components:
+  responses:
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValueError'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    orgAccessTokenResource:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - TYPE_REPO
-          - TYPE_ORG
-          example: TYPE_REPO
-          description: The type of resource
-          required: true
-        path:
-          type: string
-          example: myorg/myrepo
-          description: 'The path of the resource. The format of this will change depending on the type of resource.
-
-
-            For TYPE_REPO resources:
-
-            - Must be an existing repository name (e.g., "myorg/myrepo")
-
-            - Can use glob patterns (e.g., "myorg/*" for all repositories in the organization)
-
-            - Use "*/*/public" to reference all public repositories
-
-            '
-          required: true
-        scopes:
-          type: array
-          description: The scopes this token has access to
-          items:
-            type: string
-            example: scope-image-pull
-          required: true
-    getOrgAccessTokenResponse:
-      allOf:
-      - $ref: '#/components/schemas/orgAccessToken'
-      - type: object
-        properties:
-          resources:
-            type: array
-            description: Resources this token has access to
-            items:
-              $ref: '#/components/schemas/orgAccessTokenResource'
-    updateOrgAccessTokenRequest:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Label for the access token
-          example: My organization token
-        description:
-          type: string
-          description: Description of the access token
-          example: Token for CI/CD pipeline
-        resources:
-          type: array
-          description: Resources this token has access to
-          items:
-            $ref: '#/components/schemas/orgAccessTokenResource'
-        is_active:
-          type: boolean
-          description: Whether the token is active
-          example: true
-    getOrgAccessTokensResponse:
-      type: object
-      properties:
-        total:
-          type: number
-          example: 10
-        next:
-          type: string
-          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=2&page_size=10
-        previous:
-          type: string
-          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=1&page_size=10
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgAccessToken'
-    ValueError:
-      type: object
-      description: Used to error if input validation fails.
-      properties:
-        fields:
-          type: object
-          items:
-            type: string
-        text:
-          type: string
     createOrgAccessTokenResponse:
       type: object
       allOf:
@@ -303,6 +234,37 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/orgAccessTokenResource'
+    ValueError:
+      type: object
+      description: Used to error if input validation fails.
+      properties:
+        fields:
+          type: object
+          items:
+            type: string
+        text:
+          type: string
+    getOrgAccessTokenResponse:
+      allOf:
+      - $ref: '#/components/schemas/orgAccessToken'
+      - type: object
+        properties:
+          resources:
+            type: array
+            description: Resources this token has access to
+            items:
+              $ref: '#/components/schemas/orgAccessTokenResource'
+    updateOrgAccessTokenResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/orgAccessToken'
+      - type: object
+        properties:
+          resources:
+            type: array
+            description: Resources this token has access to
+            items:
+              $ref: '#/components/schemas/orgAccessTokenResource'
     createOrgAccessTokenRequest:
       type: object
       properties:
@@ -327,6 +289,67 @@ components:
           format: date-time
           description: Expiration date for the token
           example: '2023-05-20T00:54:18Z'
+    orgAccessTokenResource:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - TYPE_REPO
+          - TYPE_ORG
+          example: TYPE_REPO
+          description: The type of resource
+          required: true
+        path:
+          type: string
+          example: myorg/myrepo
+          description: 'The path of the resource. The format of this will change depending on the type of resource.
+
+
+            For TYPE_REPO resources:
+
+            - Must be an existing repository name (e.g., "myorg/myrepo")
+
+            - Can use glob patterns (e.g., "myorg/*" for all repositories in the organization)
+
+            - Use "*/*/public" to reference all public repositories
+
+            '
+          required: true
+        scopes:
+          type: array
+          description: The scopes this token has access to
+          items:
+            type: string
+            example: scope-image-pull
+          required: true
+    updateOrgAccessTokenRequest:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Label for the access token
+          example: My organization token
+        description:
+          type: string
+          description: Description of the access token
+          example: Token for CI/CD pipeline
+        resources:
+          type: array
+          description: Resources this token has access to
+          items:
+            $ref: '#/components/schemas/orgAccessTokenResource'
+        is_active:
+          type: boolean
+          description: Whether the token is active
+          example: true
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+        message:
+          type: string
     orgAccessToken:
       type: object
       properties:
@@ -358,49 +381,22 @@ components:
           - 'null'
           format: date-time
           example: '2022-06-15T12:30:45Z'
-    Error:
+    getOrgAccessTokensResponse:
       type: object
       properties:
-        detail:
+        total:
+          type: number
+          example: 10
+        next:
           type: string
-        message:
+          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=2&page_size=10
+        previous:
           type: string
-    updateOrgAccessTokenResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/orgAccessToken'
-      - type: object
-        properties:
-          resources:
-            type: array
-            description: Resources this token has access to
-            items:
-              $ref: '#/components/schemas/orgAccessTokenResource'
-  responses:
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ValueError'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          example: https://hub.docker.com/v2/orgs/docker/access-tokens?page=1&page_size=10
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/orgAccessToken'
   parameters:
     org_name:
       in: path

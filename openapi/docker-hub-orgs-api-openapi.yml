@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens Orgs API
+  title: Docker HUB Orgs API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -11,26 +11,22 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
   url: https://hub.docker.com
 tags:
-- name: orgs
+- name: Orgs
   x-displayName: Organizations
   x-audience: public
   description: 'The organization endpoints allow you to interact with and manage your organizations.
 
 
-    For more information, see [Organization administration overview](https://docs.docker.com/admin/organization/).
-
-    '
+    For more information, see Organization administration overview.'
 paths:
   /v2/orgs/{org_name}/members:
     parameters:
@@ -56,14 +52,9 @@ paths:
         - `last_desktop_version`
 
 
-        To make visible, please see [View Insights for organization users](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).
-
-
-        <span class="oat"></span>
-
-        '
+        To make visible, please see View Insights for organization users.'
       tags:
-      - orgs
+      - Orgs
       security:
       - bearerAuth: []
       responses:
@@ -83,19 +74,16 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: getV2OrgsByOrgNameMembers
+      x-operation-id-source: derived
   /v2/orgs/{org_name}/members/export:
     parameters:
     - $ref: '#/components/parameters/org_name'
     get:
       summary: Export org members CSV
-      description: 'Export members of an organization as a CSV
-
-
-        <span class="oat"></span>
-
-        '
+      description: Export members of an organization as a CSV
       tags:
-      - orgs
+      - Orgs
       security:
       - bearerAuth: []
       responses:
@@ -157,6 +145,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: getV2OrgsByOrgNameMembersExport
+      x-operation-id-source: derived
   /v2/orgs/{org_name}/members/{username}:
     x-audience: public
     parameters:
@@ -166,14 +156,9 @@ paths:
       summary: Update org member (role)
       description: 'Updates the role of a member in the organization.
 
-        ***Only users in the "owners" group of the organization can use this endpoint.***
-
-
-        <span class="oat"></span>
-
-        '
+        ***Only users in the "owners" group of the organization can use this endpoint.***'
       tags:
-      - orgs
+      - Orgs
       security:
       - bearerAuth: []
       requestBody:
@@ -206,16 +191,13 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: putV2OrgsByOrgNameMembersByUsername
+      x-operation-id-source: derived
     delete:
       summary: Remove member from org
-      description: 'Removes the member from the org, ie. all groups in the org, unless they''re the last owner
-
-
-        <span class="oat"></span>
-
-        '
+      description: Removes the member from the org, ie. all groups in the org, unless they're the last owner
       tags:
-      - orgs
+      - Orgs
       security:
       - bearerAuth: []
       responses:
@@ -229,7 +211,95 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: deleteV2OrgsByOrgNameMembersByUsername
+      x-operation-id-source: derived
 components:
+  responses:
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    role:
+      in: query
+      name: role
+      schema:
+        type: string
+        enum:
+        - owner
+        - editor
+        - member
+      example: owner
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+    type:
+      in: query
+      name: type
+      schema:
+        type: string
+        enum:
+        - all
+        - invitee
+        - member
+      example: all
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
+    invites:
+      in: query
+      name: invites
+      description: Include invites in the response.
+      schema:
+        type: boolean
+    search:
+      in: query
+      name: search
+      schema:
+        type: integer
+      description: Search term.
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
   schemas:
     user:
       type: object
@@ -275,6 +345,26 @@ components:
           type: string
         message:
           type: string
+    org_member_paginated:
+      type: object
+      properties:
+        count:
+          type: number
+          description: The total number of items that match with the search.
+          example: 120
+        previous:
+          type: string
+          description: The URL or link for the previous page of items.
+          example: https://hub.docker.com/v2/some/resources/items?page=1&page_size=20
+        next:
+          type: string
+          description: The URL or link for the next page of items.
+          example: https://hub.docker.com/v2/some/resources/items?page=3&page_size=20
+        results:
+          type: array
+          description: List of accounts.
+          items:
+            $ref: '#/components/schemas/org_member'
     org_member:
       allOf:
       - $ref: '#/components/schemas/user'
@@ -322,112 +412,6 @@ components:
           type: string
           description: "Last desktop version the user used. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
           example: 4.29.0
-    org_member_paginated:
-      type: object
-      properties:
-        count:
-          type: number
-          description: The total number of items that match with the search.
-          example: 120
-        previous:
-          type: string
-          description: The URL or link for the previous page of items.
-          example: https://hub.docker.com/v2/some/resources/items?page=1&page_size=20
-        next:
-          type: string
-          description: The URL or link for the next page of items.
-          example: https://hub.docker.com/v2/some/resources/items?page=3&page_size=20
-        results:
-          type: array
-          description: List of accounts.
-          items:
-            $ref: '#/components/schemas/org_member'
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-  parameters:
-    search:
-      in: query
-      name: search
-      schema:
-        type: integer
-      description: Search term.
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
-    type:
-      in: query
-      name: type
-      schema:
-        type: string
-        enum:
-        - all
-        - invitee
-        - member
-      example: all
-    invites:
-      in: query
-      name: invites
-      description: Include invites in the response.
-      schema:
-        type: boolean
-    page:
-      in: query
-      name: page
-      description: Page number (starts on 1).
-      schema:
-        type: integer
-    role:
-      in: query
-      name: role
-      schema:
-        type: string
-        enum:
-        - owner
-        - editor
-        - member
-      example: owner
-    username:
-      in: path
-      name: username
-      description: Username, identifier for the user (namespace, DockerID).
-      schema:
-        type: string
-        example: jonsnow
-      required: true
   securitySchemes:
     bearerAuth:
       type: http

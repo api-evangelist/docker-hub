@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens Org Settings API
+  title: Docker HUB Org Settings API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -11,12 +11,10 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
@@ -24,9 +22,7 @@ servers:
 tags:
 - name: org-settings
   x-displayName: Org Settings
-  description: 'The Org Settings API endpoints allow you to manage your organization''s settings.
-
-    '
+  description: The Org Settings API endpoints allow you to manage your organization's settings.
 paths:
   /v2/orgs/{name}/settings:
     parameters:
@@ -38,9 +34,7 @@ paths:
         type: string
     get:
       summary: Get organization settings
-      description: 'Returns organization settings by name.
-
-        '
+      description: Returns organization settings by name.
       tags:
       - org-settings
       security:
@@ -58,6 +52,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: getV2OrgsByNameSettings
+      x-operation-id-source: derived
     put:
       summary: Update organization settings
       description: 'Updates an organization''s settings. Some settings are only used when the organization is on a business subscription.
@@ -68,9 +64,7 @@ paths:
 
         The following settings are only used on a business subscription:
 
-        - `restricted_images`
-
-        '
+        - `restricted_images`'
       tags:
       - org-settings
       security:
@@ -104,7 +98,28 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: putV2OrgsByNameSettings
+      x-operation-id-source: derived
 components:
+  responses:
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     orgSettings:
       type: object
@@ -133,25 +148,6 @@ components:
           type: string
         message:
           type: string
-  responses:
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

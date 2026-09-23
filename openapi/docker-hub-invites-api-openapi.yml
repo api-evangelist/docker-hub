@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Docker HUB access-tokens Invites API
+  title: Docker HUB Invites API
   version: 2-beta
   x-logo:
     url: https://docs.docker.com/assets/images/logo-docker-main.png
@@ -11,26 +11,22 @@ info:
     It is the world''s largest library and community for container images.
 
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
+    In addition to the Docker Hub UI and Docker Hub CLI tool (currently experimental), Docker provides an API that allows you to interact with Docker Hub.
 
 
-    Browse through the Docker Hub API documentation to explore the supported endpoints.
-
-    '
+    Browse through the Docker Hub API documentation to explore the supported endpoints.'
 servers:
 - description: Docker HUB API
   x-audience: public
   url: https://hub.docker.com
 tags:
-- name: invites
+- name: Invites
   x-displayName: Invites
   x-audience: public
   description: 'The invites endpoints allow you to manage invites for users to join your Docker organization.
 
 
-    For more information, see [Invite members](https://docs.docker.com/admin/organization/manage/members/#invite-members).
-
-    '
+    For more information, see Invite members.'
 paths:
   /v2/orgs/{org_name}/invites:
     x-audience: public
@@ -38,14 +34,9 @@ paths:
     - $ref: '#/components/parameters/org_name'
     get:
       summary: List org invites
-      description: 'Return all pending invites for a given org, only team owners can call this endpoint
-
-
-        <span class="oat"></span>
-
-        '
+      description: Return all pending invites for a given org, only team owners can call this endpoint
       tags:
-      - invites
+      - Invites
       security:
       - bearerAuth: []
       responses:
@@ -66,6 +57,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: getV2OrgsByOrgNameInvites
+      x-operation-id-source: derived
   /v2/invites/{id}:
     x-audience: public
     parameters:
@@ -76,14 +69,9 @@ paths:
         type: string
     delete:
       summary: Cancel an invite
-      description: 'Mark the invite as cancelled so it doesn''t show up on the list of pending invites
-
-
-        <span class="oat"></span>
-
-        '
+      description: Mark the invite as cancelled so it doesn't show up on the list of pending invites
       tags:
-      - invites
+      - Invites
       security:
       - bearerAuth: []
       responses:
@@ -95,6 +83,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: deleteV2InvitesById
+      x-operation-id-source: derived
   /v2/invites/{id}/resend:
     x-audience: public
     parameters:
@@ -105,14 +95,9 @@ paths:
       required: true
     patch:
       summary: Resend an invite
-      description: 'Resend a pending invite to the user, any org owner can resend an invite
-
-
-        <span class="oat"></span>
-
-        '
+      description: Resend a pending invite to the user, any org owner can resend an invite
       tags:
-      - invites
+      - Invites
       security:
       - bearerAuth: []
       responses:
@@ -124,20 +109,17 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+      operationId: patchV2InvitesByIdResend
+      x-operation-id-source: derived
   /v2/invites/bulk:
     x-audience: public
     parameters:
     - $ref: '#/components/parameters/bulk_invite'
     post:
       summary: Bulk create invites
-      description: 'Create multiple invites by emails or DockerIDs. Only a team owner can create invites.
-
-
-        <span class="oat"></span>
-
-        '
+      description: Create multiple invites by emails or DockerIDs. Only a team owner can create invites.
       tags:
-      - invites
+      - Invites
       requestBody:
         $ref: '#/components/requestBodies/bulk_invite_request'
       security:
@@ -156,84 +138,10 @@ paths:
           $ref: '#/components/responses/bad_request'
         '409':
           $ref: '#/components/responses/conflict'
+      operationId: postV2InvitesBulk
+      x-operation-id-source: derived
 components:
-  schemas:
-    invite:
-      type: object
-      properties:
-        id:
-          type: string
-          description: uuid representing the invite id
-          example: e36eca69-4cc8-4f17-9845-ae8c2b832691
-        inviter_username:
-          type: string
-          example: moby
-        invitee:
-          type: string
-          description: can either be a dockerID for registered users or an email for non-registered users
-          example: invitee@docker.com
-        org:
-          type: string
-          description: name of the org to join
-          example: docker
-        team:
-          type: string
-          description: name of the team (user group) to join
-          example: owners
-        created_at:
-          type: string
-          example: '2021-10-28T18:30:19.520861Z'
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-    bulk_invite:
-      type: object
-      properties:
-        invitees:
-          type: array
-          description: A list of invitees
-          items:
-            type: object
-            properties:
-              invitee:
-                type: string
-                description: invitee email or Docker ID
-              status:
-                type: string
-                description: status of the invite or validation error
-              invite:
-                description: Invite data if successfully invited
-                $ref: '#/components/schemas/invite'
-      example:
-        invitees:
-        - invitee: invitee@docker.com
-          status: invited
-          invite:
-            id: e36eca69-4cc8-4f17-9845-ae8c2b832691
-            inviter_username: moby
-            invitee: invitee@docker.com
-            org: docker
-            team: owners
-            created_at: '2021-10-28T18:30:19.520861Z'
-        - invitee: invitee2@docker.com
-          status: existing_org_member
-        - invitee: invitee3@docker.com
-          status: invalid_email_or_docker_id
   responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     forbidden:
       description: Forbidden
       content:
@@ -258,21 +166,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-  parameters:
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
-    bulk_invite:
-      in: header
-      name: X-Analytics-Client-Feature
-      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
-      schema:
-        type: string
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   requestBodies:
     bulk_invite_request:
       required: true
@@ -310,6 +209,91 @@ components:
                 type: boolean
                 description: Optional, run through validation but don't actually change data.
                 example: true
+  parameters:
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+    bulk_invite:
+      in: header
+      name: X-Analytics-Client-Feature
+      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
+      schema:
+        type: string
+  schemas:
+    bulk_invite:
+      type: object
+      properties:
+        invitees:
+          type: array
+          description: A list of invitees
+          items:
+            type: object
+            properties:
+              invitee:
+                type: string
+                description: invitee email or Docker ID
+              status:
+                type: string
+                description: status of the invite or validation error
+              invite:
+                description: Invite data if successfully invited
+                $ref: '#/components/schemas/invite'
+      example:
+        invitees:
+        - invitee: invitee@docker.com
+          status: invited
+          invite:
+            id: e36eca69-4cc8-4f17-9845-ae8c2b832691
+            inviter_username: moby
+            invitee: invitee@docker.com
+            org: docker
+            team: owners
+            created_at: '2021-10-28T18:30:19.520861Z'
+        - invitee: invitee2@docker.com
+          status: existing_org_member
+        - invitee: invitee3@docker.com
+          status: invalid_email_or_docker_id
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+    invite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: uuid representing the invite id
+          example: e36eca69-4cc8-4f17-9845-ae8c2b832691
+        inviter_username:
+          type: string
+          example: moby
+        invitee:
+          type: string
+          description: can either be a dockerID for registered users or an email for non-registered users
+          example: invitee@docker.com
+        org:
+          type: string
+          description: name of the org to join
+          example: docker
+        team:
+          type: string
+          description: name of the team (user group) to join
+          example: owners
+        created_at:
+          type: string
+          example: '2021-10-28T18:30:19.520861Z'
   securitySchemes:
     bearerAuth:
       type: http
