@@ -322,12 +322,6 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad Request
       content:
@@ -340,8 +334,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    internal_error:
-      description: Internal
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -352,7 +346,33 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    internal_error:
+      description: Internal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   parameters:
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
     org_name:
       in: path
       name: org_name
@@ -369,27 +389,53 @@ components:
         type: string
         example: developers
       required: true
-    username:
-      in: path
-      name: username
-      description: Username, identifier for the user (namespace, DockerID).
-      schema:
-        type: string
-        example: jonsnow
+  requestBodies:
+    add_member_to_org_group:
       required: true
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
-    page:
-      in: query
-      name: page
-      description: Page number (starts on 1).
-      schema:
-        type: integer
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - member
+            properties:
+              member:
+                type: string
+                example: jonsnow
   schemas:
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+    org_group:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 10
+          description: Group ID
+        uuid:
+          type: string
+          description: UUID for the group
+        name:
+          type: string
+          example: mygroup
+          description: Name of the group
+        description:
+          type: string
+          example: Groups description
+          description: Description of the group
+        member_count:
+          type: number
+          example: 10
+          description: Member count of the group
     group_member:
       type: object
       properties:
@@ -427,52 +473,6 @@ components:
         email:
           type: string
           example: dockeruser@docker.com
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-    org_group:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 10
-          description: Group ID
-        uuid:
-          type: string
-          description: UUID for the group
-        name:
-          type: string
-          example: mygroup
-          description: Name of the group
-        description:
-          type: string
-          example: Groups description
-          description: Description of the group
-        member_count:
-          type: number
-          example: 10
-          description: Member count of the group
-  requestBodies:
-    add_member_to_org_group:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - member
-            properties:
-              member:
-                type: string
-                example: jonsnow
   securitySchemes:
     bearerAuth:
       type: http

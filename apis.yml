@@ -2,7 +2,7 @@ aid: docker-hub
 url: https://raw.githubusercontent.com/api-evangelist/docker-hub/refs/heads/main/apis.yml
 apis:
 - aid: docker-hub:docker-hub-access-tokens-api
-  name: Docker Hub access-tokens API
+  name: Docker Hub Access Tokens API
   description: 'The Personal Access Token endpoints lets you manage personal access tokens. For more information,
     see [Access Tokens](https://docs.docker.com/security/access-tokens/).
 
@@ -40,7 +40,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-audit-logs-api
-  name: Docker Hub audit-logs API
+  name: Docker Hub Audit Logs API
   description: 'The Audit Logs API endpoints allow you to query audit log events across a namespace.
 
 
@@ -59,7 +59,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-authentication-api-api
-  name: Docker Hub authentication-api
+  name: Docker Hub Authentication API
   description: 'The authentication endpoints allow you to authenticate with Docker Hub APIs.
 
 
@@ -78,7 +78,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-groups-api
-  name: Docker Hub groups API
+  name: Docker Hub Groups API
   description: 'The groups endpoints allow you to manage your organization''s teams and their members.
 
 
@@ -97,7 +97,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-invites-api
-  name: Docker Hub invites API
+  name: Docker Hub Invites API
   description: 'The invites endpoints allow you to manage invites for users to join your Docker organization.
 
 
@@ -116,7 +116,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-org-access-tokens-api
-  name: Docker Hub org-access-tokens API
+  name: Docker Hub Org Access Tokens API
   description: The organization access token endpoints allow you to manage organization access tokens
     (OATs). See [Organization access tokens](https://docs.docker.com/security/for-admins/access-tokens/)
     for more information.
@@ -132,7 +132,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-org-settings-api
-  name: Docker Hub org-settings API
+  name: Docker Hub Org Settings API
   description: The Org Settings API endpoints allow you to manage your organization's settings.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
@@ -146,7 +146,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-orgs-api
-  name: Docker Hub orgs API
+  name: Docker Hub Orgs API
   description: 'The organization endpoints allow you to interact with and manage your organizations.
 
 
@@ -165,7 +165,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-repositories-api
-  name: Docker Hub repositories API
+  name: Docker Hub Repositories API
   description: The repository endpoints allow you to access your repository's tags.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
@@ -181,7 +181,7 @@ apis:
   - type: BaseURL
     url: https://hub.docker.com/v2
 - aid: docker-hub:docker-hub-scim-api
-  name: Docker Hub scim API
+  name: Docker Hub SCIM API
   description: 'SCIM is a provisioning system that lets you manage users within your identity provider
     (IdP).
 

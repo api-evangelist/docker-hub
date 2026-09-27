@@ -445,38 +445,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/protobufAny'
-    AuditLogActions:
-      type: object
-      properties:
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditLogAction'
-          description: List of audit log actions.
-        label:
-          type: string
-          description: Grouping label for a particular set of audit log actions.
-    AuditLog:
-      type: object
-      properties:
-        account:
-          type: string
-        action:
-          type: string
-        name:
-          type: string
-        actor:
-          type: string
-        data:
-          type: object
-          additionalProperties:
-            type: string
-        timestamp:
-          type: string
-          format: date-time
-        action_description:
-          type: string
-      description: Audit log event.
     AuditLogAction:
       type: object
       properties:
@@ -499,6 +467,38 @@ components:
             $ref: '#/components/schemas/AuditLog'
           description: List of audit log events.
       description: GetAuditLogs response.
+    AuditLog:
+      type: object
+      properties:
+        account:
+          type: string
+        action:
+          type: string
+        name:
+          type: string
+        actor:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+        timestamp:
+          type: string
+          format: date-time
+        action_description:
+          type: string
+      description: Audit log event.
+    AuditLogActions:
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogAction'
+          description: List of audit log actions.
+        label:
+          type: string
+          description: Grouping label for a particular set of audit log actions.
     GetAuditActionsResponse:
       type: object
       properties:

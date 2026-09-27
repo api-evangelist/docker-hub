@@ -142,18 +142,6 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad Request
       content:
@@ -166,12 +154,94 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  schemas:
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+    bulk_invite:
+      type: object
+      properties:
+        invitees:
+          type: array
+          description: A list of invitees
+          items:
+            type: object
+            properties:
+              invitee:
+                type: string
+                description: invitee email or Docker ID
+              status:
+                type: string
+                description: status of the invite or validation error
+              invite:
+                description: Invite data if successfully invited
+                $ref: '#/components/schemas/invite'
+      example:
+        invitees:
+        - invitee: invitee@docker.com
+          status: invited
+          invite:
+            id: e36eca69-4cc8-4f17-9845-ae8c2b832691
+            inviter_username: moby
+            invitee: invitee@docker.com
+            org: docker
+            team: owners
+            created_at: '2021-10-28T18:30:19.520861Z'
+        - invitee: invitee2@docker.com
+          status: existing_org_member
+        - invitee: invitee3@docker.com
+          status: invalid_email_or_docker_id
+    invite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: uuid representing the invite id
+          example: e36eca69-4cc8-4f17-9845-ae8c2b832691
+        inviter_username:
+          type: string
+          example: moby
+        invitee:
+          type: string
+          description: can either be a dockerID for registered users or an email for non-registered users
+          example: invitee@docker.com
+        org:
+          type: string
+          description: name of the org to join
+          example: docker
+        team:
+          type: string
+          description: name of the team (user group) to join
+          example: owners
+        created_at:
+          type: string
+          example: '2021-10-28T18:30:19.520861Z'
   requestBodies:
     bulk_invite_request:
       required: true
@@ -210,6 +280,12 @@ components:
                 description: Optional, run through validation but don't actually change data.
                 example: true
   parameters:
+    bulk_invite:
+      in: header
+      name: X-Analytics-Client-Feature
+      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
+      schema:
+        type: string
     org_name:
       in: path
       name: org_name
@@ -218,82 +294,6 @@ components:
         type: string
       example: myorganization
       required: true
-    bulk_invite:
-      in: header
-      name: X-Analytics-Client-Feature
-      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
-      schema:
-        type: string
-  schemas:
-    bulk_invite:
-      type: object
-      properties:
-        invitees:
-          type: array
-          description: A list of invitees
-          items:
-            type: object
-            properties:
-              invitee:
-                type: string
-                description: invitee email or Docker ID
-              status:
-                type: string
-                description: status of the invite or validation error
-              invite:
-                description: Invite data if successfully invited
-                $ref: '#/components/schemas/invite'
-      example:
-        invitees:
-        - invitee: invitee@docker.com
-          status: invited
-          invite:
-            id: e36eca69-4cc8-4f17-9845-ae8c2b832691
-            inviter_username: moby
-            invitee: invitee@docker.com
-            org: docker
-            team: owners
-            created_at: '2021-10-28T18:30:19.520861Z'
-        - invitee: invitee2@docker.com
-          status: existing_org_member
-        - invitee: invitee3@docker.com
-          status: invalid_email_or_docker_id
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-    invite:
-      type: object
-      properties:
-        id:
-          type: string
-          description: uuid representing the invite id
-          example: e36eca69-4cc8-4f17-9845-ae8c2b832691
-        inviter_username:
-          type: string
-          example: moby
-        invitee:
-          type: string
-          description: can either be a dockerID for registered users or an email for non-registered users
-          example: invitee@docker.com
-        org:
-          type: string
-          description: name of the org to join
-          example: docker
-        team:
-          type: string
-          description: name of the team (user group) to join
-          example: owners
-        created_at:
-          type: string
-          example: '2021-10-28T18:30:19.520861Z'
   securitySchemes:
     bearerAuth:
       type: http
