@@ -159,6 +159,8 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    patchAccessTokenResponse:
+      $ref: '#/components/schemas/accessToken'
     patchAccessTokenRequest:
       type: object
       properties:
@@ -170,18 +172,6 @@ components:
         is_active:
           type: boolean
           example: false
-    ValueError:
-      type: object
-      description: Used to error if input validation fails.
-      properties:
-        fields:
-          type: object
-          items:
-            type: string
-        text:
-          type: string
-    createAccessTokensResponse:
-      $ref: '#/components/schemas/accessToken'
     accessToken:
       type: object
       properties:
@@ -227,6 +217,8 @@ components:
           type: string
           format: date-time
           example: '2021-10-28T18:30:19.520861Z'
+    createAccessTokensResponse:
+      $ref: '#/components/schemas/accessToken'
     getAccessTokensResponse:
       type: object
       properties:
@@ -252,6 +244,13 @@ components:
                 token:
                   type: string
                   example: ''
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+        message:
+          type: string
     createAccessTokenRequest:
       type: object
       required:
@@ -282,15 +281,16 @@ components:
             '
           format: date-time
           example: '2021-10-28T18:30:19.520861Z'
-    Error:
+    ValueError:
       type: object
+      description: Used to error if input validation fails.
       properties:
-        detail:
+        fields:
+          type: object
+          items:
+            type: string
+        text:
           type: string
-        message:
-          type: string
-    patchAccessTokenResponse:
-      $ref: '#/components/schemas/accessToken'
   responses:
     NotFound:
       description: Not Found

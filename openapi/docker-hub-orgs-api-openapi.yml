@@ -221,6 +221,14 @@ components:
       description: Include invites in the response.
       schema:
         type: boolean
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
     username:
       in: path
       name: username
@@ -229,6 +237,16 @@ components:
         type: string
         example: jonsnow
       required: true
+    type:
+      in: query
+      name: type
+      schema:
+        type: string
+        enum:
+        - all
+        - invitee
+        - member
+      example: all
     search:
       in: query
       name: search
@@ -241,12 +259,6 @@ components:
       description: Page number (starts on 1).
       schema:
         type: integer
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
     role:
       in: query
       name: role
@@ -257,33 +269,15 @@ components:
         - editor
         - member
       example: owner
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
-    type:
+    page_size:
       in: query
-      name: type
+      name: page_size
+      description: Number of items (rows) per page.
       schema:
-        type: string
-        enum:
-        - all
-        - invitee
-        - member
-      example: all
+        type: integer
   responses:
     bad_request:
       description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: Not Found
       content:
         application/json:
           schema:
@@ -300,7 +294,46 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0ab70deb065a43fcacd55d48caa945d8
+          description: The UUID trimmed
+        company:
+          type: string
+          example: Docker Inc
+        date_joined:
+          type: string
+          example: '2021-01-05T21:06:53.506400Z'
+        full_name:
+          type: string
+          example: Jon Snow
+        gravatar_email:
+          type: string
+        gravatar_url:
+          type: string
+        location:
+          type: string
+        profile_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - User
+          - Org
+          example: User
+        username:
+          type: string
+          example: dockeruser
     org_member_paginated:
       type: object
       properties:
@@ -321,17 +354,6 @@ components:
           description: List of accounts.
           items:
             $ref: '#/components/schemas/org_member'
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
     org_member:
       allOf:
       - $ref: '#/components/schemas/user'
@@ -379,39 +401,17 @@ components:
           type: string
           description: "Last desktop version the user used. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
           example: 4.29.0
-    user:
+    error:
       type: object
       properties:
-        id:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
           type: string
-          example: 0ab70deb065a43fcacd55d48caa945d8
-          description: The UUID trimmed
-        company:
+        message:
           type: string
-          example: Docker Inc
-        date_joined:
-          type: string
-          example: '2021-01-05T21:06:53.506400Z'
-        full_name:
-          type: string
-          example: Jon Snow
-        gravatar_email:
-          type: string
-        gravatar_url:
-          type: string
-        location:
-          type: string
-        profile_url:
-          type: string
-        type:
-          type: string
-          enum:
-          - User
-          - Org
-          example: User
-        username:
-          type: string
-          example: dockeruser
   securitySchemes:
     bearerAuth:
       type: http

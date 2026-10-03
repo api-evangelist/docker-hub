@@ -148,8 +148,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    not_found:
-      description: Not Found
+    conflict:
+      description: Conflict
       content:
         application/json:
           schema:
@@ -166,24 +166,53 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    conflict:
-      description: Conflict
+    not_found:
+      description: Not Found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+  parameters:
+    bulk_invite:
+      in: header
+      name: X-Analytics-Client-Feature
+      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
+      schema:
+        type: string
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
   schemas:
-    error:
+    invite:
       type: object
       properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
+        id:
           type: string
-        message:
+          description: uuid representing the invite id
+          example: e36eca69-4cc8-4f17-9845-ae8c2b832691
+        inviter_username:
           type: string
+          example: moby
+        invitee:
+          type: string
+          description: can either be a dockerID for registered users or an email for non-registered users
+          example: invitee@docker.com
+        org:
+          type: string
+          description: name of the org to join
+          example: docker
+        team:
+          type: string
+          description: name of the team (user group) to join
+          example: owners
+        created_at:
+          type: string
+          example: '2021-10-28T18:30:19.520861Z'
     bulk_invite:
       type: object
       properties:
@@ -217,31 +246,17 @@ components:
           status: existing_org_member
         - invitee: invitee3@docker.com
           status: invalid_email_or_docker_id
-    invite:
+    error:
       type: object
       properties:
-        id:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
           type: string
-          description: uuid representing the invite id
-          example: e36eca69-4cc8-4f17-9845-ae8c2b832691
-        inviter_username:
+        message:
           type: string
-          example: moby
-        invitee:
-          type: string
-          description: can either be a dockerID for registered users or an email for non-registered users
-          example: invitee@docker.com
-        org:
-          type: string
-          description: name of the org to join
-          example: docker
-        team:
-          type: string
-          description: name of the team (user group) to join
-          example: owners
-        created_at:
-          type: string
-          example: '2021-10-28T18:30:19.520861Z'
   requestBodies:
     bulk_invite_request:
       required: true
@@ -279,21 +294,6 @@ components:
                 type: boolean
                 description: Optional, run through validation but don't actually change data.
                 example: true
-  parameters:
-    bulk_invite:
-      in: header
-      name: X-Analytics-Client-Feature
-      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
-      schema:
-        type: string
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
   securitySchemes:
     bearerAuth:
       type: http

@@ -445,19 +445,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/protobufAny'
-    AuditLogAction:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of audit log action.
-        description:
-          type: string
-          description: Description of audit log action.
-        label:
-          type: string
-          description: Label for audit log action.
-      description: Audit Log action
     GetAuditLogsResponse:
       type: object
       properties:
@@ -467,6 +454,26 @@ components:
             $ref: '#/components/schemas/AuditLog'
           description: List of audit log events.
       description: GetAuditLogs response.
+    GetAuditActionsResponse:
+      type: object
+      properties:
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AuditLogActions'
+          description: Map of audit log actions.
+      description: GetAuditActions response.
+    AuditLogActions:
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogAction'
+          description: List of audit log actions.
+        label:
+          type: string
+          description: Grouping label for a particular set of audit log actions.
     AuditLog:
       type: object
       properties:
@@ -488,26 +495,6 @@ components:
         action_description:
           type: string
       description: Audit log event.
-    AuditLogActions:
-      type: object
-      properties:
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditLogAction'
-          description: List of audit log actions.
-        label:
-          type: string
-          description: Grouping label for a particular set of audit log actions.
-    GetAuditActionsResponse:
-      type: object
-      properties:
-        actions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AuditLogActions'
-          description: Map of audit log actions.
-      description: GetAuditActions response.
     protobufAny:
       type: object
       properties:
@@ -516,6 +503,19 @@ components:
         value:
           type: string
           format: byte
+    AuditLogAction:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of audit log action.
+        description:
+          type: string
+          description: Description of audit log action.
+        label:
+          type: string
+          description: Label for audit log action.
+      description: Audit Log action
   securitySchemes:
     bearerAuth:
       type: http

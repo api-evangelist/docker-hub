@@ -328,12 +328,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    not_found:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     forbidden:
       description: Forbidden
       content:
@@ -352,43 +346,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-  parameters:
-    username:
-      in: path
-      name: username
-      description: Username, identifier for the user (namespace, DockerID).
-      schema:
-        type: string
-        example: jonsnow
-      required: true
-    page:
-      in: query
-      name: page
-      description: Page number (starts on 1).
-      schema:
-        type: integer
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
-    group_name:
-      in: path
-      name: group_name
-      description: Name of the group (team) in the organization.
-      schema:
-        type: string
-        example: developers
-      required: true
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   requestBodies:
     add_member_to_org_group:
       required: true
@@ -402,40 +365,44 @@ components:
               member:
                 type: string
                 example: jonsnow
+  parameters:
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    group_name:
+      in: path
+      name: group_name
+      description: Name of the group (team) in the organization.
+      schema:
+        type: string
+        example: developers
+      required: true
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
   schemas:
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-    org_group:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 10
-          description: Group ID
-        uuid:
-          type: string
-          description: UUID for the group
-        name:
-          type: string
-          example: mygroup
-          description: Name of the group
-        description:
-          type: string
-          example: Groups description
-          description: Description of the group
-        member_count:
-          type: number
-          example: 10
-          description: Member count of the group
     group_member:
       type: object
       properties:
@@ -473,6 +440,39 @@ components:
         email:
           type: string
           example: dockeruser@docker.com
+    org_group:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 10
+          description: Group ID
+        uuid:
+          type: string
+          description: UUID for the group
+        name:
+          type: string
+          example: mygroup
+          description: Name of the group
+        description:
+          type: string
+          example: Groups description
+          description: Description of the group
+        member_count:
+          type: number
+          example: 10
+          description: Member count of the group
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

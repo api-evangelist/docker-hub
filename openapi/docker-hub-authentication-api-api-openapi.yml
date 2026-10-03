@@ -156,25 +156,43 @@ paths:
           $ref: '#/components/responses/unauthorized'
 components:
   schemas:
-    error:
+    AuthCreateTokenResponse:
+      description: successful access token response
       type: object
       properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
+        access_token:
+          description: The created access token. This expires in 10 minutes.
           type: string
-        message:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    UsersLoginRequest:
+      description: User login details
+      type: object
+      required:
+      - username
+      - password
+      properties:
+        username:
+          description: The username of the Docker Hub account to authenticate with.
           type: string
-    PostUsers2FALoginErrorResponse:
-      description: failed second factor login response.
+          example: myusername
+        password:
+          description: 'The password or personal access token (PAT) of the Docker Hub account to authenticate with.
+
+            '
+          type: string
+          example: p@ssw0rd
+    PostUsersLoginSuccessResponse:
+      description: successful user login response
       type: object
       properties:
-        detail:
-          description: Description of the error.
+        token:
+          description: 'Created authentication token.
+
+            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
+
+            '
           type: string
-          example: Incorrect authentication credentials
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     PostUsersLoginErrorResponse:
       description: failed user login response or second factor required
       type: object
@@ -193,26 +211,6 @@ components:
           - string
           - 'null'
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    PostUsersLoginSuccessResponse:
-      description: successful user login response
-      type: object
-      properties:
-        token:
-          description: 'Created authentication token.
-
-            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
-
-            '
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    AuthCreateTokenResponse:
-      description: successful access token response
-      type: object
-      properties:
-        access_token:
-          description: The created access token. This expires in 10 minutes.
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     Users2FALoginRequest:
       description: Second factor user login details
       type: object
@@ -230,23 +228,25 @@ components:
             '
           type: string
           example: 123456
-    UsersLoginRequest:
-      description: User login details
+    PostUsers2FALoginErrorResponse:
+      description: failed second factor login response.
       type: object
-      required:
-      - username
-      - password
       properties:
-        username:
-          description: The username of the Docker Hub account to authenticate with.
+        detail:
+          description: Description of the error.
           type: string
-          example: myusername
-        password:
-          description: 'The password or personal access token (PAT) of the Docker Hub account to authenticate with.
-
-            '
+          example: Incorrect authentication credentials
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
           type: string
-          example: p@ssw0rd
+        message:
+          type: string
   responses:
     unauthorized:
       description: Unauthorized

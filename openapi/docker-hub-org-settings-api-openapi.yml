@@ -102,6 +102,12 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not Found
       content:
@@ -114,13 +120,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    orgSettings:
+      type: object
+      properties:
+        restricted_images:
+          $ref: '#/components/schemas/restricted_images'
     restricted_images:
       type: object
       properties:
@@ -143,11 +148,6 @@ components:
           type: string
         message:
           type: string
-    orgSettings:
-      type: object
-      properties:
-        restricted_images:
-          $ref: '#/components/schemas/restricted_images'
   securitySchemes:
     bearerAuth:
       type: http

@@ -526,19 +526,57 @@ paths:
         500:
           $ref: '#/components/responses/internal_error'
 components:
+  requestBodies:
+    update_repository_immutable_tags_request:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/update_repository_immutable_tags_request'
+    immutable_tags_verify_request:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/immutable_tags_verify_request'
+  parameters:
+    namespace:
+      in: path
+      name: namespace
+      required: true
+      schema:
+        type: string
+    repository:
+      in: path
+      name: repository
+      required: true
+      schema:
+        type: string
+    tag:
+      in: path
+      name: tag
+      required: true
+      schema:
+        type: string
   responses:
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     bad_request:
       description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     update_repository_immutable_tags_response:
       description: ''
       content:
@@ -551,38 +589,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/paginated_tags'
-    internal_error:
-      description: Internal
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    immutable_tags_verify_response:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/immutable_tags_verify_response'
     not_found:
       description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: Forbidden
       content:
         application/json:
           schema:
@@ -593,64 +601,31 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/tag'
+    immutable_tags_verify_response:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/immutable_tags_verify_response'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    internal_error:
+      description: Internal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
-    layer:
-      type: object
-      properties:
-        digest:
-          type:
-          - string
-          - 'null'
-          description: image layer digest
-        size:
-          type: integer
-          description: size of the layer
-        instruction:
-          type: string
-          description: Dockerfile instruction
-    RepositoryGroupCreationRequest:
-      type: object
-      required:
-      - group_id
-      - permission
-      properties:
-        group_id:
-          type: integer
-          format: int64
-          description: The ID of the organization group to grant access to
-          example: 12345
-        permission:
-          type: string
-          description: 'The permission level to grant to the group:
-
-            - read: Can view and pull from the repository
-
-            - write: Can view, pull, and push to the repository
-
-            - admin: Can view, pull, push, and manage repository settings
-
-            '
-          enum:
-          - read
-          - write
-          - admin
-          example: write
-    repo_permissions:
-      type: object
-      properties:
-        read:
-          type: boolean
-          description: Read permission
-        write:
-          type: boolean
-          description: Write permission
-        admin:
-          type: boolean
-          description: Admin permission
-      required:
-      - read
-      - write
-      - admin
     category:
       type: object
       required:
@@ -669,20 +644,66 @@ components:
           minLength: 1
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       description: Repository category for classification and discovery
-    immutable_tags_settings:
+    immutable_tags_verify_request:
       type: object
       properties:
-        enabled:
-          type: boolean
-          description: Whether immutable tags are enabled
-        rules:
+        regex:
+          type: string
+          pattern: ^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$
+          description: 'Immutable tags rule regex pattern. Must match format: [a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*'
+          example: v.*
+      required:
+      - regex
+    immutable_tags_verify_response:
+      type: object
+      properties:
+        tags:
           type: array
           items:
             type: string
-          description: List of immutable tag rules
+          description: List of tags that match the provided regex pattern
+          example:
+          - v1.0.0
+          - v2.1.3
+          - latest
       required:
-      - enabled
-      - rules
+      - tags
+    repo_creation_request:
+      type: object
+      required:
+      - name
+      - namespace
+      properties:
+        name:
+          type: string
+          description: "The name of the repository. Must be 2-255 characters long and may only include \nalphanumeric characters, periods (.), underscores (_), or hyphens (-). \nLetters must be lowercase.\n"
+          minLength: 2
+          maxLength: 255
+          pattern: ^[a-z0-9]+(?:[._-][a-z0-9]+)*$
+          example: my-app
+        namespace:
+          type: string
+          description: The namespace where the repository will be created
+          example: myorganization
+        description:
+          type: string
+          description: Short description of the repository
+          maxLength: 100
+          example: A sample application repository
+        full_description:
+          type: string
+          description: Detailed description of the repository
+          maxLength: 25000
+          example: This is a comprehensive description of my application repository that contains additional details about the project, its purpose, usage instructions, and other relevant information.
+        registry:
+          type: string
+          description: The registry where the repository will be hosted
+          example: docker.io
+        is_private:
+          type: boolean
+          description: Whether the repository should be private
+          default: false
+          example: false
     update_repository_immutable_tags_request:
       type: object
       properties:
@@ -700,84 +721,29 @@ components:
       required:
       - immutable_tags
       - immutable_tags_rules
-    RepositoryGroup:
+    immutable_tags_settings:
       type: object
       properties:
-        group_name:
-          type: string
-          description: The name of the group
-          example: developers
-        permission:
-          type: string
-          description: The permission level granted to the group
-          enum:
-          - read
-          - write
-          - admin
-          example: write
-        group_id:
-          type: integer
-          format: int64
-          description: The ID of the group
-          example: 12345
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-        message:
-          type: string
-    image:
-      type: object
-      properties:
-        architecture:
-          type: string
-          description: CPU architecture
-        features:
-          type: string
-          description: CPU features
-        variant:
-          type: string
-          description: CPU variant
-        digest:
-          type:
-          - string
-          - 'null'
-          description: image digest
-        layers:
+        enabled:
+          type: boolean
+          description: Whether immutable tags are enabled
+        rules:
           type: array
           items:
-            $ref: '#/components/schemas/layer'
-        os:
-          type: string
-          description: operating system
-        os_features:
-          type: string
-          description: OS features
-        os_version:
-          type: string
-          description: OS version
-        size:
-          type: integer
-          description: size of the image
-        status:
-          type: string
-          enum:
-          - active
-          - inactive
-          description: Status of the image
-        last_pulled:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last pull
-        last_pushed:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last push
+            type: string
+          description: List of immutable tag rules
+      required:
+      - enabled
+      - rules
+    list_repositories_response:
+      allOf:
+      - $ref: '#/components/schemas/page'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/repository_list_entry'
     repository_list_entry:
       type: object
       properties:
@@ -878,60 +844,49 @@ components:
           description: Storage size in bytes used by this repository
           minimum: 0
           example: 232719127
-    tag:
+    RepositoryGroupCreationRequest:
+      type: object
+      required:
+      - group_id
+      - permission
+      properties:
+        group_id:
+          type: integer
+          format: int64
+          description: The ID of the organization group to grant access to
+          example: 12345
+        permission:
+          type: string
+          description: 'The permission level to grant to the group:
+
+            - read: Can view and pull from the repository
+
+            - write: Can view, pull, and push to the repository
+
+            - admin: Can view, pull, push, and manage repository settings
+
+            '
+          enum:
+          - read
+          - write
+          - admin
+          example: write
+    Error:
       type: object
       properties:
-        id:
-          type: integer
-          description: tag ID
-        images:
-          type: object
-          $ref: '#/components/schemas/image'
-        creator:
-          type: integer
-          description: ID of the user that pushed the tag
-        last_updated:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last update
-        last_updater:
-          type: integer
-          description: ID of the last user that updated the tag
-        last_updater_username:
+        detail:
           type: string
-          description: Hub username of the user that updated the tag
-        name:
+        message:
           type: string
-          description: name of the tag
-        repository:
-          type: integer
-          description: repository ID
-        full_size:
-          type: integer
-          description: compressed size (sum of all layers) of the tagged image
-        v2:
-          type: string
-          description: repository API version
-        status:
-          type: string
-          enum:
-          - active
-          - inactive
-          description: whether a tag has been pushed to or pulled in the past month
-        tag_last_pulled:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last pull
-        tag_last_pushed:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last push
+    paginated_tags:
+      allOf:
+      - $ref: '#/components/schemas/page'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/tag'
     page:
       type: object
       properties:
@@ -948,36 +903,57 @@ components:
           - string
           - 'null'
           description: link to previous page of results  if any
-    paginated_tags:
-      allOf:
-      - $ref: '#/components/schemas/page'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/tag'
-    error:
+    image:
       type: object
       properties:
-        errinfo:
-          type: object
+        architecture:
+          type: string
+          description: CPU architecture
+        features:
+          type: string
+          description: CPU features
+        variant:
+          type: string
+          description: CPU variant
+        digest:
+          type:
+          - string
+          - 'null'
+          description: image digest
+        layers:
+          type: array
           items:
-            type: string
-        detail:
+            $ref: '#/components/schemas/layer'
+        os:
           type: string
-        message:
+          description: operating system
+        os_features:
           type: string
-    immutable_tags_verify_request:
-      type: object
-      properties:
-        regex:
+          description: OS features
+        os_version:
           type: string
-          pattern: ^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$
-          description: 'Immutable tags rule regex pattern. Must match format: [a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*'
-          example: v.*
-      required:
-      - regex
+          description: OS version
+        size:
+          type: integer
+          description: size of the image
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          description: Status of the image
+        last_pulled:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last pull
+        last_pushed:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last push
     repository_info:
       type: object
       properties:
@@ -1109,97 +1085,121 @@ components:
       - content_types
       - categories
       - immutable_tags_settings
-    repo_creation_request:
+    RepositoryGroup:
       type: object
-      required:
-      - name
-      - namespace
       properties:
-        name:
+        group_name:
           type: string
-          description: "The name of the repository. Must be 2-255 characters long and may only include \nalphanumeric characters, periods (.), underscores (_), or hyphens (-). \nLetters must be lowercase.\n"
-          minLength: 2
-          maxLength: 255
-          pattern: ^[a-z0-9]+(?:[._-][a-z0-9]+)*$
-          example: my-app
-        namespace:
+          description: The name of the group
+          example: developers
+        permission:
           type: string
-          description: The namespace where the repository will be created
-          example: myorganization
-        description:
-          type: string
-          description: Short description of the repository
-          maxLength: 100
-          example: A sample application repository
-        full_description:
-          type: string
-          description: Detailed description of the repository
-          maxLength: 25000
-          example: This is a comprehensive description of my application repository that contains additional details about the project, its purpose, usage instructions, and other relevant information.
-        registry:
-          type: string
-          description: The registry where the repository will be hosted
-          example: docker.io
-        is_private:
+          description: The permission level granted to the group
+          enum:
+          - read
+          - write
+          - admin
+          example: write
+        group_id:
+          type: integer
+          format: int64
+          description: The ID of the group
+          example: 12345
+    repo_permissions:
+      type: object
+      properties:
+        read:
           type: boolean
-          description: Whether the repository should be private
-          default: false
-          example: false
-    list_repositories_response:
-      allOf:
-      - $ref: '#/components/schemas/page'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/repository_list_entry'
-    immutable_tags_verify_response:
+          description: Read permission
+        write:
+          type: boolean
+          description: Write permission
+        admin:
+          type: boolean
+          description: Admin permission
+      required:
+      - read
+      - write
+      - admin
+    error:
       type: object
       properties:
-        tags:
-          type: array
+        errinfo:
+          type: object
           items:
             type: string
-          description: List of tags that match the provided regex pattern
-          example:
-          - v1.0.0
-          - v2.1.3
-          - latest
-      required:
-      - tags
-  parameters:
-    namespace:
-      in: path
-      name: namespace
-      required: true
-      schema:
-        type: string
-    repository:
-      in: path
-      name: repository
-      required: true
-      schema:
-        type: string
+        detail:
+          type: string
+        message:
+          type: string
+    layer:
+      type: object
+      properties:
+        digest:
+          type:
+          - string
+          - 'null'
+          description: image layer digest
+        size:
+          type: integer
+          description: size of the layer
+        instruction:
+          type: string
+          description: Dockerfile instruction
     tag:
-      in: path
-      name: tag
-      required: true
-      schema:
-        type: string
-  requestBodies:
-    immutable_tags_verify_request:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/immutable_tags_verify_request'
-    update_repository_immutable_tags_request:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/update_repository_immutable_tags_request'
+      type: object
+      properties:
+        id:
+          type: integer
+          description: tag ID
+        images:
+          type: object
+          $ref: '#/components/schemas/image'
+        creator:
+          type: integer
+          description: ID of the user that pushed the tag
+        last_updated:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last update
+        last_updater:
+          type: integer
+          description: ID of the last user that updated the tag
+        last_updater_username:
+          type: string
+          description: Hub username of the user that updated the tag
+        name:
+          type: string
+          description: name of the tag
+        repository:
+          type: integer
+          description: repository ID
+        full_size:
+          type: integer
+          description: compressed size (sum of all layers) of the tagged image
+        v2:
+          type: string
+          description: repository API version
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          description: whether a tag has been pushed to or pulled in the past month
+        tag_last_pulled:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last pull
+        tag_last_pushed:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last push
   securitySchemes:
     bearerAuth:
       type: http
