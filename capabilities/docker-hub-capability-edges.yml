@@ -1,0 +1,24 @@
+slug: docker-hub
+provider: Docker Hub
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: SCIM
+  spec_file: docker-hub-scim-api-openapi.yml
+  capability_id: BC-4230.50
+  capability_id_l1: BC-4230
+  capability_name: Tenant Identity Federation
+  confidence: 0.7
+  evidence: GET /v2/scim/2.0/Users  List users; POST /v2/scim/2.0/Users  Create user; schema scim_user
+  reason: SCIM user provisioning endpoints exposed by the SaaS to tenant identity providers map directly
+    to the sub-capability described as 'lifecycle of tenant user accounts via single sign-on and SCIM'.

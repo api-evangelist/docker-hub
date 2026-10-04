@@ -239,6 +239,9 @@ tags:
 type: Index
 access: 3rd-Party
 common:
+- type: CapabilityMap
+  url: capabilities/docker-hub-capability-edges.yml
+  name: Docker Hub Business Capability Map
 - type: AgenticAccess
   url: agentic-access/docker-hub-agentic-access.yml
 - type: VulnerabilityDisclosure
