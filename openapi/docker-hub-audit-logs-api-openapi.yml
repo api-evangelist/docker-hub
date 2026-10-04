@@ -433,47 +433,6 @@ paths:
       - Audit Logs
 components:
   schemas:
-    rpcStatus:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/protobufAny'
-    GetAuditLogsResponse:
-      type: object
-      properties:
-        logs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditLog'
-          description: List of audit log events.
-      description: GetAuditLogs response.
-    GetAuditActionsResponse:
-      type: object
-      properties:
-        actions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AuditLogActions'
-          description: Map of audit log actions.
-      description: GetAuditActions response.
-    AuditLogActions:
-      type: object
-      properties:
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditLogAction'
-          description: List of audit log actions.
-        label:
-          type: string
-          description: Grouping label for a particular set of audit log actions.
     AuditLog:
       type: object
       properties:
@@ -495,14 +454,15 @@ components:
         action_description:
           type: string
       description: Audit log event.
-    protobufAny:
+    GetAuditActionsResponse:
       type: object
       properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AuditLogActions'
+          description: Map of audit log actions.
+      description: GetAuditActions response.
     AuditLogAction:
       type: object
       properties:
@@ -516,6 +476,46 @@ components:
           type: string
           description: Label for audit log action.
       description: Audit Log action
+    rpcStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
+    AuditLogActions:
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogAction'
+          description: List of audit log actions.
+        label:
+          type: string
+          description: Grouping label for a particular set of audit log actions.
+    GetAuditLogsResponse:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLog'
+          description: List of audit log events.
+      description: GetAuditLogs response.
+    protobufAny:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
   securitySchemes:
     bearerAuth:
       type: http

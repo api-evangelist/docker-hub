@@ -310,7 +310,229 @@ paths:
       operationId: putV2Scim20UsersById
       x-operation-id-source: derived
 components:
+  responses:
+    scim_get_users_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            type: object
+            properties:
+              schemas:
+                type: array
+                items:
+                  type: string
+                example:
+                - urn:ietf:params:scim:api:messages:2.0:ListResponse
+              totalResults:
+                type: integer
+                example: 1
+              startIndex:
+                type: integer
+                example: 1
+              itemsPerPage:
+                type: integer
+                example: 10
+              resources:
+                type: array
+                items:
+                  $ref: '#/components/schemas/scim_user'
+    scim_error:
+      description: Internal Error
+      content:
+        application/scim+json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/scim_error'
+            - properties:
+                status:
+                  example: '500'
+    scim_forbidden:
+      description: Forbidden
+      content:
+        application/scim+json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/scim_error'
+            - properties:
+                status:
+                  example: '403'
+    scim_not_found:
+      description: Not Found
+      content:
+        application/scim+json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/scim_error'
+            - properties:
+                status:
+                  example: '404'
+    scim_unauthorized:
+      description: Unauthorized
+      content:
+        application/scim+json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/scim_error'
+            - properties:
+                status:
+                  example: '401'
+    scim_get_resource_types_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            type: object
+            properties:
+              schemas:
+                type: array
+                items:
+                  type: string
+                  example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+              totalResults:
+                type: integer
+                example: 1
+              resources:
+                type: array
+                items:
+                  $ref: '#/components/schemas/scim_resource_type'
+    scim_update_user_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/scim_user'
+    scim_conflict:
+      description: Conflict
+      content:
+        application/scim+json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/scim_error'
+            - properties:
+                status:
+                  example: '409'
+    scim_get_service_provider_config_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/scim_service_provider_config'
+    scim_get_user_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/scim_user'
+    scim_get_resource_type_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/scim_resource_type'
+    scim_get_schema_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/scim_schema'
+    scim_create_user_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/scim_user'
+    scim_get_schemas_resp:
+      description: ''
+      content:
+        application/scim+json:
+          schema:
+            type: object
+            properties:
+              schemas:
+                type: array
+                items:
+                  type: string
+                  example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+              totalResults:
+                type: integer
+                example: 1
+              resources:
+                type: array
+                items:
+                  $ref: '#/components/schemas/scim_schema'
+    scim_bad_request:
+      description: Bad Request
+      content:
+        application/scim+json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/scim_error'
+            - properties:
+                status:
+                  example: '400'
+                scimType:
+                  type: string
+                  description: Some types of errors will return this per the specification.
   schemas:
+    scim_user_schemas:
+      type: array
+      items:
+        type: string
+        example: urn:ietf:params:scim:schemas:core:2.0:User
+        minItems: 1
+    scim_user:
+      type: object
+      properties:
+        schemas:
+          $ref: '#/components/schemas/scim_user_schemas'
+        id:
+          $ref: '#/components/schemas/scim_user_id'
+        userName:
+          $ref: '#/components/schemas/scim_user_username'
+        name:
+          $ref: '#/components/schemas/scim_user_name'
+        displayName:
+          $ref: '#/components/schemas/scim_user_display_name'
+        active:
+          type: boolean
+          example: true
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/scim_email'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/scim_group'
+        meta:
+          type: object
+          properties:
+            resourceType:
+              type: string
+              example: User
+            location:
+              type: string
+              example: https://hub.docker.com/v2/scim/2.0/Users/d80f7c79-7730-49d8-9a41-7c42fb622d9c
+            created:
+              type: string
+              format: date-time
+              description: The creation date for the user as a RFC3339 formatted string.
+              example: '2022-05-20T00:54:18Z'
+            lastModified:
+              type: string
+              format: date-time
+              description: The date the user was last modified as a RFC3339 formatted string.
+              example: '2022-05-20T00:54:18Z'
+    scim_user_name:
+      type: object
+      properties:
+        givenName:
+          type: string
+          example: Jon
+        familyName:
+          type: string
+          example: Snow
     scim_group:
       type: object
       properties:
@@ -320,6 +542,10 @@ components:
         display:
           type: string
           example: nightswatch
+    scim_user_username:
+      type: string
+      description: The user's email address. This must be reachable via email.
+      example: jon.snow@docker.com
     scim_schema_parent_attribute:
       allOf:
       - $ref: '#/components/schemas/scim_schema_attribute'
@@ -329,7 +555,59 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/scim_schema_attribute'
-    scim_resource_type:
+    scim_user_id:
+      type: string
+      example: d80f7c79-7730-49d8-9a41-7c42fb622d9c
+      description: The unique identifier for the user. A v4 UUID.
+    scim_error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status code for the response in string format.
+        schemas:
+          type: array
+          items:
+            type: string
+            default: urn:ietf:params:scim:api:messages:2.0:Error
+        detail:
+          type: string
+          description: Details about why the request failed.
+    scim_schema_attribute:
+      type: object
+      properties:
+        name:
+          type: string
+          example: userName
+        type:
+          enum:
+          - string
+          - boolean
+          - complex
+          type: string
+          example: string
+        multiValued:
+          type: boolean
+          example: false
+        description:
+          type: string
+          example: Unique identifier for the User, typically used by the user to directly authenticate to the service provider. Each User MUST include a non-empty userName value. This identifier MUST be unique across the service provider's entire set of Users.
+        required:
+          type: boolean
+          example: true
+        caseExact:
+          type: boolean
+          example: false
+        mutability:
+          type: string
+          example: readWrite
+        returned:
+          type: string
+          example: default
+        uniqueness:
+          type: string
+          example: server
+    scim_schema:
       type: object
       properties:
         schemas:
@@ -337,26 +615,21 @@ components:
           items:
             type: string
           example:
-          - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+          - urn:ietf:params:scim:schemas:core:2.0:Schema
         id:
           type: string
-          example: User
+          example: urn:ietf:params:scim:schemas:core:2.0:User
         name:
           type: string
           example: User
         description:
           type: string
-          example: User
-        endpoint:
-          type: string
-          example: /Users
-        schema:
-          type: string
-          example: urn:ietf:params:scim:schemas:core:2.0:User
-    scim_user_display_name:
-      type: string
-      description: The username in Docker. Also known as the "Docker ID".
-      example: jonsnow
+          example: User Account
+        attributes:
+          type: array
+          example: []
+          items:
+            $ref: '#/components/schemas/scim_schema_parent_attribute'
     scim_service_provider_config:
       type: object
       properties:
@@ -426,11 +699,7 @@ components:
             type:
               type: string
               example: oauthbearertoken
-    scim_user_username:
-      type: string
-      description: The user's email address. This must be reachable via email.
-      example: jon.snow@docker.com
-    scim_schema:
+    scim_resource_type:
       type: object
       properties:
         schemas:
@@ -438,84 +707,26 @@ components:
           items:
             type: string
           example:
-          - urn:ietf:params:scim:schemas:core:2.0:Schema
+          - urn:ietf:params:scim:schemas:core:2.0:ResourceType
         id:
           type: string
-          example: urn:ietf:params:scim:schemas:core:2.0:User
+          example: User
         name:
           type: string
           example: User
         description:
           type: string
-          example: User Account
-        attributes:
-          type: array
-          example: []
-          items:
-            $ref: '#/components/schemas/scim_schema_parent_attribute'
-    scim_schema_attribute:
-      type: object
-      properties:
-        name:
+          example: User
+        endpoint:
           type: string
-          example: userName
-        type:
-          enum:
-          - string
-          - boolean
-          - complex
+          example: /Users
+        schema:
           type: string
-          example: string
-        multiValued:
-          type: boolean
-          example: false
-        description:
-          type: string
-          example: Unique identifier for the User, typically used by the user to directly authenticate to the service provider. Each User MUST include a non-empty userName value. This identifier MUST be unique across the service provider's entire set of Users.
-        required:
-          type: boolean
-          example: true
-        caseExact:
-          type: boolean
-          example: false
-        mutability:
-          type: string
-          example: readWrite
-        returned:
-          type: string
-          example: default
-        uniqueness:
-          type: string
-          example: server
-    scim_error:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The status code for the response in string format.
-        schemas:
-          type: array
-          items:
-            type: string
-            default: urn:ietf:params:scim:api:messages:2.0:Error
-        detail:
-          type: string
-          description: Details about why the request failed.
-    scim_user_name:
-      type: object
-      properties:
-        givenName:
-          type: string
-          example: Jon
-        familyName:
-          type: string
-          example: Snow
-    scim_user_schemas:
-      type: array
-      items:
-        type: string
-        example: urn:ietf:params:scim:schemas:core:2.0:User
-        minItems: 1
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+    scim_user_display_name:
+      type: string
+      description: The username in Docker. Also known as the "Docker ID".
+      example: jonsnow
     scim_email:
       type: object
       properties:
@@ -528,234 +739,7 @@ components:
         primary:
           type: boolean
           example: true
-    scim_user:
-      type: object
-      properties:
-        schemas:
-          $ref: '#/components/schemas/scim_user_schemas'
-        id:
-          $ref: '#/components/schemas/scim_user_id'
-        userName:
-          $ref: '#/components/schemas/scim_user_username'
-        name:
-          $ref: '#/components/schemas/scim_user_name'
-        displayName:
-          $ref: '#/components/schemas/scim_user_display_name'
-        active:
-          type: boolean
-          example: true
-        emails:
-          type: array
-          items:
-            $ref: '#/components/schemas/scim_email'
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/scim_group'
-        meta:
-          type: object
-          properties:
-            resourceType:
-              type: string
-              example: User
-            location:
-              type: string
-              example: https://hub.docker.com/v2/scim/2.0/Users/d80f7c79-7730-49d8-9a41-7c42fb622d9c
-            created:
-              type: string
-              format: date-time
-              description: The creation date for the user as a RFC3339 formatted string.
-              example: '2022-05-20T00:54:18Z'
-            lastModified:
-              type: string
-              format: date-time
-              description: The date the user was last modified as a RFC3339 formatted string.
-              example: '2022-05-20T00:54:18Z'
-    scim_user_id:
-      type: string
-      example: d80f7c79-7730-49d8-9a41-7c42fb622d9c
-      description: The unique identifier for the user. A v4 UUID.
-  responses:
-    scim_error:
-      description: Internal Error
-      content:
-        application/scim+json:
-          schema:
-            allOf:
-            - $ref: '#/components/schemas/scim_error'
-            - properties:
-                status:
-                  example: '500'
-    scim_get_resource_types_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            type: object
-            properties:
-              schemas:
-                type: array
-                items:
-                  type: string
-                  example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-              totalResults:
-                type: integer
-                example: 1
-              resources:
-                type: array
-                items:
-                  $ref: '#/components/schemas/scim_resource_type'
-    scim_unauthorized:
-      description: Unauthorized
-      content:
-        application/scim+json:
-          schema:
-            allOf:
-            - $ref: '#/components/schemas/scim_error'
-            - properties:
-                status:
-                  example: '401'
-    scim_forbidden:
-      description: Forbidden
-      content:
-        application/scim+json:
-          schema:
-            allOf:
-            - $ref: '#/components/schemas/scim_error'
-            - properties:
-                status:
-                  example: '403'
-    scim_get_resource_type_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            $ref: '#/components/schemas/scim_resource_type'
-    scim_conflict:
-      description: Conflict
-      content:
-        application/scim+json:
-          schema:
-            allOf:
-            - $ref: '#/components/schemas/scim_error'
-            - properties:
-                status:
-                  example: '409'
-    scim_create_user_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            $ref: '#/components/schemas/scim_user'
-    scim_get_schema_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            $ref: '#/components/schemas/scim_schema'
-    scim_update_user_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            $ref: '#/components/schemas/scim_user'
-    scim_bad_request:
-      description: Bad Request
-      content:
-        application/scim+json:
-          schema:
-            allOf:
-            - $ref: '#/components/schemas/scim_error'
-            - properties:
-                status:
-                  example: '400'
-                scimType:
-                  type: string
-                  description: Some types of errors will return this per the specification.
-    scim_get_service_provider_config_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            $ref: '#/components/schemas/scim_service_provider_config'
-    scim_get_users_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            type: object
-            properties:
-              schemas:
-                type: array
-                items:
-                  type: string
-                example:
-                - urn:ietf:params:scim:api:messages:2.0:ListResponse
-              totalResults:
-                type: integer
-                example: 1
-              startIndex:
-                type: integer
-                example: 1
-              itemsPerPage:
-                type: integer
-                example: 10
-              resources:
-                type: array
-                items:
-                  $ref: '#/components/schemas/scim_user'
-    scim_not_found:
-      description: Not Found
-      content:
-        application/scim+json:
-          schema:
-            allOf:
-            - $ref: '#/components/schemas/scim_error'
-            - properties:
-                status:
-                  example: '404'
-    scim_get_schemas_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            type: object
-            properties:
-              schemas:
-                type: array
-                items:
-                  type: string
-                  example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-              totalResults:
-                type: integer
-                example: 1
-              resources:
-                type: array
-                items:
-                  $ref: '#/components/schemas/scim_schema'
-    scim_get_user_resp:
-      description: ''
-      content:
-        application/scim+json:
-          schema:
-            $ref: '#/components/schemas/scim_user'
   requestBodies:
-    scim_create_user_request:
-      required: true
-      content:
-        application/scim+json:
-          schema:
-            type: object
-            required:
-            - schemas
-            - userName
-            properties:
-              schemas:
-                $ref: '#/components/schemas/scim_user_schemas'
-              userName:
-                $ref: '#/components/schemas/scim_user_username'
-              name:
-                $ref: '#/components/schemas/scim_user_name'
     scim_update_user_request:
       required: true
       content:
@@ -775,7 +759,30 @@ components:
                 type: boolean
                 default: false
                 description: If this is omitted from the request, it will default to false resulting in a deactivated user.
+    scim_create_user_request:
+      required: true
+      content:
+        application/scim+json:
+          schema:
+            type: object
+            required:
+            - schemas
+            - userName
+            properties:
+              schemas:
+                $ref: '#/components/schemas/scim_user_schemas'
+              userName:
+                $ref: '#/components/schemas/scim_user_username'
+              name:
+                $ref: '#/components/schemas/scim_user_name'
   parameters:
+    scim_attributes:
+      in: query
+      name: attributes
+      schema:
+        type: string
+      description: Comma delimited list of attributes to limit to in the response.
+      example: userName,displayName
     scim_user_id:
       name: id
       in: path
@@ -784,13 +791,6 @@ components:
       description: The user ID.
       example: d80f7c79-7730-49d8-9a41-7c42fb622d9c
       required: true
-    scim_attributes:
-      in: query
-      name: attributes
-      schema:
-        type: string
-      description: Comma delimited list of attributes to limit to in the response.
-      example: userName,displayName
   securitySchemes:
     bearerAuth:
       type: http

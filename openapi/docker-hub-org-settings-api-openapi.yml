@@ -101,31 +101,7 @@ paths:
       operationId: putV2OrgsByNameSettings
       x-operation-id-source: derived
 components:
-  responses:
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    orgSettings:
-      type: object
-      properties:
-        restricted_images:
-          $ref: '#/components/schemas/restricted_images'
     restricted_images:
       type: object
       properties:
@@ -148,6 +124,30 @@ components:
           type: string
         message:
           type: string
+    orgSettings:
+      type: object
+      properties:
+        restricted_images:
+          $ref: '#/components/schemas/restricted_images'
+  responses:
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

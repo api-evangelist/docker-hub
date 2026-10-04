@@ -155,13 +155,86 @@ paths:
           description: Authentication failed
           $ref: '#/components/responses/unauthorized'
 components:
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
     AuthCreateTokenResponse:
       description: successful access token response
       type: object
       properties:
         access_token:
           description: The created access token. This expires in 10 minutes.
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    PostUsers2FALoginErrorResponse:
+      description: failed second factor login response.
+      type: object
+      properties:
+        detail:
+          description: Description of the error.
+          type: string
+          example: Incorrect authentication credentials
+    Users2FALoginRequest:
+      description: Second factor user login details
+      type: object
+      required:
+      - login_2fa_token
+      - code
+      properties:
+        login_2fa_token:
+          description: The intermediate 2FA token returned from `/v2/users/login` API.
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        code:
+          description: 'The Time-based One-Time Password of the Docker Hub account to authenticate with.
+
+            '
+          type: string
+          example: 123456
+    PostUsersLoginErrorResponse:
+      description: failed user login response or second factor required
+      type: object
+      required:
+      - detail
+      properties:
+        detail:
+          description: Description of the error.
+          type: string
+          example: Incorrect authentication credentials
+        login_2fa_token:
+          description: 'Short time lived token to be used on `/v2/users/2fa-login` to complete the authentication. This field is present only if 2FA is enabled.
+
+            '
+          type:
+          - string
+          - 'null'
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    PostUsersLoginSuccessResponse:
+      description: successful user login response
+      type: object
+      properties:
+        token:
+          description: 'Created authentication token.
+
+            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
+
+            '
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     UsersLoginRequest:
@@ -181,79 +254,6 @@ components:
             '
           type: string
           example: p@ssw0rd
-    PostUsersLoginSuccessResponse:
-      description: successful user login response
-      type: object
-      properties:
-        token:
-          description: 'Created authentication token.
-
-            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
-
-            '
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    PostUsersLoginErrorResponse:
-      description: failed user login response or second factor required
-      type: object
-      required:
-      - detail
-      properties:
-        detail:
-          description: Description of the error.
-          type: string
-          example: Incorrect authentication credentials
-        login_2fa_token:
-          description: 'Short time lived token to be used on `/v2/users/2fa-login` to complete the authentication. This field is present only if 2FA is enabled.
-
-            '
-          type:
-          - string
-          - 'null'
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    Users2FALoginRequest:
-      description: Second factor user login details
-      type: object
-      required:
-      - login_2fa_token
-      - code
-      properties:
-        login_2fa_token:
-          description: The intermediate 2FA token returned from `/v2/users/login` API.
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-        code:
-          description: 'The Time-based One-Time Password of the Docker Hub account to authenticate with.
-
-            '
-          type: string
-          example: 123456
-    PostUsers2FALoginErrorResponse:
-      description: failed second factor login response.
-      type: object
-      properties:
-        detail:
-          description: Description of the error.
-          type: string
-          example: Incorrect authentication credentials
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   securitySchemes:
     bearerAuth:
       type: http

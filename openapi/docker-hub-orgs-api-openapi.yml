@@ -214,74 +214,7 @@ paths:
       operationId: deleteV2OrgsByOrgNameMembersByUsername
       x-operation-id-source: derived
 components:
-  parameters:
-    invites:
-      in: query
-      name: invites
-      description: Include invites in the response.
-      schema:
-        type: boolean
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
-    username:
-      in: path
-      name: username
-      description: Username, identifier for the user (namespace, DockerID).
-      schema:
-        type: string
-        example: jonsnow
-      required: true
-    type:
-      in: query
-      name: type
-      schema:
-        type: string
-        enum:
-        - all
-        - invitee
-        - member
-      example: all
-    search:
-      in: query
-      name: search
-      schema:
-        type: integer
-      description: Search term.
-    page:
-      in: query
-      name: page
-      description: Page number (starts on 1).
-      schema:
-        type: integer
-    role:
-      in: query
-      name: role
-      schema:
-        type: string
-        enum:
-        - owner
-        - editor
-        - member
-      example: owner
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
-      schema:
-        type: integer
   responses:
-    bad_request:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     forbidden:
       description: Forbidden
       content:
@@ -300,40 +233,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
-    user:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 0ab70deb065a43fcacd55d48caa945d8
-          description: The UUID trimmed
-        company:
-          type: string
-          example: Docker Inc
-        date_joined:
-          type: string
-          example: '2021-01-05T21:06:53.506400Z'
-        full_name:
-          type: string
-          example: Jon Snow
-        gravatar_email:
-          type: string
-        gravatar_url:
-          type: string
-        location:
-          type: string
-        profile_url:
-          type: string
-        type:
-          type: string
-          enum:
-          - User
-          - Org
-          example: User
-        username:
-          type: string
-          example: dockeruser
     org_member_paginated:
       type: object
       properties:
@@ -401,6 +307,39 @@ components:
           type: string
           description: "Last desktop version the user used. To access this field, you must have insights visible for your organization. See \n[Insights](https://docs.docker.com/admin/insights/#view-insights-for-organization-users).\n"
           example: 4.29.0
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0ab70deb065a43fcacd55d48caa945d8
+          description: The UUID trimmed
+        company:
+          type: string
+          example: Docker Inc
+        date_joined:
+          type: string
+          example: '2021-01-05T21:06:53.506400Z'
+        full_name:
+          type: string
+          example: Jon Snow
+        gravatar_email:
+          type: string
+        gravatar_url:
+          type: string
+        location:
+          type: string
+        profile_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - User
+          - Org
+          example: User
+        username:
+          type: string
+          example: dockeruser
     error:
       type: object
       properties:
@@ -412,6 +351,67 @@ components:
           type: string
         message:
           type: string
+  parameters:
+    type:
+      in: query
+      name: type
+      schema:
+        type: string
+        enum:
+        - all
+        - invitee
+        - member
+      example: all
+    invites:
+      in: query
+      name: invites
+      description: Include invites in the response.
+      schema:
+        type: boolean
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
+    page:
+      in: query
+      name: page
+      description: Page number (starts on 1).
+      schema:
+        type: integer
+    username:
+      in: path
+      name: username
+      description: Username, identifier for the user (namespace, DockerID).
+      schema:
+        type: string
+        example: jonsnow
+      required: true
+    role:
+      in: query
+      name: role
+      schema:
+        type: string
+        enum:
+        - owner
+        - editor
+        - member
+      example: owner
+    search:
+      in: query
+      name: search
+      schema:
+        type: integer
+      description: Search term.
   securitySchemes:
     bearerAuth:
       type: http

@@ -158,9 +158,26 @@ paths:
       operationId: deleteV2AccessTokensByUuid
       x-operation-id-source: derived
 components:
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValueError'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    patchAccessTokenResponse:
-      $ref: '#/components/schemas/accessToken'
     patchAccessTokenRequest:
       type: object
       properties:
@@ -172,6 +189,80 @@ components:
         is_active:
           type: boolean
           example: false
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+        message:
+          type: string
+    getAccessTokensResponse:
+      type: object
+      properties:
+        count:
+          type: number
+          example: 1
+        next:
+          type: string
+          example: null
+        previous:
+          type: string
+          example: null
+        active_count:
+          type: number
+          example: 1
+        results:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/accessToken'
+            - type: object
+              properties:
+                token:
+                  type: string
+                  example: ''
+    ValueError:
+      type: object
+      description: Used to error if input validation fails.
+      properties:
+        fields:
+          type: object
+          items:
+            type: string
+        text:
+          type: string
+    patchAccessTokenResponse:
+      $ref: '#/components/schemas/accessToken'
+    createAccessTokenRequest:
+      type: object
+      required:
+      - token_label
+      - scopes
+      properties:
+        token_label:
+          type: string
+          description: Friendly name for you to identify the token.
+          example: My read only token
+          minLength: 1
+          maxLength: 100
+        scopes:
+          type: array
+          description: 'Valid scopes: "repo:admin", "repo:write", "repo:read", "repo:public_read"
+
+            '
+          example:
+          - repo:read
+          items:
+            type: string
+        expires_at:
+          type: string
+          description: 'Optional expiration date for the token.
+
+            If omitted, the token will remain valid indefinitely.
+
+            '
+          format: date-time
+          example: '2021-10-28T18:30:19.520861Z'
     accessToken:
       type: object
       properties:
@@ -219,97 +310,6 @@ components:
           example: '2021-10-28T18:30:19.520861Z'
     createAccessTokensResponse:
       $ref: '#/components/schemas/accessToken'
-    getAccessTokensResponse:
-      type: object
-      properties:
-        count:
-          type: number
-          example: 1
-        next:
-          type: string
-          example: null
-        previous:
-          type: string
-          example: null
-        active_count:
-          type: number
-          example: 1
-        results:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/accessToken'
-            - type: object
-              properties:
-                token:
-                  type: string
-                  example: ''
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-        message:
-          type: string
-    createAccessTokenRequest:
-      type: object
-      required:
-      - token_label
-      - scopes
-      properties:
-        token_label:
-          type: string
-          description: Friendly name for you to identify the token.
-          example: My read only token
-          minLength: 1
-          maxLength: 100
-        scopes:
-          type: array
-          description: 'Valid scopes: "repo:admin", "repo:write", "repo:read", "repo:public_read"
-
-            '
-          example:
-          - repo:read
-          items:
-            type: string
-        expires_at:
-          type: string
-          description: 'Optional expiration date for the token.
-
-            If omitted, the token will remain valid indefinitely.
-
-            '
-          format: date-time
-          example: '2021-10-28T18:30:19.520861Z'
-    ValueError:
-      type: object
-      description: Used to error if input validation fails.
-      properties:
-        fields:
-          type: object
-          items:
-            type: string
-        text:
-          type: string
-  responses:
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ValueError'
   securitySchemes:
     bearerAuth:
       type: http
