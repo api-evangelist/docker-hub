@@ -239,6 +239,12 @@ tags:
 type: Index
 access: 3rd-Party
 common:
+- type: Plans
+  url: plans/docker-hub-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/docker-hub-rate-limits.yml
+- type: FinOps
+  url: finops/docker-hub-finops.yml
 - type: CapabilityMap
   url: capabilities/docker-hub-capability-edges.yml
   name: Docker Hub Business Capability Map
