@@ -1,0 +1,14 @@
+fetched: '2026-10-13'
+method: fetched
+source: https://docs.docker.com/docker-hub/repos/manage/hub-images/oci-artifacts/
+page: https://docs.docker.com/docker-hub/repos/manage/hub-images/oci-artifacts/
+file: docker-hub-oci-distribution-1.md
+bytes: 29365
+sha256: a50ab3f6c1f1ce9b1d8d8fb5ae71c2418c367e6fd006cbbb71538d7bcf4e9a03
+anchor: open-container-initiative
+shape: oci-distribution
+classification: declares-compatibility
+quote: 'You can use Docker Hub to store any kind of software artifact, not just container images. A software artifact
+  is any item produced during the software development process that contributes to the creation, maintenance, or
+  understanding of the software. Docker Hub supports OCI artifacts by leveraging '
+note: text extracted from the provider's own page (tags stripped), saved for evidence

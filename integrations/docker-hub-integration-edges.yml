@@ -1,0 +1,20 @@
+edges:
+- partner_name: Open Container Initiative
+  partner: open-container-initiative
+  partner_match: shape-anchor
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  shape: oci-distribution
+  type: docs
+  degree: declared-unqualified
+  evidence: https://docs.docker.com/docker-hub/repos/manage/hub-images/oci-artifacts/
+  evidence_kind: own-docs
+  evidence_file: https://github.com/api-evangelist/docker-hub/blob/main/evidence/compatibility/docker-hub-oci-distribution-1.md
+  quote: You can use Docker Hub to store any kind of software artifact, not just container images. A software artifact
+    is any item produced during the software development process that contributes to the creation, maintenance,
+    or understanding of th
+  detected_by: sweep-shape-compat.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched
