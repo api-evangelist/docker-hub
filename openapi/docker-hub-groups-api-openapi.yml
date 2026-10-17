@@ -321,38 +321,40 @@ paths:
       operationId: deleteV2OrgsByOrgNameGroupsByGroupNameMembersByUsername
       x-operation-id-source: derived
 components:
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    internal_error:
-      description: Internal
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   schemas:
+    org_group:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 10
+          description: Group ID
+        uuid:
+          type: string
+          description: UUID for the group
+        name:
+          type: string
+          example: mygroup
+          description: Name of the group
+        description:
+          type: string
+          example: Groups description
+          description: Description of the group
+        member_count:
+          type: number
+          example: 10
+          description: Member count of the group
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
     group_member:
       type: object
       properties:
@@ -390,39 +392,6 @@ components:
         email:
           type: string
           example: dockeruser@docker.com
-    org_group:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 10
-          description: Group ID
-        uuid:
-          type: string
-          description: UUID for the group
-        name:
-          type: string
-          example: mygroup
-          description: Name of the group
-        description:
-          type: string
-          example: Groups description
-          description: Description of the group
-        member_count:
-          type: number
-          example: 10
-          description: Member count of the group
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
   requestBodies:
     add_member_to_org_group:
       required: true
@@ -437,14 +406,6 @@ components:
                 type: string
                 example: jonsnow
   parameters:
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
     group_name:
       in: path
       name: group_name
@@ -453,6 +414,12 @@ components:
         type: string
         example: developers
       required: true
+    page_size:
+      in: query
+      name: page_size
+      description: Number of items (rows) per page.
+      schema:
+        type: integer
     page:
       in: query
       name: page
@@ -467,12 +434,45 @@ components:
         type: string
         example: jonsnow
       required: true
-    page_size:
-      in: query
-      name: page_size
-      description: Number of items (rows) per page.
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
       schema:
-        type: integer
+        type: string
+      example: myorganization
+      required: true
+  responses:
+    internal_error:
+      description: Internal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   securitySchemes:
     bearerAuth:
       type: http

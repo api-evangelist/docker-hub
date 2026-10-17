@@ -141,37 +141,6 @@ paths:
       operationId: postV2InvitesBulk
       x-operation-id-source: derived
 components:
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   schemas:
     invite:
       type: object
@@ -242,21 +211,6 @@ components:
           type: string
         message:
           type: string
-  parameters:
-    org_name:
-      in: path
-      name: org_name
-      description: Name of the organization (namespace).
-      schema:
-        type: string
-      example: myorganization
-      required: true
-    bulk_invite:
-      in: header
-      name: X-Analytics-Client-Feature
-      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
-      schema:
-        type: string
   requestBodies:
     bulk_invite_request:
       required: true
@@ -294,6 +248,52 @@ components:
                 type: boolean
                 description: Optional, run through validation but don't actually change data.
                 example: true
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    bulk_invite:
+      in: header
+      name: X-Analytics-Client-Feature
+      description: Optional string that indicates the feature used to submit the bulk invites (e.g.'file', 'web')
+      schema:
+        type: string
+    org_name:
+      in: path
+      name: org_name
+      description: Name of the organization (namespace).
+      schema:
+        type: string
+      example: myorganization
+      required: true
   securitySchemes:
     bearerAuth:
       type: http

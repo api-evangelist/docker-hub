@@ -102,6 +102,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    orgSettings:
+      type: object
+      properties:
+        restricted_images:
+          $ref: '#/components/schemas/restricted_images'
     restricted_images:
       type: object
       properties:
@@ -124,20 +129,15 @@ components:
           type: string
         message:
           type: string
-    orgSettings:
-      type: object
-      properties:
-        restricted_images:
-          $ref: '#/components/schemas/restricted_images'
   responses:
-    Forbidden:
-      description: Forbidden
+    Unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
+    Forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:

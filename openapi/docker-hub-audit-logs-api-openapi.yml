@@ -433,61 +433,6 @@ paths:
       - Audit Logs
 components:
   schemas:
-    AuditLog:
-      type: object
-      properties:
-        account:
-          type: string
-        action:
-          type: string
-        name:
-          type: string
-        actor:
-          type: string
-        data:
-          type: object
-          additionalProperties:
-            type: string
-        timestamp:
-          type: string
-          format: date-time
-        action_description:
-          type: string
-      description: Audit log event.
-    GetAuditActionsResponse:
-      type: object
-      properties:
-        actions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AuditLogActions'
-          description: Map of audit log actions.
-      description: GetAuditActions response.
-    AuditLogAction:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of audit log action.
-        description:
-          type: string
-          description: Description of audit log action.
-        label:
-          type: string
-          description: Label for audit log action.
-      description: Audit Log action
-    rpcStatus:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/protobufAny'
     AuditLogActions:
       type: object
       properties:
@@ -516,6 +461,61 @@ components:
         value:
           type: string
           format: byte
+    GetAuditActionsResponse:
+      type: object
+      properties:
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AuditLogActions'
+          description: Map of audit log actions.
+      description: GetAuditActions response.
+    AuditLogAction:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of audit log action.
+        description:
+          type: string
+          description: Description of audit log action.
+        label:
+          type: string
+          description: Label for audit log action.
+      description: Audit Log action
+    AuditLog:
+      type: object
+      properties:
+        account:
+          type: string
+        action:
+          type: string
+        name:
+          type: string
+        actor:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+        timestamp:
+          type: string
+          format: date-time
+        action_description:
+          type: string
+      description: Audit log event.
+    rpcStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
   securitySchemes:
     bearerAuth:
       type: http

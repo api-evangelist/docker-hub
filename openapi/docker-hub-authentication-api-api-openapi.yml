@@ -155,41 +155,7 @@ paths:
           description: Authentication failed
           $ref: '#/components/responses/unauthorized'
 components:
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   schemas:
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-    AuthCreateTokenResponse:
-      description: successful access token response
-      type: object
-      properties:
-        access_token:
-          description: The created access token. This expires in 10 minutes.
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    PostUsers2FALoginErrorResponse:
-      description: failed second factor login response.
-      type: object
-      properties:
-        detail:
-          description: Description of the error.
-          type: string
-          example: Incorrect authentication credentials
     Users2FALoginRequest:
       description: Second factor user login details
       type: object
@@ -225,18 +191,17 @@ components:
           - string
           - 'null'
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    PostUsersLoginSuccessResponse:
-      description: successful user login response
+    error:
       type: object
       properties:
-        token:
-          description: 'Created authentication token.
-
-            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
-
-            '
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
           type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        message:
+          type: string
     UsersLoginRequest:
       description: User login details
       type: object
@@ -254,6 +219,41 @@ components:
             '
           type: string
           example: p@ssw0rd
+    AuthCreateTokenResponse:
+      description: successful access token response
+      type: object
+      properties:
+        access_token:
+          description: The created access token. This expires in 10 minutes.
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    PostUsersLoginSuccessResponse:
+      description: successful user login response
+      type: object
+      properties:
+        token:
+          description: 'Created authentication token.
+
+            This token can be used in the HTTP Authorization header as a JWT to authenticate with the Docker Hub APIs.
+
+            '
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    PostUsers2FALoginErrorResponse:
+      description: failed second factor login response.
+      type: object
+      properties:
+        detail:
+          description: Description of the error.
+          type: string
+          example: Incorrect authentication credentials
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   securitySchemes:
     bearerAuth:
       type: http

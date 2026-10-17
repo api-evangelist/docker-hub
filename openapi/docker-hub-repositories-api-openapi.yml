@@ -526,26 +526,139 @@ paths:
         500:
           $ref: '#/components/responses/internal_error'
 components:
-  parameters:
-    namespace:
-      in: path
-      name: namespace
-      required: true
-      schema:
-        type: string
-    tag:
-      in: path
-      name: tag
-      required: true
-      schema:
-        type: string
-    repository:
-      in: path
-      name: repository
-      required: true
-      schema:
-        type: string
   schemas:
+    error:
+      type: object
+      properties:
+        errinfo:
+          type: object
+          items:
+            type: string
+        detail:
+          type: string
+        message:
+          type: string
+    immutable_tags_settings:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether immutable tags are enabled
+        rules:
+          type: array
+          items:
+            type: string
+          description: List of immutable tag rules
+      required:
+      - enabled
+      - rules
+    list_repositories_response:
+      allOf:
+      - $ref: '#/components/schemas/page'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/repository_list_entry'
+    update_repository_immutable_tags_request:
+      type: object
+      properties:
+        immutable_tags:
+          type: boolean
+          description: Whether immutable tags are enabled
+        immutable_tags_rules:
+          type: array
+          items:
+            type: string
+          description: List of immutable tag rules
+          example:
+          - v.*
+          - .*-RELEASE
+      required:
+      - immutable_tags
+      - immutable_tags_rules
+    repo_permissions:
+      type: object
+      properties:
+        read:
+          type: boolean
+          description: Read permission
+        write:
+          type: boolean
+          description: Write permission
+        admin:
+          type: boolean
+          description: Admin permission
+      required:
+      - read
+      - write
+      - admin
+    immutable_tags_verify_response:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of tags that match the provided regex pattern
+          example:
+          - v1.0.0
+          - v2.1.3
+          - latest
+      required:
+      - tags
+    image:
+      type: object
+      properties:
+        architecture:
+          type: string
+          description: CPU architecture
+        features:
+          type: string
+          description: CPU features
+        variant:
+          type: string
+          description: CPU variant
+        digest:
+          type:
+          - string
+          - 'null'
+          description: image digest
+        layers:
+          type: array
+          items:
+            $ref: '#/components/schemas/layer'
+        os:
+          type: string
+          description: operating system
+        os_features:
+          type: string
+          description: OS features
+        os_version:
+          type: string
+          description: OS version
+        size:
+          type: integer
+          description: size of the image
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          description: Status of the image
+        last_pulled:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last pull
+        last_pushed:
+          type:
+          - string
+          - 'null'
+          example: '2021-01-05T21:06:53.506400Z'
+          description: datetime of last push
     RepositoryGroupCreationRequest:
       type: object
       required:
@@ -573,253 +686,6 @@ components:
           - write
           - admin
           example: write
-    paginated_tags:
-      allOf:
-      - $ref: '#/components/schemas/page'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/tag'
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-        message:
-          type: string
-    immutable_tags_verify_request:
-      type: object
-      properties:
-        regex:
-          type: string
-          pattern: ^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$
-          description: 'Immutable tags rule regex pattern. Must match format: [a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*'
-          example: v.*
-      required:
-      - regex
-    list_repositories_response:
-      allOf:
-      - $ref: '#/components/schemas/page'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/repository_list_entry'
-    error:
-      type: object
-      properties:
-        errinfo:
-          type: object
-          items:
-            type: string
-        detail:
-          type: string
-        message:
-          type: string
-    repository_list_entry:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the repository
-          example: hello-world
-        namespace:
-          type: string
-          description: Namespace (organization or username) that owns the repository
-          example: docker
-        repository_type:
-          type:
-          - string
-          - 'null'
-          description: Type of repository
-          enum:
-          - image
-          - plugin
-          - null
-          example: image
-        status:
-          type: integer
-          description: Repository status code
-          example: 1
-        status_description:
-          type: string
-          description: Human-readable repository status
-          enum:
-          - active
-          - inactive
-          example: active
-        description:
-          type:
-          - string
-          - 'null'
-          description: Repository description
-          example: Hello World! (an example of minimal Dockerization)
-        is_private:
-          type: boolean
-          description: Whether the repository is private
-          example: false
-        star_count:
-          type: integer
-          description: Number of users who starred this repository
-          minimum: 0
-          example: 1234
-        pull_count:
-          type: integer
-          description: Total number of pulls for this repository
-          minimum: 0
-          example: 50000000
-        last_updated:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: ISO 8601 timestamp of when the repository was last updated
-          example: '2023-12-01T10:30:00Z'
-        last_modified:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: ISO 8601 timestamp of when the repository was last modified
-          example: '2023-12-01T10:30:00Z'
-        date_registered:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp of when the repository was created
-          example: '2013-06-19T19:07:54Z'
-        affiliation:
-          type: string
-          description: User's affiliation with the repository (empty string if no affiliation)
-          example: ''
-        media_types:
-          type: array
-          description: Media types supported by this repository
-          items:
-            type: string
-          example:
-          - application/vnd.docker.plugin.v1+json
-        content_types:
-          type: array
-          description: Content types supported by this repository
-          items:
-            type: string
-          example:
-          - plugin
-        categories:
-          type: array
-          description: Categories associated with this repository
-          items:
-            $ref: '#/components/schemas/category'
-          example: []
-        storage_size:
-          type: integer
-          description: Storage size in bytes used by this repository
-          minimum: 0
-          example: 232719127
-    category:
-      type: object
-      required:
-      - name
-      - slug
-      properties:
-        name:
-          type: string
-          description: Human-readable name of the category
-          example: Databases
-          minLength: 1
-        slug:
-          type: string
-          description: URL-friendly identifier for the category
-          example: databases
-          minLength: 1
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      description: Repository category for classification and discovery
-    repo_permissions:
-      type: object
-      properties:
-        read:
-          type: boolean
-          description: Read permission
-        write:
-          type: boolean
-          description: Write permission
-        admin:
-          type: boolean
-          description: Admin permission
-      required:
-      - read
-      - write
-      - admin
-    repo_creation_request:
-      type: object
-      required:
-      - name
-      - namespace
-      properties:
-        name:
-          type: string
-          description: "The name of the repository. Must be 2-255 characters long and may only include \nalphanumeric characters, periods (.), underscores (_), or hyphens (-). \nLetters must be lowercase.\n"
-          minLength: 2
-          maxLength: 255
-          pattern: ^[a-z0-9]+(?:[._-][a-z0-9]+)*$
-          example: my-app
-        namespace:
-          type: string
-          description: The namespace where the repository will be created
-          example: myorganization
-        description:
-          type: string
-          description: Short description of the repository
-          maxLength: 100
-          example: A sample application repository
-        full_description:
-          type: string
-          description: Detailed description of the repository
-          maxLength: 25000
-          example: This is a comprehensive description of my application repository that contains additional details about the project, its purpose, usage instructions, and other relevant information.
-        registry:
-          type: string
-          description: The registry where the repository will be hosted
-          example: docker.io
-        is_private:
-          type: boolean
-          description: Whether the repository should be private
-          default: false
-          example: false
-    layer:
-      type: object
-      properties:
-        digest:
-          type:
-          - string
-          - 'null'
-          description: image layer digest
-        size:
-          type: integer
-          description: size of the layer
-        instruction:
-          type: string
-          description: Dockerfile instruction
-    update_repository_immutable_tags_request:
-      type: object
-      properties:
-        immutable_tags:
-          type: boolean
-          description: Whether immutable tags are enabled
-        immutable_tags_rules:
-          type: array
-          items:
-            type: string
-          description: List of immutable tag rules
-          example:
-          - v.*
-          - .*-RELEASE
-      required:
-      - immutable_tags
-      - immutable_tags_rules
     repository_info:
       type: object
       properties:
@@ -951,6 +817,49 @@ components:
       - content_types
       - categories
       - immutable_tags_settings
+    page:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: total number of results available across all pages
+        next:
+          type:
+          - string
+          - 'null'
+          description: link to next page of results if any
+        previous:
+          type:
+          - string
+          - 'null'
+          description: link to previous page of results  if any
+    category:
+      type: object
+      required:
+      - name
+      - slug
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the category
+          example: Databases
+          minLength: 1
+        slug:
+          type: string
+          description: URL-friendly identifier for the category
+          example: databases
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      description: Repository category for classification and discovery
+    paginated_tags:
+      allOf:
+      - $ref: '#/components/schemas/page'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/tag'
     tag:
       type: object
       properties:
@@ -1005,101 +914,163 @@ components:
           - 'null'
           example: '2021-01-05T21:06:53.506400Z'
           description: datetime of last push
-    page:
+    Error:
       type: object
       properties:
-        count:
+        detail:
+          type: string
+        message:
+          type: string
+    repository_list_entry:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the repository
+          example: hello-world
+        namespace:
+          type: string
+          description: Namespace (organization or username) that owns the repository
+          example: docker
+        repository_type:
+          type:
+          - string
+          - 'null'
+          description: Type of repository
+          enum:
+          - image
+          - plugin
+          - null
+          example: image
+        status:
           type: integer
-          description: total number of results available across all pages
-        next:
+          description: Repository status code
+          example: 1
+        status_description:
+          type: string
+          description: Human-readable repository status
+          enum:
+          - active
+          - inactive
+          example: active
+        description:
           type:
           - string
           - 'null'
-          description: link to next page of results if any
-        previous:
-          type:
-          - string
-          - 'null'
-          description: link to previous page of results  if any
-    immutable_tags_settings:
-      type: object
-      properties:
-        enabled:
+          description: Repository description
+          example: Hello World! (an example of minimal Dockerization)
+        is_private:
           type: boolean
-          description: Whether immutable tags are enabled
-        rules:
+          description: Whether the repository is private
+          example: false
+        star_count:
+          type: integer
+          description: Number of users who starred this repository
+          minimum: 0
+          example: 1234
+        pull_count:
+          type: integer
+          description: Total number of pulls for this repository
+          minimum: 0
+          example: 50000000
+        last_updated:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp of when the repository was last updated
+          example: '2023-12-01T10:30:00Z'
+        last_modified:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp of when the repository was last modified
+          example: '2023-12-01T10:30:00Z'
+        date_registered:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp of when the repository was created
+          example: '2013-06-19T19:07:54Z'
+        affiliation:
+          type: string
+          description: User's affiliation with the repository (empty string if no affiliation)
+          example: ''
+        media_types:
           type: array
+          description: Media types supported by this repository
           items:
             type: string
-          description: List of immutable tag rules
-      required:
-      - enabled
-      - rules
-    immutable_tags_verify_response:
-      type: object
-      properties:
-        tags:
-          type: array
-          items:
-            type: string
-          description: List of tags that match the provided regex pattern
           example:
-          - v1.0.0
-          - v2.1.3
-          - latest
-      required:
-      - tags
-    image:
+          - application/vnd.docker.plugin.v1+json
+        content_types:
+          type: array
+          description: Content types supported by this repository
+          items:
+            type: string
+          example:
+          - plugin
+        categories:
+          type: array
+          description: Categories associated with this repository
+          items:
+            $ref: '#/components/schemas/category'
+          example: []
+        storage_size:
+          type: integer
+          description: Storage size in bytes used by this repository
+          minimum: 0
+          example: 232719127
+    layer:
       type: object
       properties:
-        architecture:
-          type: string
-          description: CPU architecture
-        features:
-          type: string
-          description: CPU features
-        variant:
-          type: string
-          description: CPU variant
         digest:
           type:
           - string
           - 'null'
-          description: image digest
-        layers:
-          type: array
-          items:
-            $ref: '#/components/schemas/layer'
-        os:
-          type: string
-          description: operating system
-        os_features:
-          type: string
-          description: OS features
-        os_version:
-          type: string
-          description: OS version
+          description: image layer digest
         size:
           type: integer
-          description: size of the image
-        status:
+          description: size of the layer
+        instruction:
           type: string
-          enum:
-          - active
-          - inactive
-          description: Status of the image
-        last_pulled:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last pull
-        last_pushed:
-          type:
-          - string
-          - 'null'
-          example: '2021-01-05T21:06:53.506400Z'
-          description: datetime of last push
+          description: Dockerfile instruction
+    repo_creation_request:
+      type: object
+      required:
+      - name
+      - namespace
+      properties:
+        name:
+          type: string
+          description: "The name of the repository. Must be 2-255 characters long and may only include \nalphanumeric characters, periods (.), underscores (_), or hyphens (-). \nLetters must be lowercase.\n"
+          minLength: 2
+          maxLength: 255
+          pattern: ^[a-z0-9]+(?:[._-][a-z0-9]+)*$
+          example: my-app
+        namespace:
+          type: string
+          description: The namespace where the repository will be created
+          example: myorganization
+        description:
+          type: string
+          description: Short description of the repository
+          maxLength: 100
+          example: A sample application repository
+        full_description:
+          type: string
+          description: Detailed description of the repository
+          maxLength: 25000
+          example: This is a comprehensive description of my application repository that contains additional details about the project, its purpose, usage instructions, and other relevant information.
+        registry:
+          type: string
+          description: The registry where the repository will be hosted
+          example: docker.io
+        is_private:
+          type: boolean
+          description: Whether the repository should be private
+          default: false
+          example: false
     RepositoryGroup:
       type: object
       properties:
@@ -1120,19 +1091,17 @@ components:
           format: int64
           description: The ID of the group
           example: 12345
+    immutable_tags_verify_request:
+      type: object
+      properties:
+        regex:
+          type: string
+          pattern: ^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$
+          description: 'Immutable tags rule regex pattern. Must match format: [a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*'
+          example: v.*
+      required:
+      - regex
   responses:
-    internal_error:
-      description: Internal
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     update_repository_immutable_tags_response:
       description: ''
       content:
@@ -1145,14 +1114,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    get_tag:
-      description: repository tag
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/tag'
-    bad_request:
-      description: Bad Request
+    internal_error:
+      description: Internal
       content:
         application/json:
           schema:
@@ -1163,30 +1126,48 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    not_found:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    list_tags:
-      description: list repository tags
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/paginated_tags'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     immutable_tags_verify_response:
       description: ''
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/immutable_tags_verify_response'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    not_found:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    get_tag:
+      description: repository tag
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/tag'
+    list_tags:
+      description: list repository tags
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/paginated_tags'
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   requestBodies:
     update_repository_immutable_tags_request:
       required: true
@@ -1200,6 +1181,25 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/immutable_tags_verify_request'
+  parameters:
+    tag:
+      in: path
+      name: tag
+      required: true
+      schema:
+        type: string
+    repository:
+      in: path
+      name: repository
+      required: true
+      schema:
+        type: string
+    namespace:
+      in: path
+      name: namespace
+      required: true
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
