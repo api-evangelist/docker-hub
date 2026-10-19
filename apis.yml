@@ -1,201 +1,247 @@
 aid: docker-hub
 url: https://raw.githubusercontent.com/api-evangelist/docker-hub/refs/heads/main/apis.yml
 apis:
-- aid: docker-hub:docker-hub-access-tokens-api
-  name: Docker Hub Access Tokens API
-  description: 'The Personal Access Token endpoints lets you manage personal access tokens. For more information,
-    see [Access Tokens](https://docs.docker.com/security/access-tokens/).
-
-
-    You can use a personal access token instead of a password in the [Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/)
-    or in the [Create an authentication token](#operation/PostUsersLogin) route to obtain a bearer token.
-
-
-    ### Scopes
-
-
-    For each scope grouping (in this case "repo"), you only need to define 1 scope as any lower scopes
-    are assumed.
-
-    For example: If you define `repo:write`, the API assumes the scope of both `repo:read` *and* `repo:public_read`
-    as well.
-
-    If you were to define both `repo:write` *and* `repo:read`, then `repo:read` is assumed by `repo:write`
-    and ignored.
-
-
-    ***Treat your personal access token like your password and keep it secret. You cannot retrieve your
-    token after it is generated.***'
+- aid: docker-hub:docker-hub-config-api
+  name: Docker Hub Config API
+  description: >-
+    Configs are application configurations that can be used by services. Swarm mode must be enabled for
+    these endpoints to work.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Access Tokens
-  tags_raw:
-  - access-tokens
+  - Config
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-access-tokens-api-openapi.yml
+    url: openapi/docker-hub-config-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-audit-logs-api
-  name: Docker Hub Audit Logs API
-  description: 'The Audit Logs API endpoints allow you to query audit log events across a namespace.
-
-
-    For more information, see [Audit Logs](https://docs.docker.com/admin/activity-logs/).'
+- aid: docker-hub:docker-hub-container-api
+  name: Docker Hub Container API
+  description: Create and manage containers.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Audit Logs
-  tags_raw:
-  - audit-logs
+  - Container
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-audit-logs-api-openapi.yml
+    url: openapi/docker-hub-container-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-authentication-api-api
-  name: Docker Hub Authentication API
-  description: 'The authentication endpoints allow you to authenticate with Docker Hub APIs.
-
-
-    For more information, see [Authentication](#tag/authentication).'
+- aid: docker-hub:docker-hub-distribution-api
+  name: Docker Hub Distribution API
+  description: The Distribution API from Docker Hub — 1 operation(s) for distribution.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Authentication API
-  tags_raw:
-  - authentication-api
+  - Distribution
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-authentication-api-api-openapi.yml
+    url: openapi/docker-hub-distribution-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-groups-api
-  name: Docker Hub Groups API
-  description: 'The groups endpoints allow you to manage your organization''s teams and their members.
+- aid: docker-hub:docker-hub-exec-api
+  name: Docker Hub Exec API
+  description: >-
+    Run new commands inside running containers. See the [command-line reference](https://docs.docker.com/engine/reference/commandline/exec/)
+    for more information.
 
 
-    For more information, see [Create and manage a team](https://docs.docker.com/admin/organization/manage/manage-a-team/).'
+    To exec a command in a container, you first need to create an exec instance, then start it. These
+    two API endpoints are wrapped up in a single command-line command, `docker exec`.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Group
-  tags_raw:
-  - groups
+  - Exec
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-groups-api-openapi.yml
+    url: openapi/docker-hub-exec-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-invites-api
-  name: Docker Hub Invites API
-  description: 'The invites endpoints allow you to manage invites for users to join your Docker organization.
-
-
-    For more information, see [Invite members](https://docs.docker.com/admin/organization/manage/members/#invite-members).'
+- aid: docker-hub:docker-hub-image-api
+  name: Docker Hub Image API
+  description: The Image API from Docker Hub — 15 operation(s) for image.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Invites
-  tags_raw:
-  - invites
+  - Image
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-invites-api-openapi.yml
+    url: openapi/docker-hub-image-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-org-access-tokens-api
-  name: Docker Hub Org Access Tokens API
-  description: The organization access token endpoints allow you to manage organization access tokens
-    (OATs). See [Organization access tokens](https://docs.docker.com/security/for-admins/access-tokens/)
+- aid: docker-hub:docker-hub-network-api
+  name: Docker Hub Network API
+  description: >-
+    Networks are user-defined networks that containers can be attached to. See the [networking documentation](https://docs.docker.com/engine/userguide/networking/)
     for more information.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - org-access-tokens
+  - Network
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-org-access-tokens-api-openapi.yml
+    url: openapi/docker-hub-network-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-org-settings-api
-  name: Docker Hub Org Settings API
-  description: The Org Settings API endpoints allow you to manage your organization's settings.
+- aid: docker-hub:docker-hub-node-api
+  name: Docker Hub Node API
+  description: >-
+    Nodes are instances of the Engine participating in a swarm. Swarm mode must be enabled for these endpoints
+    to work.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - org-settings
+  - Node
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-org-settings-api-openapi.yml
+    url: openapi/docker-hub-node-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-orgs-api
-  name: Docker Hub Orgs API
-  description: 'The organization endpoints allow you to interact with and manage your organizations.
-
-
-    For more information, see [Organization administration overview](https://docs.docker.com/admin/organization/).'
+- aid: docker-hub:docker-hub-plugin-api
+  name: Docker Hub Plugin API
+  description: The Plugin API from Docker Hub — 11 operation(s) for plugin.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Organization
-  tags_raw:
-  - orgs
+  - Plugin
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-orgs-api-openapi.yml
+    url: openapi/docker-hub-plugin-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-repositories-api
-  name: Docker Hub Repositories API
-  description: The repository endpoints allow you to access your repository's tags.
+- aid: docker-hub:docker-hub-secret-api
+  name: Docker Hub Secret API
+  description: >-
+    Secrets are sensitive data that can be used by services. Swarm mode must be enabled for these endpoints
+    to work.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - Repositories
-  tags_raw:
-  - repositories
+  - Secret
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-repositories-api-openapi.yml
+    url: openapi/docker-hub-secret-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL
     url: https://hub.docker.com/v2
-- aid: docker-hub:docker-hub-scim-api
-  name: Docker Hub SCIM API
-  description: 'SCIM is a provisioning system that lets you manage users within your identity provider
-    (IdP).
-
-
-    For more information, see [System for Cross-domain Identity management](https://docs.docker.com/security/for-admins/provisioning/scim/).'
+- aid: docker-hub:docker-hub-service-api
+  name: Docker Hub Service API
+  description: >-
+    Services are the definitions of tasks to run on a swarm. Swarm mode must be enabled for these endpoints
+    to work.
   humanURL: https://docs.docker.com/docker-hub/api/latest/
   baseURL: https://hub.docker.com/v2
   tags:
-  - SCIM
-  tags_raw:
-  - scim
+  - Service
   properties:
   - type: OpenAPI
-    url: openapi/docker-hub-scim-api-openapi.yml
+    url: openapi/docker-hub-service-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-session-experimental-api
+  name: Docker Hub Session (experimental) API
+  description: >-
+    The Session (experimental) API from Docker Hub — 1 operation(s) for session (experimental).
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - Session (experimental)
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-session-experimental-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-swarm-api
+  name: Docker Hub Swarm API
+  description: >-
+    Engines can be clustered together in a swarm. See [the swarm mode documentation](https://docs.docker.com/engine/swarm/)
+    for more information.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - Swarm
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-swarm-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-system-api
+  name: Docker Hub System API
+  description: The System API from Docker Hub — 6 operation(s) for system.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - System
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-system-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-task-api
+  name: Docker Hub Task API
+  description: >-
+    A task is a container running on a swarm. It is the atomic scheduling unit of swarm. Swarm mode must
+    be enabled for these endpoints to work.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - Task
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-task-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-tasks-api
+  name: Docker Hub Tasks API
+  description: The Tasks API from Docker Hub — 1 operation(s) for tasks.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-tasks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.docker.com/docker-hub/api/latest/
+  - type: BaseURL
+    url: https://hub.docker.com/v2
+- aid: docker-hub:docker-hub-volume-api
+  name: Docker Hub Volume API
+  description: Create and manage persistent storage that can be attached to containers.
+  humanURL: https://docs.docker.com/docker-hub/api/latest/
+  baseURL: https://hub.docker.com/v2
+  tags:
+  - Volume
+  properties:
+  - type: OpenAPI
+    url: openapi/docker-hub-volume-api-openapi.yml
   - type: Documentation
     url: https://docs.docker.com/docker-hub/api/latest/
   - type: BaseURL

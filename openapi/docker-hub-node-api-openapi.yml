@@ -1,0 +1,696 @@
+openapi: 3.2.0
+info:
+  title: Docker Engine Node API
+  version: '1.33'
+  x-logo:
+    url: https://docs.docker.com/images/logo-docker-main.png
+  description: 'The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.
+
+
+    Most of the client''s commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.
+
+
+    # Errors
+
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+
+    ```
+
+    {
+
+    "message": "page not found"
+
+    }
+
+    ```
+
+
+    # Versioning
+
+
+    The API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don''t break.
+
+
+    For Docker Engine 17.09, the API version is 1.32. To lock to this version, you prefix the URL with `/v1.32`. For example, calling `/info` is the same as calling `/v1.32/info`.
+
+
+    Engine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.
+
+
+    In previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.
+
+
+    The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
+
+
+    This documentation is for version 1.33 of the API. Use this table to find documentation for previous versions of the API:
+
+
+    Docker version | API version | Changes
+
+    ----------------|-------------|---------
+
+    17.09.x | 1.31 | API changes
+
+    17.07.x | 1.31 | API changes
+
+    17.06.x | 1.30 | API changes
+
+    17.05.x | 1.29 | API changes
+
+    17.04.x | 1.28 | API changes
+
+    17.03.1 | 1.27 | API changes
+
+    1.13.1 & 17.03.0 | 1.26 | API changes
+
+    1.13.0 | 1.25 | API changes
+
+    1.12.x | 1.24 | API changes
+
+    1.11.x | 1.23 | API changes
+
+    1.10.x | 1.22 | API changes
+
+    1.9.x | 1.21 | API changes
+
+    1.8.x | 1.20 | API changes
+
+    1.7.x | 1.19 | API changes
+
+    1.6.x | 1.18 | API changes
+
+
+    # Authentication
+
+
+    Authentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:
+
+
+    ```
+
+    {
+
+    "username": "string",
+
+    "password": "string",
+
+    "email": "string",
+
+    "serveraddress": "string"
+
+    }
+
+    ```
+
+
+    The `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.
+
+
+    If you have already got an identity token from the `/auth` endpoint, you can just pass this instead of credentials:
+
+
+    ```
+
+    {
+
+    "identitytoken": "9cbaf023786cd7..."
+
+    }
+
+    ```'
+servers:
+- url: /v1.33
+tags:
+- name: Node
+  x-displayName: Nodes
+  description: Nodes are instances of the Engine participating in a swarm. Swarm mode must be enabled for these endpoints to work.
+paths:
+  /nodes:
+    get:
+      summary: List nodes
+      operationId: NodeList
+      responses:
+        200:
+          description: no error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Node'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Node'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: filters
+        in: query
+        description: 'Filters to process on the nodes list, encoded as JSON (a `map[string][]string`).
+
+
+          Available filters:
+
+          - `id=<node id>`
+
+          - `label=<engine label>`
+
+          - `membership=`(`accepted`|`pending`)`
+
+          - `name=<node name>`
+
+          - `role=`(`manager`|`worker`)`
+
+          '
+        schema:
+          type: string
+      tags:
+      - Node
+  /nodes/{id}:
+    get:
+      summary: Inspect a node
+      operationId: NodeInspect
+      responses:
+        200:
+          description: no error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Node'
+        404:
+          description: no such node
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: The ID or name of the node
+        required: true
+        schema:
+          type: string
+      tags:
+      - Node
+    delete:
+      summary: Delete a node
+      operationId: NodeDelete
+      responses:
+        200:
+          description: no error
+        404:
+          description: no such node
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: The ID or name of the node
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        description: Force remove a node from the swarm
+        schema:
+          type: boolean
+          default: false
+      tags:
+      - Node
+  /nodes/{id}/update:
+    post:
+      summary: Update a node
+      operationId: NodeUpdate
+      responses:
+        200:
+          description: no error
+        400:
+          description: bad parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: no such node
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the node
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: The version number of the node object being updated. This is required to avoid conflicting writes.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      tags:
+      - Node
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeSpec'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/NodeSpec'
+components:
+  schemas:
+    NodeSpec:
+      type: object
+      properties:
+        Name:
+          description: Name for the node.
+          type: string
+          example: my-node
+        Labels:
+          description: User-defined key/value metadata.
+          type: object
+          additionalProperties:
+            type: string
+        Role:
+          description: Role of the node.
+          type: string
+          enum:
+          - worker
+          - manager
+          example: manager
+        Availability:
+          description: Availability of the node.
+          type: string
+          enum:
+          - active
+          - pause
+          - drain
+          example: active
+      example:
+        Availability: active
+        Name: node-name
+        Role: manager
+        Labels:
+          foo: bar
+    ObjectVersion:
+      description: 'The version number of the object such as node, service, etc. This is needed to avoid conflicting writes.
+
+        The client must send the version number along with the modified specification when updating these objects.
+
+        This approach ensures safe concurrency and determinism in that the change on the object
+
+        may not be applied if the version number has changed from the last read. In other words,
+
+        if two update requests specify the same base version, only one of the requests can succeed.
+
+        As a result, two separate update requests that happen at the same time will not
+
+        unintentionally overwrite each other.
+
+        '
+      type: object
+      properties:
+        Index:
+          type: integer
+          format: uint64
+          example: 373531
+    EngineDescription:
+      description: EngineDescription provides information about an engine.
+      type: object
+      properties:
+        EngineVersion:
+          type: string
+          example: 17.06.0
+        Labels:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            foo: bar
+        Plugins:
+          type: array
+          items:
+            type: object
+            properties:
+              Type:
+                type: string
+              Name:
+                type: string
+          example:
+          - Type: Log
+            Name: awslogs
+          - Type: Log
+            Name: fluentd
+          - Type: Log
+            Name: gcplogs
+          - Type: Log
+            Name: gelf
+          - Type: Log
+            Name: journald
+          - Type: Log
+            Name: json-file
+          - Type: Log
+            Name: logentries
+          - Type: Log
+            Name: splunk
+          - Type: Log
+            Name: syslog
+          - Type: Network
+            Name: bridge
+          - Type: Network
+            Name: host
+          - Type: Network
+            Name: ipvlan
+          - Type: Network
+            Name: macvlan
+          - Type: Network
+            Name: 'null'
+          - Type: Network
+            Name: overlay
+          - Type: Volume
+            Name: local
+          - Type: Volume
+            Name: localhost:5000/vieux/sshfs:latest
+          - Type: Volume
+            Name: vieux/sshfs:latest
+    NodeStatus:
+      description: 'NodeStatus represents the status of a node.
+
+
+        It provides the current status of the node, as seen by the manager.
+
+        '
+      type: object
+      properties:
+        State:
+          $ref: '#/components/schemas/NodeState'
+        Message:
+          type: string
+          example: ''
+        Addr:
+          description: IP address of the node.
+          type: string
+          example: 172.17.0.2
+    Node:
+      type: object
+      properties:
+        ID:
+          type: string
+          example: 24ifsmvkjbyhk
+        Version:
+          $ref: '#/components/schemas/ObjectVersion'
+        CreatedAt:
+          description: 'Date and time at which the node was added to the swarm in
+
+            [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+            '
+          type: string
+          format: dateTime
+          example: '2016-08-18T10:44:24.496525531Z'
+        UpdatedAt:
+          description: 'Date and time at which the node was last updated in
+
+            [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
+
+            '
+          type: string
+          format: dateTime
+          example: '2017-08-09T07:09:37.632105588Z'
+        Spec:
+          $ref: '#/components/schemas/NodeSpec'
+        Description:
+          $ref: '#/components/schemas/NodeDescription'
+        Status:
+          $ref: '#/components/schemas/NodeStatus'
+        ManagerStatus:
+          $ref: '#/components/schemas/ManagerStatus'
+    NodeDescription:
+      description: 'NodeDescription encapsulates the properties of the Node as reported by the
+
+        agent.
+
+        '
+      type: object
+      properties:
+        Hostname:
+          type: string
+          example: bf3067039e47
+        Platform:
+          $ref: '#/components/schemas/Platform'
+        Resources:
+          $ref: '#/components/schemas/ResourceObject'
+        Engine:
+          $ref: '#/components/schemas/EngineDescription'
+        TLSInfo:
+          $ref: '#/components/schemas/TLSInfo'
+    NodeState:
+      description: NodeState represents the state of a node.
+      type: string
+      enum:
+      - unknown
+      - down
+      - ready
+      - disconnected
+      example: ready
+    GenericResources:
+      description: User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`)
+      type: array
+      items:
+        type: object
+        properties:
+          NamedResourceSpec:
+            type: object
+            properties:
+              Kind:
+                type: string
+              Value:
+                type: string
+          DiscreteResourceSpec:
+            type: object
+            properties:
+              Kind:
+                type: string
+              Value:
+                type: integer
+                format: int64
+      example:
+      - DiscreteResourceSpec:
+          Kind: SSD
+          Value: 3
+      - NamedResourceSpec:
+          Kind: GPU
+          Value: UUID1
+      - NamedResourceSpec:
+          Kind: GPU
+          Value: UUID2
+    ManagerStatus:
+      description: 'ManagerStatus represents the status of a manager.
+
+
+        It provides the current status of a node''s manager component, if the node
+
+        is a manager.
+
+        '
+      type:
+      - object
+      - 'null'
+      properties:
+        Leader:
+          type: boolean
+          default: false
+          example: true
+        Reachability:
+          $ref: '#/components/schemas/Reachability'
+        Addr:
+          description: 'The IP address and port at which the manager is reachable.
+
+            '
+          type: string
+          example: 10.0.0.46:2377
+    TLSInfo:
+      description: Information about the issuer of leaf TLS certificates and the trusted root CA certificate
+      type: object
+      properties:
+        TrustRoot:
+          description: The root CA certificate(s) that are used to validate leaf TLS certificates
+          type: string
+        CertIssuerSubject:
+          description: The base64-url-safe-encoded raw subject bytes of the issuer
+          type: string
+        CertIssuerPublicKey:
+          description: The base64-url-safe-encoded raw public key bytes of the issuer
+          type: string
+      example:
+        TrustRoot: '-----BEGIN CERTIFICATE-----
+
+          MIIBajCCARCgAwIBAgIUbYqrLSOSQHoxD8CwG6Bi2PJi9c8wCgYIKoZIzj0EAwIw
+
+          EzERMA8GA1UEAxMIc3dhcm0tY2EwHhcNMTcwNDI0MjE0MzAwWhcNMzcwNDE5MjE0
+
+          MzAwWjATMREwDwYDVQQDEwhzd2FybS1jYTBZMBMGByqGSM49AgEGCCqGSM49AwEH
+
+          A0IABJk/VyMPYdaqDXJb/VXh5n/1Yuv7iNrxV3Qb3l06XD46seovcDWs3IZNV1lf
+
+          3Skyr0ofcchipoiHkXBODojJydSjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMB
+
+          Af8EBTADAQH/MB0GA1UdDgQWBBRUXxuRcnFjDfR/RIAUQab8ZV/n4jAKBggqhkjO
+
+          PQQDAgNIADBFAiAy+JTe6Uc3KyLCMiqGl2GyWGQqQDEcO3/YG36x7om65AIhAJvz
+
+          pxv6zFeVEkAEEkqIYi0omA9+CjanB/6Bz4n1uw8H
+
+          -----END CERTIFICATE-----
+
+          '
+        CertIssuerSubject: MBMxETAPBgNVBAMTCHN3YXJtLWNh
+        CertIssuerPublicKey: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmT9XIw9h1qoNclv9VeHmf/Vi6/uI2vFXdBveXTpcPjqx6i9wNazchk1XWV/dKTKvSh9xyGKmiIeRcE4OiMnJ1A==
+    Reachability:
+      description: Reachability represents the reachability of a node.
+      type: string
+      enum:
+      - unknown
+      - unreachable
+      - reachable
+      example: reachable
+    ErrorResponse:
+      description: Represents an error.
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          description: The error message.
+          type: string
+      example:
+        message: Something went wrong.
+    Platform:
+      description: 'Platform represents the platform (Arch/OS).
+
+        '
+      type: object
+      properties:
+        Architecture:
+          description: 'Architecture represents the hardware architecture (for example,
+
+            `x86_64`).
+
+            '
+          type: string
+          example: x86_64
+        OS:
+          description: 'OS represents the Operating System (for example, `linux` or `windows`).
+
+            '
+          type: string
+          example: linux
+    ResourceObject:
+      description: An object describing the resources which can be advertised by a node and requested by a task
+      type: object
+      properties:
+        NanoCPUs:
+          type: integer
+          format: int64
+          example: 4000000000
+        MemoryBytes:
+          type: integer
+          format: int64
+          example: 8272408576
+        GenericResources:
+          $ref: '#/components/schemas/GenericResources'

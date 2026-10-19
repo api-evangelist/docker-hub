@@ -1,0 +1,234 @@
+openapi: 3.2.0
+info:
+  title: Docker Engine Distribution API
+  version: '1.33'
+  x-logo:
+    url: https://docs.docker.com/images/logo-docker-main.png
+  description: 'The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.
+
+
+    Most of the client''s commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.
+
+
+    # Errors
+
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+
+    ```
+
+    {
+
+    "message": "page not found"
+
+    }
+
+    ```
+
+
+    # Versioning
+
+
+    The API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don''t break.
+
+
+    For Docker Engine 17.09, the API version is 1.32. To lock to this version, you prefix the URL with `/v1.32`. For example, calling `/info` is the same as calling `/v1.32/info`.
+
+
+    Engine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.
+
+
+    In previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.
+
+
+    The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
+
+
+    This documentation is for version 1.33 of the API. Use this table to find documentation for previous versions of the API:
+
+
+    Docker version | API version | Changes
+
+    ----------------|-------------|---------
+
+    17.09.x | 1.31 | API changes
+
+    17.07.x | 1.31 | API changes
+
+    17.06.x | 1.30 | API changes
+
+    17.05.x | 1.29 | API changes
+
+    17.04.x | 1.28 | API changes
+
+    17.03.1 | 1.27 | API changes
+
+    1.13.1 & 17.03.0 | 1.26 | API changes
+
+    1.13.0 | 1.25 | API changes
+
+    1.12.x | 1.24 | API changes
+
+    1.11.x | 1.23 | API changes
+
+    1.10.x | 1.22 | API changes
+
+    1.9.x | 1.21 | API changes
+
+    1.8.x | 1.20 | API changes
+
+    1.7.x | 1.19 | API changes
+
+    1.6.x | 1.18 | API changes
+
+
+    # Authentication
+
+
+    Authentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:
+
+
+    ```
+
+    {
+
+    "username": "string",
+
+    "password": "string",
+
+    "email": "string",
+
+    "serveraddress": "string"
+
+    }
+
+    ```
+
+
+    The `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.
+
+
+    If you have already got an identity token from the `/auth` endpoint, you can just pass this instead of credentials:
+
+
+    ```
+
+    {
+
+    "identitytoken": "9cbaf023786cd7..."
+
+    }
+
+    ```'
+servers:
+- url: /v1.33
+tags:
+- name: Distribution
+paths:
+  /distribution/{name}/json:
+    get:
+      summary: Get image information from the registry
+      description: Return image digest and platform information by contacting the registry.
+      operationId: DistributionInspect
+      responses:
+        200:
+          description: descriptor and platform information
+          content:
+            application/json:
+              schema:
+                type: object
+                x-go-name: DistributionInspect
+                required:
+                - Descriptor
+                - Platforms
+                properties:
+                  Descriptor:
+                    type: object
+                    description: A descriptor struct containing digest, media type, and size
+                    properties:
+                      MediaType:
+                        type: string
+                      Size:
+                        type: integer
+                        format: int64
+                      Digest:
+                        type: string
+                      URLs:
+                        type: array
+                        items:
+                          type: string
+                  Platforms:
+                    type: array
+                    description: An array containing all platforms supported by the image
+                    items:
+                      type: object
+                      properties:
+                        Architecture:
+                          type: string
+                        OS:
+                          type: string
+                        OSVersion:
+                          type: string
+                        OSFeatures:
+                          type: array
+                          items:
+                            type: string
+                        Variant:
+                          type: string
+                        Features:
+                          type: array
+                          items:
+                            type: string
+              example:
+                Descriptor:
+                  MediaType: application/vnd.docker.distribution.manifest.v2+json
+                  Digest: sha256:c0537ff6a5218ef531ece93d4984efc99bbf3f7497c0a7726c88e2bb7584dc96
+                  Size: 3987495
+                  URLs:
+                  - ''
+                Platforms:
+                - Architecture: amd64
+                  OS: linux
+                  OSVersion: ''
+                  OSFeatures:
+                  - ''
+                  Variant: ''
+                  Features:
+                  - ''
+        401:
+          description: Failed authentication or no image found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: 'No such image: someimage (tag: latest)'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or id
+        required: true
+        schema:
+          type: string
+      tags:
+      - Distribution
+components:
+  schemas:
+    ErrorResponse:
+      description: Represents an error.
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          description: The error message.
+          type: string
+      example:
+        message: Something went wrong.

@@ -1,0 +1,471 @@
+openapi: 3.2.0
+info:
+  title: Docker Engine Volume API
+  version: '1.33'
+  x-logo:
+    url: https://docs.docker.com/images/logo-docker-main.png
+  description: 'The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.
+
+
+    Most of the client''s commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.
+
+
+    # Errors
+
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+
+    ```
+
+    {
+
+    "message": "page not found"
+
+    }
+
+    ```
+
+
+    # Versioning
+
+
+    The API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don''t break.
+
+
+    For Docker Engine 17.09, the API version is 1.32. To lock to this version, you prefix the URL with `/v1.32`. For example, calling `/info` is the same as calling `/v1.32/info`.
+
+
+    Engine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.
+
+
+    In previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.
+
+
+    The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
+
+
+    This documentation is for version 1.33 of the API. Use this table to find documentation for previous versions of the API:
+
+
+    Docker version | API version | Changes
+
+    ----------------|-------------|---------
+
+    17.09.x | 1.31 | API changes
+
+    17.07.x | 1.31 | API changes
+
+    17.06.x | 1.30 | API changes
+
+    17.05.x | 1.29 | API changes
+
+    17.04.x | 1.28 | API changes
+
+    17.03.1 | 1.27 | API changes
+
+    1.13.1 & 17.03.0 | 1.26 | API changes
+
+    1.13.0 | 1.25 | API changes
+
+    1.12.x | 1.24 | API changes
+
+    1.11.x | 1.23 | API changes
+
+    1.10.x | 1.22 | API changes
+
+    1.9.x | 1.21 | API changes
+
+    1.8.x | 1.20 | API changes
+
+    1.7.x | 1.19 | API changes
+
+    1.6.x | 1.18 | API changes
+
+
+    # Authentication
+
+
+    Authentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:
+
+
+    ```
+
+    {
+
+    "username": "string",
+
+    "password": "string",
+
+    "email": "string",
+
+    "serveraddress": "string"
+
+    }
+
+    ```
+
+
+    The `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.
+
+
+    If you have already got an identity token from the `/auth` endpoint, you can just pass this instead of credentials:
+
+
+    ```
+
+    {
+
+    "identitytoken": "9cbaf023786cd7..."
+
+    }
+
+    ```'
+servers:
+- url: /v1.33
+tags:
+- name: Volume
+  x-displayName: Volumes
+  description: Create and manage persistent storage that can be attached to containers.
+paths:
+  /volumes:
+    get:
+      summary: List volumes
+      operationId: VolumeList
+      responses:
+        200:
+          description: Summary volume data that matches the query
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - Volumes
+                - Warnings
+                properties:
+                  Volumes:
+                    type: array
+                    description: List of volumes
+                    items:
+                      $ref: '#/components/schemas/Volume'
+                  Warnings:
+                    type: array
+                    description: Warnings that occurred when fetching the list of volumes
+                    items:
+                      type: string
+              example:
+                Volumes:
+                - CreatedAt: '2017-07-19T12:00:26Z'
+                  Name: tardis
+                  Driver: local
+                  Mountpoint: /var/lib/docker/volumes/tardis
+                  Labels:
+                    com.example.some-label: some-value
+                    com.example.some-other-label: some-other-value
+                  Scope: local
+                  Options:
+                    device: tmpfs
+                    o: size=100m,uid=1000
+                    type: tmpfs
+                Warnings: []
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: filters
+        in: query
+        description: "JSON encoded value of the filters (a `map[string][]string`) to\nprocess on the volumes list. Available filters:\n\n- `dangling=<boolean>` When set to `true` (or `1`), returns all\n   volumes that are not in use by a container. When set to `false`\n   (or `0`), only volumes that are in use by one or more\n   containers are returned.\n- `driver=<volume-driver-name>` Matches volumes based on their driver.\n- `label=<key>` or `label=<key>:<value>` Matches volumes based on\n   the presence of a `label` alone or a `label` and a value.\n- `name=<volume-name>` Matches all or part of a volume name.\n"
+        schema:
+          type: string
+          format: json
+      tags:
+      - Volume
+  /volumes/create:
+    post:
+      summary: Create a volume
+      operationId: VolumeCreate
+      responses:
+        201:
+          description: The volume was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Volume
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  description: The new volume's name. If not specified, Docker generates a name.
+                  type: string
+                Driver:
+                  description: Name of the volume driver to use.
+                  type: string
+                  default: local
+                DriverOpts:
+                  description: A mapping of driver options and values. These options are passed directly to the driver and are driver specific.
+                  type: object
+                  additionalProperties:
+                    type: string
+                Labels:
+                  description: User-defined key/value metadata.
+                  type: object
+                  additionalProperties:
+                    type: string
+              example:
+                Name: tardis
+                Labels:
+                  com.example.some-label: some-value
+                  com.example.some-other-label: some-other-value
+                Driver: custom
+        description: Volume configuration
+        required: true
+  /volumes/{name}:
+    get:
+      summary: Inspect a volume
+      operationId: VolumeInspect
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+        404:
+          description: No such volume
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Volume name or ID
+        schema:
+          type: string
+      tags:
+      - Volume
+    delete:
+      summary: Remove a volume
+      description: Instruct the driver to remove the volume.
+      operationId: VolumeDelete
+      responses:
+        204:
+          description: The volume was removed
+        404:
+          description: No such volume or volume driver
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        409:
+          description: Volume is in use and cannot be removed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Volume name or ID
+        schema:
+          type: string
+      - name: force
+        in: query
+        description: Force the removal of the volume
+        schema:
+          type: boolean
+          default: false
+      tags:
+      - Volume
+  /volumes/prune:
+    post:
+      summary: Delete unused volumes
+      operationId: VolumePrune
+      parameters:
+      - name: filters
+        in: query
+        description: 'Filters to process on the prune list, encoded as JSON (a `map[string][]string`).
+
+
+          Available filters:
+
+          - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune volumes with (or without, in case `label!=...` is used) the specified labels.
+
+          '
+        schema:
+          type: string
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  VolumesDeleted:
+                    description: Volumes that were deleted
+                    type: array
+                    items:
+                      type: string
+                  SpaceReclaimed:
+                    description: Disk space reclaimed in bytes
+                    type: integer
+                    format: int64
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Volume
+components:
+  schemas:
+    Volume:
+      type: object
+      required:
+      - Name
+      - Driver
+      - Mountpoint
+      - Labels
+      - Scope
+      - Options
+      properties:
+        Name:
+          type: string
+          description: Name of the volume.
+        Driver:
+          type: string
+          description: Name of the volume driver used by the volume.
+        Mountpoint:
+          type: string
+          description: Mount path of the volume on the host.
+        CreatedAt:
+          type: string
+          format: dateTime
+          description: Date/Time the volume was created.
+        Status:
+          type: object
+          description: 'Low-level details about the volume, provided by the volume driver.
+
+            Details are returned as a map with key/value pairs:
+
+            `{"key":"value","key2":"value2"}`.
+
+
+            The `Status` field is optional, and is omitted if the volume driver
+
+            does not support this feature.
+
+            '
+          additionalProperties:
+            type: object
+        Labels:
+          type: object
+          description: User-defined key/value metadata.
+          additionalProperties:
+            type: string
+        Scope:
+          type: string
+          description: The level at which the volume exists. Either `global` for cluster-wide, or `local` for machine level.
+          default: local
+          enum:
+          - local
+          - global
+        Options:
+          type: object
+          description: The driver specific options used when creating the volume.
+          additionalProperties:
+            type: string
+        UsageData:
+          type:
+          - object
+          - 'null'
+          required:
+          - Size
+          - RefCount
+          description: 'Usage details about the volume. This information is used by the
+
+            `GET /system/df` endpoint, and omitted in other endpoints.
+
+            '
+          properties:
+            Size:
+              type: integer
+              default: -1
+              description: 'Amount of disk space used by the volume (in bytes). This information
+
+                is only available for volumes created with the `"local"` volume
+
+                driver. For volumes created with other volume drivers, this field
+
+                is set to `-1` ("not available")
+
+                '
+            RefCount:
+              type: integer
+              default: -1
+              description: 'The number of containers referencing this volume. This field
+
+                is set to `-1` if the reference-count is not available.
+
+                '
+      example:
+        Name: tardis
+        Driver: custom
+        Mountpoint: /var/lib/docker/volumes/tardis
+        Status:
+          hello: world
+        Labels:
+          com.example.some-label: some-value
+          com.example.some-other-label: some-other-value
+        Scope: local
+        CreatedAt: '2016-06-07T20:31:11.853781916Z'
+    ErrorResponse:
+      description: Represents an error.
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          description: The error message.
+          type: string
+      example:
+        message: Something went wrong.

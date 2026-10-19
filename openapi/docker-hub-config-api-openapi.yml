@@ -1,0 +1,446 @@
+openapi: 3.2.0
+info:
+  title: Docker Engine Config API
+  version: '1.33'
+  x-logo:
+    url: https://docs.docker.com/images/logo-docker-main.png
+  description: 'The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.
+
+
+    Most of the client''s commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.
+
+
+    # Errors
+
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+
+    ```
+
+    {
+
+    "message": "page not found"
+
+    }
+
+    ```
+
+
+    # Versioning
+
+
+    The API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don''t break.
+
+
+    For Docker Engine 17.09, the API version is 1.32. To lock to this version, you prefix the URL with `/v1.32`. For example, calling `/info` is the same as calling `/v1.32/info`.
+
+
+    Engine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.
+
+
+    In previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.
+
+
+    The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
+
+
+    This documentation is for version 1.33 of the API. Use this table to find documentation for previous versions of the API:
+
+
+    Docker version | API version | Changes
+
+    ----------------|-------------|---------
+
+    17.09.x | 1.31 | API changes
+
+    17.07.x | 1.31 | API changes
+
+    17.06.x | 1.30 | API changes
+
+    17.05.x | 1.29 | API changes
+
+    17.04.x | 1.28 | API changes
+
+    17.03.1 | 1.27 | API changes
+
+    1.13.1 & 17.03.0 | 1.26 | API changes
+
+    1.13.0 | 1.25 | API changes
+
+    1.12.x | 1.24 | API changes
+
+    1.11.x | 1.23 | API changes
+
+    1.10.x | 1.22 | API changes
+
+    1.9.x | 1.21 | API changes
+
+    1.8.x | 1.20 | API changes
+
+    1.7.x | 1.19 | API changes
+
+    1.6.x | 1.18 | API changes
+
+
+    # Authentication
+
+
+    Authentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:
+
+
+    ```
+
+    {
+
+    "username": "string",
+
+    "password": "string",
+
+    "email": "string",
+
+    "serveraddress": "string"
+
+    }
+
+    ```
+
+
+    The `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.
+
+
+    If you have already got an identity token from the `/auth` endpoint, you can just pass this instead of credentials:
+
+
+    ```
+
+    {
+
+    "identitytoken": "9cbaf023786cd7..."
+
+    }
+
+    ```'
+servers:
+- url: /v1.33
+tags:
+- name: Config
+  x-displayName: Configs
+  description: Configs are application configurations that can be used by services. Swarm mode must be enabled for these endpoints to work.
+paths:
+  /configs:
+    get:
+      summary: List configs
+      operationId: ConfigList
+      responses:
+        200:
+          description: no error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Config'
+                example:
+                - ID: ktnbjxoalbkvbvedmg1urrz8h
+                  Version:
+                    Index: 11
+                  CreatedAt: '2016-11-05T01:20:17.327670065Z'
+                  UpdatedAt: '2016-11-05T01:20:17.327670065Z'
+                  Spec:
+                    Name: server.conf
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: filters
+        in: query
+        description: 'A JSON encoded value of the filters (a `map[string][]string`) to process on the configs list. Available filters:
+
+
+          - `id=<config id>`
+
+          - `label=<key> or label=<key>=value`
+
+          - `name=<config name>`
+
+          - `names=<config name>`
+
+          '
+        schema:
+          type: string
+      tags:
+      - Config
+  /configs/create:
+    post:
+      summary: Create a config
+      operationId: ConfigCreate
+      responses:
+        201:
+          description: no error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    description: The ID of the created config.
+                    type: string
+                example:
+                  ID: ktnbjxoalbkvbvedmg1urrz8h
+        409:
+          description: name conflicts with an existing object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ConfigSpec'
+              - type: object
+                example:
+                  Name: server.conf
+                  Labels:
+                    foo: bar
+                  Data: VEhJUyBJUyBOT1QgQSBSRUFMIENFUlRJRklDQVRFCg==
+  /configs/{id}:
+    get:
+      summary: Inspect a config
+      operationId: ConfigInspect
+      responses:
+        200:
+          description: no error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Config'
+              example:
+                ID: ktnbjxoalbkvbvedmg1urrz8h
+                Version:
+                  Index: 11
+                CreatedAt: '2016-11-05T01:20:17.327670065Z'
+                UpdatedAt: '2016-11-05T01:20:17.327670065Z'
+                Spec:
+                  Name: app-dev.crt
+        404:
+          description: config not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the config
+        schema:
+          type: string
+      tags:
+      - Config
+    delete:
+      summary: Delete a config
+      operationId: ConfigDelete
+      responses:
+        204:
+          description: no error
+        404:
+          description: config not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the config
+        schema:
+          type: string
+      tags:
+      - Config
+  /configs/{id}/update:
+    post:
+      summary: Update a Config
+      operationId: ConfigUpdate
+      responses:
+        200:
+          description: no error
+        400:
+          description: bad parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: no such config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        503:
+          description: node is not part of a swarm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: The ID or name of the config
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: The version number of the config object being updated. This is required to avoid conflicting writes.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      tags:
+      - Config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigSpec'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ConfigSpec'
+        description: The spec of the config to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [ConfigInspect endpoint](#operation/ConfigInspect) response values.
+components:
+  schemas:
+    ObjectVersion:
+      description: 'The version number of the object such as node, service, etc. This is needed to avoid conflicting writes.
+
+        The client must send the version number along with the modified specification when updating these objects.
+
+        This approach ensures safe concurrency and determinism in that the change on the object
+
+        may not be applied if the version number has changed from the last read. In other words,
+
+        if two update requests specify the same base version, only one of the requests can succeed.
+
+        As a result, two separate update requests that happen at the same time will not
+
+        unintentionally overwrite each other.
+
+        '
+      type: object
+      properties:
+        Index:
+          type: integer
+          format: uint64
+          example: 373531
+    ConfigSpec:
+      type: object
+      properties:
+        Name:
+          description: User-defined name of the config.
+          type: string
+        Labels:
+          description: User-defined key/value metadata.
+          type: object
+          additionalProperties:
+            type: string
+        Data:
+          description: 'Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2))
+
+            config data.
+
+            '
+          type: string
+    ErrorResponse:
+      description: Represents an error.
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          description: The error message.
+          type: string
+      example:
+        message: Something went wrong.
+    Config:
+      type: object
+      properties:
+        ID:
+          type: string
+        Version:
+          $ref: '#/components/schemas/ObjectVersion'
+        CreatedAt:
+          type: string
+          format: dateTime
+        UpdatedAt:
+          type: string
+          format: dateTime
+        Spec:
+          $ref: '#/components/schemas/ConfigSpec'

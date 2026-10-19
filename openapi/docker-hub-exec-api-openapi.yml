@@ -1,0 +1,414 @@
+openapi: 3.2.0
+info:
+  title: Docker Engine Exec API
+  version: '1.33'
+  x-logo:
+    url: https://docs.docker.com/images/logo-docker-main.png
+  description: 'The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.
+
+
+    Most of the client''s commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.
+
+
+    # Errors
+
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+
+    ```
+
+    {
+
+    "message": "page not found"
+
+    }
+
+    ```
+
+
+    # Versioning
+
+
+    The API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don''t break.
+
+
+    For Docker Engine 17.09, the API version is 1.32. To lock to this version, you prefix the URL with `/v1.32`. For example, calling `/info` is the same as calling `/v1.32/info`.
+
+
+    Engine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.
+
+
+    In previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.
+
+
+    The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
+
+
+    This documentation is for version 1.33 of the API. Use this table to find documentation for previous versions of the API:
+
+
+    Docker version | API version | Changes
+
+    ----------------|-------------|---------
+
+    17.09.x | 1.31 | API changes
+
+    17.07.x | 1.31 | API changes
+
+    17.06.x | 1.30 | API changes
+
+    17.05.x | 1.29 | API changes
+
+    17.04.x | 1.28 | API changes
+
+    17.03.1 | 1.27 | API changes
+
+    1.13.1 & 17.03.0 | 1.26 | API changes
+
+    1.13.0 | 1.25 | API changes
+
+    1.12.x | 1.24 | API changes
+
+    1.11.x | 1.23 | API changes
+
+    1.10.x | 1.22 | API changes
+
+    1.9.x | 1.21 | API changes
+
+    1.8.x | 1.20 | API changes
+
+    1.7.x | 1.19 | API changes
+
+    1.6.x | 1.18 | API changes
+
+
+    # Authentication
+
+
+    Authentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:
+
+
+    ```
+
+    {
+
+    "username": "string",
+
+    "password": "string",
+
+    "email": "string",
+
+    "serveraddress": "string"
+
+    }
+
+    ```
+
+
+    The `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.
+
+
+    If you have already got an identity token from the `/auth` endpoint, you can just pass this instead of credentials:
+
+
+    ```
+
+    {
+
+    "identitytoken": "9cbaf023786cd7..."
+
+    }
+
+    ```'
+servers:
+- url: /v1.33
+tags:
+- name: Exec
+  x-displayName: Exec
+  description: 'Run new commands inside running containers. See the command-line reference for more information.
+
+
+    To exec a command in a container, you first need to create an exec instance, then start it. These two API endpoints are wrapped up in a single command-line command, `docker exec`.'
+paths:
+  /containers/{id}/exec:
+    post:
+      summary: Create an exec instance
+      description: Run a command inside a running container.
+      operationId: ContainerExec
+      responses:
+        201:
+          description: no error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
+        404:
+          description: no such container
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: 'No such container: c2ada9df5af8'
+        409:
+          description: container is paused
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: ID or name of container
+        required: true
+        schema:
+          type: string
+      tags:
+      - Exec
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                AttachStdin:
+                  type: boolean
+                  description: Attach to `stdin` of the exec command.
+                AttachStdout:
+                  type: boolean
+                  description: Attach to `stdout` of the exec command.
+                AttachStderr:
+                  type: boolean
+                  description: Attach to `stderr` of the exec command.
+                DetachKeys:
+                  type: string
+                  description: 'Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`.'
+                Tty:
+                  type: boolean
+                  description: Allocate a pseudo-TTY.
+                Env:
+                  description: A list of environment variables in the form `["VAR=value", ...]`.
+                  type: array
+                  items:
+                    type: string
+                Cmd:
+                  type: array
+                  description: Command to run, as a string or array of strings.
+                  items:
+                    type: string
+                Privileged:
+                  type: boolean
+                  description: Runs the exec process with extended privileges.
+                  default: false
+                User:
+                  type: string
+                  description: 'The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`.'
+              example:
+                AttachStdin: false
+                AttachStdout: true
+                AttachStderr: true
+                DetachKeys: ctrl-p,ctrl-q
+                Tty: false
+                Cmd:
+                - date
+                Env:
+                - FOO=bar
+                - BAZ=quux
+        description: Exec configuration
+        required: true
+  /exec/{id}/start:
+    post:
+      summary: Start an exec instance
+      description: Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command.
+      operationId: ExecStart
+      responses:
+        200:
+          description: No error
+        404:
+          description: No such exec instance
+          content:
+            application/vnd.docker.raw-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        409:
+          description: Container is stopped or paused
+          content:
+            application/vnd.docker.raw-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: Exec instance ID
+        required: true
+        schema:
+          type: string
+      tags:
+      - Exec
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Detach:
+                  type: boolean
+                  description: Detach from the command.
+                Tty:
+                  type: boolean
+                  description: Allocate a pseudo-TTY.
+              example:
+                Detach: false
+                Tty: false
+  /exec/{id}/resize:
+    post:
+      summary: Resize an exec instance
+      description: Resize the TTY session used by an exec instance. This endpoint only works if `tty` was specified as part of creating and starting the exec instance.
+      operationId: ExecResize
+      responses:
+        201:
+          description: No error
+        404:
+          description: No such exec instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: Exec instance ID
+        required: true
+        schema:
+          type: string
+      - name: h
+        in: query
+        description: Height of the TTY session in characters
+        schema:
+          type: integer
+      - name: w
+        in: query
+        description: Width of the TTY session in characters
+        schema:
+          type: integer
+      tags:
+      - Exec
+  /exec/{id}/json:
+    get:
+      summary: Inspect an exec instance
+      description: Return low-level information about an exec instance.
+      operationId: ExecInspect
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: string
+                  Running:
+                    type: boolean
+                  ExitCode:
+                    type: integer
+                  ProcessConfig:
+                    $ref: '#/components/schemas/ProcessConfig'
+                  OpenStdin:
+                    type: boolean
+                  OpenStderr:
+                    type: boolean
+                  OpenStdout:
+                    type: boolean
+                  ContainerID:
+                    type: string
+                  Pid:
+                    type: integer
+                    description: The system process ID for the exec process.
+              example:
+                CanRemove: false
+                ContainerID: b53ee82b53a40c7dca428523e34f741f3abc51d9f297a14ff874bf761b995126
+                DetachKeys: ''
+                ExitCode: 2
+                ID: f33bbfb39f5b142420f4759b2348913bd4a8d1a6d7fd56499cb41a1bb91d7b3b
+                OpenStderr: true
+                OpenStdin: true
+                OpenStdout: true
+                ProcessConfig:
+                  arguments:
+                  - -c
+                  - exit 2
+                  entrypoint: sh
+                  privileged: false
+                  tty: true
+                  user: '1000'
+                Running: false
+                Pid: 42000
+        404:
+          description: No such exec instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: id
+        in: path
+        description: Exec instance ID
+        required: true
+        schema:
+          type: string
+      tags:
+      - Exec
+components:
+  schemas:
+    ProcessConfig:
+      type: object
+      properties:
+        privileged:
+          type: boolean
+        user:
+          type: string
+        tty:
+          type: boolean
+        entrypoint:
+          type: string
+        arguments:
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      description: Represents an error.
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          description: The error message.
+          type: string
+      example:
+        message: Something went wrong.
+    IdResponse:
+      description: Response to an API call that returns just an Id
+      type: object
+      required:
+      - Id
+      properties:
+        Id:
+          description: The id of the newly created object.
+          type: string

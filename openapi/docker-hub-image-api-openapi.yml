@@ -1,0 +1,1455 @@
+openapi: 3.2.0
+info:
+  title: Docker Engine Image API
+  version: '1.33'
+  x-logo:
+    url: https://docs.docker.com/images/logo-docker-main.png
+  description: 'The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.
+
+
+    Most of the client''s commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.
+
+
+    # Errors
+
+
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+
+
+    ```
+
+    {
+
+    "message": "page not found"
+
+    }
+
+    ```
+
+
+    # Versioning
+
+
+    The API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don''t break.
+
+
+    For Docker Engine 17.09, the API version is 1.32. To lock to this version, you prefix the URL with `/v1.32`. For example, calling `/info` is the same as calling `/v1.32/info`.
+
+
+    Engine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.
+
+
+    In previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.
+
+
+    The API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.
+
+
+    This documentation is for version 1.33 of the API. Use this table to find documentation for previous versions of the API:
+
+
+    Docker version | API version | Changes
+
+    ----------------|-------------|---------
+
+    17.09.x | 1.31 | API changes
+
+    17.07.x | 1.31 | API changes
+
+    17.06.x | 1.30 | API changes
+
+    17.05.x | 1.29 | API changes
+
+    17.04.x | 1.28 | API changes
+
+    17.03.1 | 1.27 | API changes
+
+    1.13.1 & 17.03.0 | 1.26 | API changes
+
+    1.13.0 | 1.25 | API changes
+
+    1.12.x | 1.24 | API changes
+
+    1.11.x | 1.23 | API changes
+
+    1.10.x | 1.22 | API changes
+
+    1.9.x | 1.21 | API changes
+
+    1.8.x | 1.20 | API changes
+
+    1.7.x | 1.19 | API changes
+
+    1.6.x | 1.18 | API changes
+
+
+    # Authentication
+
+
+    Authentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:
+
+
+    ```
+
+    {
+
+    "username": "string",
+
+    "password": "string",
+
+    "email": "string",
+
+    "serveraddress": "string"
+
+    }
+
+    ```
+
+
+    The `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.
+
+
+    If you have already got an identity token from the `/auth` endpoint, you can just pass this instead of credentials:
+
+
+    ```
+
+    {
+
+    "identitytoken": "9cbaf023786cd7..."
+
+    }
+
+    ```'
+servers:
+- url: /v1.33
+tags:
+- name: Image
+  x-displayName: Images
+paths:
+  /images/json:
+    get:
+      summary: List Images
+      description: Returns a list of images on the server. Note that it uses a different, smaller representation of an image than inspecting a single image.
+      operationId: ImageList
+      responses:
+        200:
+          description: Summary image data for the images matching the query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageSummary'
+              example:
+              - Id: sha256:e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8
+                ParentId: ''
+                RepoTags:
+                - ubuntu:12.04
+                - ubuntu:precise
+                RepoDigests:
+                - ubuntu@sha256:992069aee4016783df6345315302fa59681aae51a8eeb2f889dea59290f21787
+                Created: 1474925151
+                Size: 103579269
+                VirtualSize: 103579269
+                SharedSize: 0
+                Labels: {}
+                Containers: 2
+              - Id: sha256:3e314f95dcace0f5e4fd37b10862fe8398e3c60ed36600bc0ca5fda78b087175
+                ParentId: ''
+                RepoTags:
+                - ubuntu:12.10
+                - ubuntu:quantal
+                RepoDigests:
+                - ubuntu@sha256:002fba3e3255af10be97ea26e476692a7ebed0bb074a9ab960b2e7a1526b15d7
+                - ubuntu@sha256:68ea0200f0b90df725d99d823905b04cf844f6039ef60c60bf3e019915017bd3
+                Created: 1403128455
+                Size: 172064416
+                VirtualSize: 172064416
+                SharedSize: 0
+                Labels: {}
+                Containers: 5
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: all
+        in: query
+        description: Show all images. Only images from a final layer (no children) are shown by default.
+        schema:
+          type: boolean
+          default: false
+      - name: filters
+        in: query
+        description: 'A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters:
+
+
+          - `before`=(`<image-name>[:<tag>]`,  `<image id>` or `<image@digest>`)
+
+          - `dangling=true`
+
+          - `label=key` or `label="key=value"` of an image label
+
+          - `reference`=(`<image-name>[:<tag>]`)
+
+          - `since`=(`<image-name>[:<tag>]`,  `<image id>` or `<image@digest>`)
+
+          '
+        schema:
+          type: string
+      - name: digests
+        in: query
+        description: Show digest information as a `RepoDigests` field on each image.
+        schema:
+          type: boolean
+          default: false
+      tags:
+      - Image
+  /build:
+    post:
+      summary: Build an image
+      description: 'Build an image from a tar archive with a `Dockerfile` in it.
+
+
+        The `Dockerfile` specifies how the image is built from the tar archive. It is typically in the archive''s root, but can be at a different path or have a different name by specifying the `dockerfile` parameter. See the `Dockerfile` reference for more information.
+
+
+        The Docker daemon performs a preliminary validation of the `Dockerfile` before starting the build, and returns an error if the syntax is incorrect. After that, each instruction is run one-by-one until the ID of the new image is output.
+
+
+        The build is canceled if the client drops the connection by quitting or being killed.'
+      operationId: ImageBuild
+      parameters:
+      - name: dockerfile
+        in: query
+        description: Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
+        schema:
+          type: string
+          default: Dockerfile
+      - name: t
+        in: query
+        description: A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
+        schema:
+          type: string
+      - name: extrahosts
+        in: query
+        description: Extra hosts to add to /etc/hosts
+        schema:
+          type: string
+      - name: remote
+        in: query
+        description: A Git repository URI or HTTP/HTTPS context URI. If the URI points to a single text file, the file’s contents are placed into a file called `Dockerfile` and the image is built from that file. If the URI points to a tarball, the file is downloaded by the daemon and the contents therein used as the context for the build. If the URI points to a tarball and the `dockerfile` parameter is also specified, there must be a file with the corresponding path inside the tarball.
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Suppress verbose build output.
+        schema:
+          type: boolean
+          default: false
+      - name: nocache
+        in: query
+        description: Do not use the cache when building the image.
+        schema:
+          type: boolean
+          default: false
+      - name: cachefrom
+        in: query
+        description: JSON array of images used for build cache resolution.
+        schema:
+          type: string
+      - name: pull
+        in: query
+        description: Attempt to pull the image even if an older image exists locally.
+        schema:
+          type: string
+      - name: rm
+        in: query
+        description: Remove intermediate containers after a successful build.
+        schema:
+          type: boolean
+          default: true
+      - name: forcerm
+        in: query
+        description: Always remove intermediate containers, even upon failure.
+        schema:
+          type: boolean
+          default: false
+      - name: memory
+        in: query
+        description: Set memory limit for build.
+        schema:
+          type: integer
+      - name: memswap
+        in: query
+        description: Total memory (memory + swap). Set as `-1` to disable swap.
+        schema:
+          type: integer
+      - name: cpushares
+        in: query
+        description: CPU shares (relative weight).
+        schema:
+          type: integer
+      - name: cpusetcpus
+        in: query
+        description: CPUs in which to allow execution (e.g., `0-3`, `0,1`).
+        schema:
+          type: string
+      - name: cpuperiod
+        in: query
+        description: The length of a CPU period in microseconds.
+        schema:
+          type: integer
+      - name: cpuquota
+        in: query
+        description: Microseconds of CPU time that the container can get in a CPU period.
+        schema:
+          type: integer
+      - name: buildargs
+        in: query
+        description: JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)
+        schema:
+          type: integer
+      - name: shmsize
+        in: query
+        description: Size of `/dev/shm` in bytes. The size must be greater than 0. If omitted the system uses 64MB.
+        schema:
+          type: integer
+      - name: squash
+        in: query
+        description: Squash the resulting images layers into a single layer. *(Experimental release only.)*
+        schema:
+          type: boolean
+      - name: labels
+        in: query
+        description: Arbitrary key/value labels to set on the image, as a JSON map of string pairs.
+        schema:
+          type: string
+      - name: networkmode
+        in: query
+        description: 'Sets the networking mode for the run commands during build. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network''s name to which this container should connect to.'
+        schema:
+          type: string
+      - name: Content-type
+        in: header
+        schema:
+          type: string
+          enum:
+          - application/x-tar
+          default: application/x-tar
+      - name: X-Registry-Config
+        in: header
+        description: "This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to.\n\nThe key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example:\n\n```\n{\n  \"docker.example.com\": {\n    \"username\": \"janedoe\",\n    \"password\": \"hunter2\"\n  },\n  \"https://index.docker.io/v1/\": {\n    \"username\": \"mobydock\",\n    \"password\": \"conta1n3rize14\"\n  }\n}\n```\n\nOnly the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API.\n"
+        schema:
+          type: string
+      responses:
+        200:
+          description: no error
+        400:
+          description: Bad parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Image
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        description: 'A tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.'
+  /build/prune:
+    post:
+      summary: Delete builder cache
+      operationId: BuildPrune
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SpaceReclaimed:
+                    description: Disk space reclaimed in bytes
+                    type: integer
+                    format: int64
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Image
+  /images/create:
+    post:
+      summary: Create an image
+      description: Create an image by either pulling it from a registry or importing it.
+      operationId: ImageCreate
+      responses:
+        200:
+          description: no error
+        404:
+          description: repository does not exist or no read access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: fromImage
+        in: query
+        description: Name of the image to pull. The name may include a tag or digest. This parameter may only be used when pulling an image. The pull is cancelled if the HTTP connection is closed.
+        schema:
+          type: string
+      - name: fromSrc
+        in: query
+        description: Source to import. The value may be a URL from which the image can be retrieved or `-` to read the image from the request body. This parameter may only be used when importing an image.
+        schema:
+          type: string
+      - name: repo
+        in: query
+        description: Repository name given to an image when it is imported. The repo may include a tag. This parameter may only be used when importing an image.
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: Tag or digest. If empty when pulling an image, this causes all tags for the given image to be pulled.
+        schema:
+          type: string
+      - name: X-Registry-Auth
+        in: header
+        description: A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
+        schema:
+          type: string
+      tags:
+      - Image
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+          application/octet-stream:
+            schema:
+              type: string
+        description: Image content if the value `-` has been specified in fromSrc query parameter
+  /images/{name}/json:
+    get:
+      summary: Inspect an image
+      description: Return low-level information about an image.
+      operationId: ImageInspect
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+              example:
+                Id: sha256:85f05633ddc1c50679be2b16a0479ab6f7637f8884e0cfe0f4d20e1ebb3d6e7c
+                Container: cb91e48a60d01f1e27028b4fc6819f4f290b3cf12496c8176ec714d0d390984a
+                Comment: ''
+                Os: linux
+                Architecture: amd64
+                Parent: sha256:91e54dfb11794fad694460162bf0cb0a4fa710cfa3f60979c177d920813e267c
+                ContainerConfig:
+                  Tty: false
+                  Hostname: e611e15f9c9d
+                  Domainname: ''
+                  AttachStdout: false
+                  PublishService: ''
+                  AttachStdin: false
+                  OpenStdin: false
+                  StdinOnce: false
+                  NetworkDisabled: false
+                  OnBuild: []
+                  Image: 91e54dfb11794fad694460162bf0cb0a4fa710cfa3f60979c177d920813e267c
+                  User: ''
+                  WorkingDir: ''
+                  MacAddress: ''
+                  AttachStderr: false
+                  Labels:
+                    com.example.license: GPL
+                    com.example.version: '1.0'
+                    com.example.vendor: Acme
+                  Env:
+                  - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+                  Cmd:
+                  - /bin/sh
+                  - -c
+                  - '#(nop) LABEL com.example.vendor=Acme com.example.license=GPL com.example.version=1.0'
+                DockerVersion: 1.9.0-dev
+                VirtualSize: 188359297
+                Size: 0
+                Author: ''
+                Created: '2015-09-10T08:30:53.26995814Z'
+                GraphDriver:
+                  Name: aufs
+                  Data: {}
+                RepoDigests:
+                - localhost:5000/test/busybox/example@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf
+                RepoTags:
+                - example:1.0
+                - example:latest
+                - example:stable
+                Config:
+                  Image: 91e54dfb11794fad694460162bf0cb0a4fa710cfa3f60979c177d920813e267c
+                  NetworkDisabled: false
+                  OnBuild: []
+                  StdinOnce: false
+                  PublishService: ''
+                  AttachStdin: false
+                  OpenStdin: false
+                  Domainname: ''
+                  AttachStdout: false
+                  Tty: false
+                  Hostname: e611e15f9c9d
+                  Cmd:
+                  - /bin/bash
+                  Env:
+                  - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+                  Labels:
+                    com.example.vendor: Acme
+                    com.example.version: '1.0'
+                    com.example.license: GPL
+                  MacAddress: ''
+                  AttachStderr: false
+                  WorkingDir: ''
+                  User: ''
+                RootFS:
+                  Type: layers
+                  Layers:
+                  - sha256:1834950e52ce4d5a88a1bbd131c537f4d0e56d10ff0dd69e66be3b7dfa9df7e6
+                  - sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+        404:
+          description: No such image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: 'No such image: someimage (tag: latest)'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or id
+        required: true
+        schema:
+          type: string
+      tags:
+      - Image
+  /images/{name}/history:
+    get:
+      summary: Get the history of an image
+      description: Return parent layers of an image.
+      operationId: ImageHistory
+      responses:
+        200:
+          description: List of image layers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  x-go-name: HistoryResponseItem
+                  required:
+                  - Id
+                  - Created
+                  - CreatedBy
+                  - Tags
+                  - Size
+                  - Comment
+                  properties:
+                    Id:
+                      type: string
+                    Created:
+                      type: integer
+                      format: int64
+                    CreatedBy:
+                      type: string
+                    Tags:
+                      type: array
+                      items:
+                        type: string
+                    Size:
+                      type: integer
+                      format: int64
+                    Comment:
+                      type: string
+              example:
+              - Id: 3db9c44f45209632d6050b35958829c3a2aa256d81b9a7be45b362ff85c54710
+                Created: 1398108230
+                CreatedBy: '/bin/sh -c #(nop) ADD file:eb15dbd63394e063b805a3c32ca7bf0266ef64676d5a6fab4801f2e81e2a5148 in /'
+                Tags:
+                - ubuntu:lucid
+                - ubuntu:10.04
+                Size: 182964289
+                Comment: ''
+              - Id: 6cfa4d1f33fb861d4d114f43b25abd0ac737509268065cdfd69d544a59c85ab8
+                Created: 1398108222
+                CreatedBy: '/bin/sh -c #(nop) MAINTAINER Tianon Gravi <admwiggin@gmail.com> - mkimage-debootstrap.sh -i iproute,iputils-ping,ubuntu-minimal -t lucid.tar.xz lucid http://archive.ubuntu.com/ubuntu/'
+                Tags: []
+                Size: 0
+                Comment: ''
+              - Id: 511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158
+                Created: 1371157430
+                CreatedBy: ''
+                Tags:
+                - scratch12:latest
+                - scratch:latest
+                Size: 0
+                Comment: Imported from -
+        404:
+          description: No such image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or ID
+        required: true
+        schema:
+          type: string
+      tags:
+      - Image
+  /images/{name}/push:
+    post:
+      summary: Push an image
+      description: 'Push an image to a registry.
+
+
+        If you wish to push an image on to a private registry, that image must already have a tag which references the registry. For example, `registry.example.com/myimage:latest`.
+
+
+        The push is cancelled if the HTTP connection is closed.'
+      operationId: ImagePush
+      responses:
+        200:
+          description: No error
+        404:
+          description: No such image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or ID.
+        required: true
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: The tag to associate with the image on the registry.
+        schema:
+          type: string
+      - name: X-Registry-Auth
+        in: header
+        description: A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
+        required: true
+        schema:
+          type: string
+      tags:
+      - Image
+  /images/{name}/tag:
+    post:
+      summary: Tag an image
+      description: Tag an image so that it becomes part of a repository.
+      operationId: ImageTag
+      responses:
+        201:
+          description: No error
+        400:
+          description: Bad parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: No such image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or ID to tag.
+        required: true
+        schema:
+          type: string
+      - name: repo
+        in: query
+        description: The repository to tag in. For example, `someuser/someimage`.
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: The name of the new tag.
+        schema:
+          type: string
+      tags:
+      - Image
+  /images/{name}:
+    delete:
+      summary: Remove an image
+      description: 'Remove an image, along with any untagged parent images that were
+
+        referenced by that image.
+
+
+        Images can''t be removed if they have descendant images, are being
+
+        used by a running container or are being used by a build.'
+      operationId: ImageDelete
+      responses:
+        200:
+          description: The image was deleted successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageDeleteResponseItem'
+              example:
+              - Untagged: 3e2f21a89f
+              - Deleted: 3e2f21a89f
+              - Deleted: 53b4f83ac9
+        404:
+          description: No such image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or ID
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        description: Remove the image even if it is being used by stopped containers or has other tags
+        schema:
+          type: boolean
+          default: false
+      - name: noprune
+        in: query
+        description: Do not delete untagged parent images
+        schema:
+          type: boolean
+          default: false
+      tags:
+      - Image
+  /images/search:
+    get:
+      summary: Search images
+      description: Search for an image on Docker Hub.
+      operationId: ImageSearch
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                    is_official:
+                      type: boolean
+                    is_automated:
+                      type: boolean
+                    name:
+                      type: string
+                    star_count:
+                      type: integer
+              example:
+              - description: ''
+                is_official: false
+                is_automated: false
+                name: wma55/u1210sshd
+                star_count: 0
+              - description: ''
+                is_official: false
+                is_automated: false
+                name: jdswinbank/sshd
+                star_count: 0
+              - description: ''
+                is_official: false
+                is_automated: false
+                name: vgauthier/sshd
+                star_count: 0
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: term
+        in: query
+        description: Term to search
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        schema:
+          type: integer
+      - name: filters
+        in: query
+        description: 'A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters:
+
+
+          - `is-automated=(true|false)`
+
+          - `is-official=(true|false)`
+
+          - `stars=<number>` Matches images that has at least ''number'' stars.
+
+          '
+        schema:
+          type: string
+      tags:
+      - Image
+  /images/prune:
+    post:
+      summary: Delete unused images
+      operationId: ImagePrune
+      parameters:
+      - name: filters
+        in: query
+        description: "Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters:\n\n- `dangling=<boolean>` When set to `true` (or `1`), prune only\n   unused *and* untagged images. When set to `false`\n   (or `0`), all unused images are pruned.\n- `until=<string>` Prune images created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine’s time.\n- `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune images with (or without, in case `label!=...` is used) the specified labels.\n"
+        schema:
+          type: string
+      responses:
+        200:
+          description: No error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ImagesDeleted:
+                    description: Images that were deleted
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ImageDeleteResponseItem'
+                  SpaceReclaimed:
+                    description: Disk space reclaimed in bytes
+                    type: integer
+                    format: int64
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Image
+  /commit:
+    post:
+      summary: Create a new image from a container
+      operationId: ImageCommit
+      responses:
+        201:
+          description: no error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
+        404:
+          description: no such container
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: 'No such container: c2ada9df5af8'
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: container
+        in: query
+        description: The ID or name of the container to commit
+        schema:
+          type: string
+      - name: repo
+        in: query
+        description: Repository name for the created image
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: Tag name for the create image
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: Commit message
+        schema:
+          type: string
+      - name: author
+        in: query
+        description: Author of the image (e.g., `John Hannibal Smith <hannibal@a-team.com>`)
+        schema:
+          type: string
+      - name: pause
+        in: query
+        description: Whether to pause the container before committing
+        schema:
+          type: boolean
+          default: true
+      - name: changes
+        in: query
+        description: '`Dockerfile` instructions to apply while committing'
+        schema:
+          type: string
+      tags:
+      - Image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerConfig'
+        description: The container configuration
+  /images/{name}/get:
+    get:
+      summary: Export an image
+      description: 'Get a tarball containing all images and metadata for a repository.
+
+
+        If `name` is a specific name and tag (e.g. `ubuntu:latest`), then only that image (and its parents) are returned. If `name` is an image ID, similarly only that image (and its parents) are returned, but with the exclusion of the `repositories` file in the tarball, as there were no image names referenced.
+
+
+        ### Image tarball format
+
+
+        An image tarball contains one directory per image layer (named using its long ID), each containing these files:
+
+
+        - `VERSION`: currently `1.0` - the file format version
+
+        - `json`: detailed layer information, similar to `docker inspect layer_id`
+
+        - `layer.tar`: A tarfile containing the filesystem changes in this layer
+
+
+        The `layer.tar` file contains `aufs` style `.wh..wh.aufs` files and directories for storing attribute changes and deletions.
+
+
+        If the tarball defines a repository, the tarball should also include a `repositories` file at the root that contains a list of repository and tag names mapped to layer IDs.
+
+
+        ```json
+
+        {
+
+        "hello-world": {
+
+        "latest": "565a9d68a73f6706862bfe8409a7f659776d4d60a8d096eb4a3cbce6999cc2a1"
+
+        }
+
+        }
+
+        ```'
+      operationId: ImageGet
+      responses:
+        200:
+          description: no error
+          content:
+            application/x-tar:
+              schema:
+                type: string
+                format: binary
+        500:
+          description: server error
+          content:
+            application/x-tar:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: name
+        in: path
+        description: Image name or ID
+        required: true
+        schema:
+          type: string
+      tags:
+      - Image
+  /images/get:
+    get:
+      summary: Export several images
+      description: 'Get a tarball containing all images and metadata for several image repositories.
+
+
+        For each value of the `names` parameter: if it is a specific name and tag (e.g. `ubuntu:latest`), then only that image (and its parents) are returned; if it is an image ID, similarly only that image (and its parents) are returned and there would be no names referenced in the ''repositories'' file for this image ID.
+
+
+        For details on the format, see the export image endpoint.'
+      operationId: ImageGetAll
+      responses:
+        200:
+          description: no error
+          content:
+            application/x-tar:
+              schema:
+                type: string
+                format: binary
+        500:
+          description: server error
+          content:
+            application/x-tar:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: names
+        in: query
+        description: Image names to filter by
+        schema:
+          type: array
+          items:
+            type: string
+      tags:
+      - Image
+  /images/load:
+    post:
+      summary: Import images
+      description: 'Load a set of images and tags into a repository.
+
+
+        For details on the format, see the export image endpoint.'
+      operationId: ImageLoad
+      responses:
+        200:
+          description: no error
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: quiet
+        in: query
+        description: Suppress progress details during load.
+        schema:
+          type: boolean
+          default: false
+      tags:
+      - Image
+      requestBody:
+        content:
+          application/x-tar:
+            schema:
+              type: string
+              format: binary
+        description: Tar archive containing images
+components:
+  schemas:
+    Image:
+      type: object
+      required:
+      - Id
+      - Parent
+      - Comment
+      - Created
+      - Container
+      - DockerVersion
+      - Author
+      - Architecture
+      - Os
+      - Size
+      - VirtualSize
+      - GraphDriver
+      - RootFS
+      properties:
+        Id:
+          type: string
+        RepoTags:
+          type: array
+          items:
+            type: string
+        RepoDigests:
+          type: array
+          items:
+            type: string
+        Parent:
+          type: string
+        Comment:
+          type: string
+        Created:
+          type: string
+        Container:
+          type: string
+        ContainerConfig:
+          $ref: '#/components/schemas/ContainerConfig'
+        DockerVersion:
+          type: string
+        Author:
+          type: string
+        Config:
+          $ref: '#/components/schemas/ContainerConfig'
+        Architecture:
+          type: string
+        Os:
+          type: string
+        OsVersion:
+          type: string
+        Size:
+          type: integer
+          format: int64
+        VirtualSize:
+          type: integer
+          format: int64
+        GraphDriver:
+          $ref: '#/components/schemas/GraphDriverData'
+        RootFS:
+          type: object
+          required:
+          - Type
+          properties:
+            Type:
+              type: string
+            Layers:
+              type: array
+              items:
+                type: string
+            BaseLayer:
+              type: string
+        Metadata:
+          type: object
+          properties:
+            LastTagTime:
+              type: string
+              format: dateTime
+    ImageDeleteResponseItem:
+      type: object
+      properties:
+        Untagged:
+          description: The image ID of an image that was untagged
+          type: string
+        Deleted:
+          description: The image ID of an image that was deleted
+          type: string
+    IdResponse:
+      description: Response to an API call that returns just an Id
+      type: object
+      required:
+      - Id
+      properties:
+        Id:
+          description: The id of the newly created object.
+          type: string
+    GraphDriverData:
+      description: Information about a container's graph driver.
+      type: object
+      required:
+      - Name
+      - Data
+      properties:
+        Name:
+          type: string
+        Data:
+          type: object
+          additionalProperties:
+            type: string
+    ContainerConfig:
+      description: Configuration for a container that is portable between hosts
+      type: object
+      properties:
+        Hostname:
+          description: The hostname to use for the container, as a valid RFC 1123 hostname.
+          type: string
+        Domainname:
+          description: The domain name to use for the container.
+          type: string
+        User:
+          description: The user that commands are run as inside the container.
+          type: string
+        AttachStdin:
+          description: Whether to attach to `stdin`.
+          type: boolean
+          default: false
+        AttachStdout:
+          description: Whether to attach to `stdout`.
+          type: boolean
+          default: true
+        AttachStderr:
+          description: Whether to attach to `stderr`.
+          type: boolean
+          default: true
+        ExposedPorts:
+          description: 'An object mapping ports to an empty object in the form:
+
+
+            `{"<port>/<tcp|udp>": {}}`
+
+            '
+          type: object
+          additionalProperties:
+            type: object
+            enum:
+            - {}
+            default: {}
+        Tty:
+          description: Attach standard streams to a TTY, including `stdin` if it is not closed.
+          type: boolean
+          default: false
+        OpenStdin:
+          description: Open `stdin`
+          type: boolean
+          default: false
+        StdinOnce:
+          description: Close `stdin` after one attached client disconnects
+          type: boolean
+          default: false
+        Env:
+          description: 'A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value.
+
+            '
+          type: array
+          items:
+            type: string
+        Cmd:
+          description: Command to run specified as a string or an array of strings.
+          type:
+          - array
+          - string
+          items:
+            type: string
+        Healthcheck:
+          $ref: '#/components/schemas/HealthConfig'
+        ArgsEscaped:
+          description: Command is already escaped (Windows only)
+          type: boolean
+        Image:
+          description: The name of the image to use when creating the container
+          type: string
+        Volumes:
+          description: An object mapping mount point paths inside the container to empty objects.
+          type: object
+          properties:
+            additionalProperties:
+              type: object
+              enum:
+              - {}
+              default: {}
+        WorkingDir:
+          description: The working directory for commands to run in.
+          type: string
+        Entrypoint:
+          description: 'The entry point for the container as a string or an array of strings.
+
+
+            If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).
+
+            '
+          type:
+          - array
+          - string
+          items:
+            type: string
+        NetworkDisabled:
+          description: Disable networking for the container.
+          type: boolean
+        MacAddress:
+          description: MAC address of the container.
+          type: string
+        OnBuild:
+          description: '`ONBUILD` metadata that were defined in the image''s `Dockerfile`.'
+          type: array
+          items:
+            type: string
+        Labels:
+          description: User-defined key/value metadata.
+          type: object
+          additionalProperties:
+            type: string
+        StopSignal:
+          description: Signal to stop a container as a string or unsigned integer.
+          type: string
+          default: SIGTERM
+        StopTimeout:
+          description: Timeout to stop a container in seconds.
+          type: integer
+          default: 10
+        Shell:
+          description: Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell.
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      description: Represents an error.
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          description: The error message.
+          type: string
+      example:
+        message: Something went wrong.
+    ImageSummary:
+      type: object
+      required:
+      - Id
+      - ParentId
+      - RepoTags
+      - RepoDigests
+      - Created
+      - Size
+      - SharedSize
+      - VirtualSize
+      - Labels
+      - Containers
+      properties:
+        Id:
+          type: string
+        ParentId:
+          type: string
+        RepoTags:
+          type: array
+          items:
+            type: string
+        RepoDigests:
+          type: array
+          items:
+            type: string
+        Created:
+          type: integer
+        Size:
+          type: integer
+        SharedSize:
+          type: integer
+        VirtualSize:
+          type: integer
+        Labels:
+          type: object
+          additionalProperties:
+            type: string
+        Containers:
+          type: integer
+    HealthConfig:
+      description: A test to perform to check that the container is healthy.
+      type: object
+      properties:
+        Test:
+          description: 'The test to perform. Possible values are:
+
+
+            - `[]` inherit healthcheck from image or parent image
+
+            - `["NONE"]` disable healthcheck
+
+            - `["CMD", args...]` exec arguments directly
+
+            - `["CMD-SHELL", command]` run command with system''s default shell
+
+            '
+          type: array
+          items:
+            type: string
+        Interval:
+          description: The time to wait between checks in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
+          type: integer
+        Timeout:
+          description: The time to wait before considering the check to have hung. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
+          type: integer
+        Retries:
+          description: The number of consecutive failures needed to consider a container as unhealthy. 0 means inherit.
+          type: integer
+        StartPeriod:
+          description: Start period for the container to initialize before starting health-retries countdown in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit.
+          type: integer
