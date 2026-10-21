@@ -107,3 +107,2245 @@
     detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null
+- slug: docker-hub-adobe
+  label: Adobe
+  partner: adobe
+  partner_name: Adobe
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/adobe
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Adobe
+    publisher_id: adobe
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'adobe' = adobe; wikidata P856 adobe.com agrees or unheld
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-akamai
+  label: Akamai
+  partner: akamai
+  partner_name: Akamai
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/akamai
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Akamai Technologies
+    publisher_id: akamai
+    matched_domain: akamai.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-amazon-web-services
+  label: Amazon Web Services
+  partner: amazon-web-services
+  partner_name: Amazon Web Services
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/amazon
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Amazon Web Services
+    publisher_id: amazon
+    matched_domain: amazon.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-amd
+  label: AMD
+  partner: amd
+  partner_name: AMD
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/rocm
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: AMD ROCm(TM) Platform
+    publisher_id: rocm
+    matched_domain: amd.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-appdynamics
+  label: AppDynamics
+  partner: appdynamics
+  partner_name: AppDynamics
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/appdynamics
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: AppDynamics
+    publisher_id: appdynamics
+    matched_domain: appdynamics.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-atlassian
+  label: Atlassian
+  partner: atlassian
+  partner_name: Atlassian
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/atlassian
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Atlassian
+    publisher_id: atlassian
+    matched_domain: atlassian.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-balena
+  label: Balena
+  partner: balena
+  partner_name: Balena
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/balena
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: balena
+    publisher_id: balena
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'balena' = balena; wikidata P856 balena.io agrees or unheld
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-bmc-software
+  label: BMC Software
+  partner: bmc-software
+  partner_name: BMC Software
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/controlm
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: BMC Software
+    publisher_id: controlm
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'bmcsoftware' = bmc-software; wikidata P856 bmc.com agrees or unheld
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-bruno
+  label: Bruno
+  partner: bruno-api
+  partner_name: Bruno
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/usebruno
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Bruno
+    publisher_id: usebruno
+    matched_domain: usebruno.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-cal-com
+  label: Cal.com
+  partner: cal-com
+  partner_name: Cal.com
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/calcom
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Cal.com, Inc.
+    publisher_id: calcom
+    matched_domain: cal.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-camunda
+  label: Camunda
+  partner: camunda
+  partner_name: Camunda
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/camunda
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Camunda
+    publisher_id: camunda
+    matched_domain: camunda.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-circleci
+  label: CircleCI
+  partner: circleci
+  partner_name: CircleCI
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/circleci
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: CircleCI
+    publisher_id: circleci
+    matched_domain: circleci.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-datadog
+  label: Datadog
+  partner: datadog
+  partner_name: Datadog
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/datadog
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Datadog
+    publisher_id: datadog
+    matched_domain: datadoghq.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-datastax
+  label: DataStax
+  partner: datastax
+  partner_name: DataStax
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/datastax
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: DataStax
+    publisher_id: datastax
+    matched_domain: datastax.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-demisto
+  label: Demisto
+  partner: demisto
+  partner_name: Demisto
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/demisto
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Demisto
+    publisher_id: demisto
+    matched_domain: demisto.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-dreamfactory
+  label: DreamFactory
+  partner: dreamfactory
+  partner_name: DreamFactory
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/dreamfactorysoftware
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: DreamFactory
+    publisher_id: dreamfactorysoftware
+    matched_domain: dreamfactory.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-dynatrace
+  label: Dynatrace
+  partner: dynatrace
+  partner_name: Dynatrace
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/dynatrace
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Dynatrace LLC
+    publisher_id: dynatrace
+    matched_domain: dynatrace.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-fortinet
+  label: Fortinet
+  partner: fortinet
+  partner_name: Fortinet
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/fortinet
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Fortinet
+    publisher_id: fortinet
+    matched_domain: fortinet.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-github
+  label: GitHub
+  partner: github
+  partner_name: GitHub
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/github
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: github
+    publisher_id: github
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'github' = github; wikidata P856 atom.io, github.com agrees or unheld
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-google
+  label: Google
+  partner: google
+  partner_name: Google
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/google
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Google
+    publisher_id: google
+    matched_domain: google.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-grafana
+  label: Grafana
+  partner: grafana-com
+  partner_name: Grafana
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/grafana
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Grafana
+    publisher_id: grafana
+    matched_domain: grafana.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    - product: Docker Verified Publisher plugin
+      product_type: plugin
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-hashicorp
+  label: HashiCorp
+  partner: hashicorp
+  partner_name: HashiCorp
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/hashicorp
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: HashiCorp, an IBM Company
+    publisher_id: hashicorp
+    matched_domain: hashicorp.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-intel
+  label: Intel
+  partner: intel
+  partner_name: Intel
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/intel
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Intel
+    publisher_id: intel
+    matched_domain: intel.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-keyfactor
+  label: Keyfactor
+  partner: keyfactor
+  partner_name: Keyfactor
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/keyfactor
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Keyfactor
+    publisher_id: keyfactor
+    matched_domain: keyfactor.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-kong
+  label: Kong
+  partner: kong
+  partner_name: Kong
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/kong
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Kong Inc.
+    publisher_id: kong
+    matched_domain: konghq.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-kuma
+  label: Kuma
+  partner: kuma
+  partner_name: Kuma
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/kumahq
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: 'Kuma '
+    publisher_id: kumahq
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'kuma' = kuma; no wikidata P856
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-lacework-forticnapp
+  label: Lacework FortiCNAPP
+  partner: lacework
+  partner_name: Lacework FortiCNAPP
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/lacework
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Lacework Inc
+    publisher_id: lacework
+    matched_domain: lacework.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-linode
+  label: Linode
+  partner: linode
+  partner_name: Linode
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/linode
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Linode
+    publisher_id: linode
+    matched_domain: linode.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    - product: Docker Verified Publisher plugin
+      product_type: plugin
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-localstack
+  label: LocalStack
+  partner: localstack
+  partner_name: LocalStack
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/localstack
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: LocalStack
+    publisher_id: localstack
+    matched_domain: localstack.cloud
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-mezmo
+  label: Mezmo
+  partner: mezmo
+  partner_name: Mezmo
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/mezmo
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: mezmo
+    publisher_id: mezmo
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'mezmo' = mezmo; no wikidata P856
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-microsoft
+  label: Microsoft
+  partner: microsoft
+  partner_name: Microsoft
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/microsoft
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Microsoft
+    publisher_id: microsoft
+    matched_domain: microsoft.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-mirantis
+  label: Mirantis
+  partner: mirantis
+  partner_name: Mirantis
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/mirantis
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Mirantis Inc
+    publisher_id: mirantis
+    matched_domain: mirantis.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-modular
+  label: Modular
+  partner: modular
+  partner_name: Modular
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/modular
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Modular
+    publisher_id: modular
+    matched_domain: modular.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-mongodb
+  label: MongoDB
+  partner: mongodb
+  partner_name: MongoDB
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/mongodb
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: MongoDB Inc
+    publisher_id: mongodb
+    matched_domain: mongodb.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-n8n
+  label: n8n
+  partner: n8n
+  partner_name: n8n
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/n8nio
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: n8n GmbH
+    publisher_id: n8nio
+    matched_domain: n8n.io
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-netdata
+  label: Netdata
+  partner: netdata
+  partner_name: Netdata
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/netdata
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Netdata
+    publisher_id: netdata
+    matched_domain: netdata.cloud
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-new-relic
+  label: New Relic
+  partner: new-relic
+  partner_name: New Relic
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/newrelic
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: New Relic
+    publisher_id: newrelic
+    matched_domain: newrelic.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-nginx-service-mesh
+  label: NGINX Service Mesh
+  partner: nginx-service-mesh
+  partner_name: NGINX Service Mesh
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/nginx
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: NGINX Inc.
+    publisher_id: nginx
+    matched_domain: nginx.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-nutanix
+  label: Nutanix
+  partner: nutanix
+  partner_name: Nutanix
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/nutanix
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Nutanix Inc.
+    publisher_id: nutanix
+    matched_domain: nutanix.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-octopus-deploy
+  label: Octopus Deploy
+  partner: octopus-deploy
+  partner_name: Octopus Deploy
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/octopusdeploy
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Octopus Deploy
+    publisher_id: octopusdeploy
+    matched_domain: octopus.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-okteto
+  label: Okteto
+  partner: okteto
+  partner_name: Okteto
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/okteto
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Okteto
+    publisher_id: okteto
+    matched_domain: okteto.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-openvpn
+  label: OpenVPN
+  partner: openvpn
+  partner_name: OpenVPN
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/openvpn
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: OpenVPN Inc.
+    publisher_id: openvpn
+    matched_domain: openvpn.net
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-ory
+  label: Ory
+  partner: ory
+  partner_name: Ory
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/oryd
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Ory
+    publisher_id: oryd
+    matched_domain: ory.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-penpot
+  label: Penpot
+  partner: penpot
+  partner_name: Penpot
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/penpotapp
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Penpot
+    publisher_id: penpotapp
+    matched_domain: penpot.app
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-ping-identity
+  label: Ping Identity
+  partner: ping-identity
+  partner_name: Ping Identity
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/pingidentity
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Ping Identity
+    publisher_id: pingidentity
+    matched_domain: pingidentity.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-portainer
+  label: Portainer
+  partner: portainer
+  partner_name: Portainer
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/portainer
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Portainer
+    publisher_id: portainer
+    matched_domain: portainer.io
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-qualys
+  label: Qualys
+  partner: qualys
+  partner_name: Qualys
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/qualys
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Qualys
+    publisher_id: qualys
+    matched_domain: qualys.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-rancher
+  label: Rancher
+  partner: rancher
+  partner_name: Rancher
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/rancher
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Rancher
+    publisher_id: rancher
+    matched_domain: rancher.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-rapidfort
+  label: RapidFort
+  partner: rapidfort
+  partner_name: RapidFort
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/rapidfort
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: RapidFort
+    publisher_id: rapidfort
+    matched_domain: rapidfort.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-red-hat
+  label: Red Hat
+  partner: red-hat
+  partner_name: Red Hat
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/redhat
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Red Hat
+    publisher_id: redhat
+    matched_domain: redhat.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-redis
+  label: Redis
+  partner: redis
+  partner_name: Redis
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/redis
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Redis
+    publisher_id: redis
+    matched_domain: redis.io
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-roboflow
+  label: Roboflow
+  partner: roboflow
+  partner_name: Roboflow
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/roboflow
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Roboflow
+    publisher_id: roboflow
+    matched_domain: roboflow.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-solarwinds
+  label: SolarWinds
+  partner: solarwinds
+  partner_name: SolarWinds
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/solarwinds
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: SolarWinds
+    publisher_id: solarwinds
+    matched_domain: solarwinds.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-sonarsource
+  label: SonarSource
+  partner: sonarsource
+  partner_name: SonarSource
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/sonarsource
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: SonarSource
+    publisher_id: sonarsource
+    matched_domain: sonarsource.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-sonatype
+  label: Sonatype
+  partner: sonatype
+  partner_name: Sonatype
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/sonatype
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Sonatype
+    publisher_id: sonatype
+    matched_domain: sonatype.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-specterops
+  label: SpecterOps
+  partner: specterops
+  partner_name: SpecterOps
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/specterops
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: SpecterOps
+    publisher_id: specterops
+    matched_domain: specterops.io
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-stackhawk
+  label: StackHawk
+  partner: stackhawk
+  partner_name: StackHawk
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/stackhawk
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: StackHawk
+    publisher_id: stackhawk
+    matched_domain: stackhawk.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-stripe
+  label: Stripe
+  partner: stripe
+  partner_name: Stripe
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/stripe
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: stripe
+    publisher_id: stripe
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+    register_name_note: register-name 'stripe' = stripe; wikidata P856 stripe.com agrees or unheld
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-sublime-security
+  label: Sublime Security
+  partner: sublime-security
+  partner_name: Sublime Security
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/sublimesec
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Sublime Security
+    publisher_id: sublimesec
+    matched_domain: sublime.security
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-taiga
+  label: Taiga
+  partner: taiga
+  partner_name: Taiga
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/taigaio
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Taiga
+    publisher_id: taigaio
+    matched_domain: taiga.io
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-temporal
+  label: Temporal
+  partner: temporal-io
+  partner_name: Temporal
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/temporalio
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Temporal
+    publisher_id: temporalio
+    matched_domain: temporal.io
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher extension
+      product_type: extension
+      lapsed: false
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-timber
+  label: Timber
+  partner: timber
+  partner_name: Timber
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/timberio
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: timberio (Datadog)
+    publisher_id: timberio
+    matched_domain: vector.dev
+    matched_by: domain+name-among-holders
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-victoriametrics
+  label: VictoriaMetrics
+  partner: victoriametrics
+  partner_name: VictoriaMetrics
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/victoriametrics
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: VictoriaMetrics
+    publisher_id: victoriametrics
+    matched_domain: victoriametrics.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-vmware-tanzu
+  label: VMware Tanzu
+  partner: vmware-tanzu
+  partner_name: VMware Tanzu
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/vmware
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: VMware Inc.
+    publisher_id: vmware
+    matched_domain: vmware.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    - product: Docker Verified Publisher plugin
+      product_type: plugin
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-weaviate
+  label: Weaviate
+  partner: weaviate
+  partner_name: Weaviate
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/semitechnologies
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Weaviate
+    publisher_id: semitechnologies
+    matched_domain: weaviate.io
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
+- slug: docker-hub-zabbix
+  label: Zabbix
+  partner: zabbix
+  partner_name: Zabbix
+  category: Docker Verified Publisher
+  type: marketplace
+  marketplace: docker-verified-publisher
+  channel: partner-built
+  evidence: https://hub.docker.com/u/zabbix
+  source: edge
+  relationship: platform-app
+  contract_reference:
+    register: Docker Hub Verified Publishers
+    spec_file: null
+    role: docker-verified-publisher-publisher
+    registered_name: Zabbix SIA
+    publisher_id: zabbix
+    matched_domain: zabbix.com
+    matched_by: domain
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+    signal_note: one edge per (provider, store); listing alone = participation. Listing / install / download counts
+      are context, never counted. Publisher vetting badges -> publisher_verified (weight 0)
+    standard: Docker Verified Publisher
+    certified_products:
+    - product: Docker Verified Publisher image
+      product_type: image
+      lapsed: false
+    certified_note: one entry per product TYPE published under the programme (image / extension / plugin), never
+      per repository; Docker marks no lapse, so lapsed is false. Read on a platform-app edge by nothing today (market-depth
+      reads certified_products on standard-participant)
+  status: not-a-workflow
+  arazzo: null
