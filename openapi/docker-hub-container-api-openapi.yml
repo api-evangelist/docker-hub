@@ -3693,3 +3693,9 @@ components:
           type: boolean
         Propagation:
           type: string
+x-provenance:
+  method: harvested
+  publisher: Docker Hub
+  source: https://raw.githubusercontent.com/docker/go-docker/master/api/swagger.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
