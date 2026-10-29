@@ -1,4 +1,4 @@
-# Docker Hub (docker-hub)
+# Docker Hub
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,68 +66,142 @@
 
 Docker Hub is the world's largest container image registry, providing a cloud-based service for finding, storing, sharing, and managing container images. It offers public and private repositories, automated builds, webhooks, and integrations with Docker tooling and CI/CD pipelines.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/docker-hub/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/docker-hub/refs/heads/main/apis.yml)
+**Areas:** Containers · DevOps · Docker · Registry
 
-## Scope
+## Docker Hub on APIs.io
 
-- **Type:** Index
-- **Access:** 3rd-Party
+Everything profiled for Docker Hub is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/docker-hub/](https://apis.io/providers/docker-hub/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (10)
 
-- Containers
-- DevOps
-- Docker
-- Registry
+- [Docker Hub Access Tokens API](https://apis.io/apis/docker-hub/docker-hub-access-tokens-api/) — The Personal Access Token endpoints lets you manage personal access tokens. For more information, see [Access…
+- [Docker Hub Audit Logs API](https://apis.io/apis/docker-hub/docker-hub-audit-logs-api/) — The Audit Logs API endpoints allow you to query audit log events across a namespace. For more information, see [Audit…
+- [Docker Hub Authentication API](https://apis.io/apis/docker-hub/docker-hub-authentication-api-api/) — The authentication endpoints allow you to authenticate with Docker Hub APIs. For more information, see [Authentication](#tag/authentication).
+- [Docker Hub Groups API](https://apis.io/apis/docker-hub/docker-hub-groups-api/) — The groups endpoints allow you to manage your organization's teams and their members. For more information, see [Create and manage a…
+- [Docker Hub Invites API](https://apis.io/apis/docker-hub/docker-hub-invites-api/) — The invites endpoints allow you to manage invites for users to join your Docker organization. For more information, see [Invite…
+- [Docker Hub Org Access Tokens API](https://apis.io/apis/docker-hub/docker-hub-org-access-tokens-api/) — The organization access token endpoints allow you to manage organization access tokens (OATs). See [Organization access…
+- [Docker Hub Org Settings API](https://apis.io/apis/docker-hub/docker-hub-org-settings-api/) — The Org Settings API endpoints allow you to manage your organization's settings.
+- [Docker Hub Orgs API](https://apis.io/apis/docker-hub/docker-hub-orgs-api/) — The organization endpoints allow you to interact with and manage your organizations. For more information, see [Organization administration…
+- [Docker Hub Repositories API](https://apis.io/apis/docker-hub/docker-hub-repositories-api/) — The repository endpoints allow you to access your repository's tags.
+- [Docker Hub SCIM API](https://apis.io/apis/docker-hub/docker-hub-scim-api/) — SCIM is a provisioning system that lets you manage users within your identity provider (IdP). For more information, see [System for Cross-domain Identity…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-01-01
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Docker Hub API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-The Docker Hub API provides programmatic access to the world's largest container image registry, enabling management of repositories, images, tags, organizations, teams, webhooks, and access tokens. It supports automation of container image publishing, discovery, and lifecycle management workflows.
+- [Docker Hub Agentic Access](https://apis.io/agentic-access/docker-hub/docker-hub-agentic-access/)
 
-- **Human URL:** [https://docs.docker.com/docker-hub/api/latest/](https://docs.docker.com/docker-hub/api/latest/)
-- **Base URL:** `https://hub.docker.com/v2`
+#### Collections (11)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Containers
-- DevOps
-- Docker
-- Images
-- Registry
-- Repositories
+- [Docker HUB API](https://apis.io/collections/docker-hub/open-docker-hub/)
+- [Docker HUB access-tokens API](https://apis.io/collections/docker-hub/open-docker-hub-access-tokens-api/)
+- [Docker HUB access-tokens audit-logs API](https://apis.io/collections/docker-hub/open-docker-hub-audit-logs-api/)
+- [Docker HUB access-tokens authentication-api API](https://apis.io/collections/docker-hub/open-docker-hub-authentication-api-api/)
+- [Docker HUB access-tokens groups API](https://apis.io/collections/docker-hub/open-docker-hub-groups-api/)
+- [Docker HUB access-tokens invites API](https://apis.io/collections/docker-hub/open-docker-hub-invites-api/)
+- [Docker HUB access-tokens org-access-tokens API](https://apis.io/collections/docker-hub/open-docker-hub-org-access-tokens-api/)
+- [Docker HUB access-tokens org-settings API](https://apis.io/collections/docker-hub/open-docker-hub-org-settings-api/)
+- [Docker HUB access-tokens orgs API](https://apis.io/collections/docker-hub/open-docker-hub-orgs-api/)
+- [Docker HUB access-tokens repositories API](https://apis.io/collections/docker-hub/open-docker-hub-repositories-api/)
+- [Docker HUB access-tokens scim API](https://apis.io/collections/docker-hub/open-docker-hub-scim-api/)
 
-#### Properties
+#### Security (3)
 
-- [Documentation](https://docs.docker.com/docker-hub/api/latest/)
-- [Base U R L](https://hub.docker.com/v2)
-- [OpenAPI](https://docs.docker.com/reference/api/hub/latest/) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI](openapi/docker-hub-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/docker-hub.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/docker-hub.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Authentication, trust centre, and vulnerability disclosure.
 
-## Common Properties
+- [Docker Hub Authentication](https://apis.io/security/docker-hub/docker-hub-authentication/)
+- [Docker Hub Domain Security](https://apis.io/security/docker-hub/docker-hub-domain-security/)
+- [Docker Hub Vulnerability Disclosure](https://apis.io/security/docker-hub/docker-hub-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Docker Hub Plans Pricing](https://apis.io/plans/docker-hub/docker-hub-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Docker Hub Rate Limits](https://apis.io/rate-limits/docker-hub/docker-hub-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Docker Hub Finops](https://apis.io/finops/docker-hub/docker-hub-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://hub.docker.com/)
 - [Documentation](https://docs.docker.com/docker-hub/)
-- [Documentation](https://docs.docker.com/docker-hub/api/latest/)
-- [Sign Up](https://hub.docker.com/signup)
 - [Pricing](https://hub.docker.com/pricing)
+- [Support](https://www.docker.com/support/)
 - [Changelog](https://docs.docker.com/docker-hub/release-notes/)
 - [Blog](https://www.docker.com/blog/)
-- [Support](https://www.docker.com/support/)
-- [Forum](https://forums.docker.com/)
-- [Terms of Service](https://www.docker.com/legal/docker-terms-service/)
-- [Privacy Policy](https://www.docker.com/legal/privacy/)
-- [Status Page](https://status.docker.com/)
-- [Git Hub](https://github.com/docker)
-- [X (Twitter)](https://x.com/Docker)
-- [LinkedIn](https://www.linkedin.com/company/docker)
-- [YouTube](https://www.youtube.com/user/dockerrun)
-- [L L Ms Txt](https://docs.docker.com/llms.txt)
+- [Terms of service](https://www.docker.com/legal/docker-terms-service/)
+- [Privacy policy](https://www.docker.com/legal/privacy/)
+- [Status](https://status.docker.com/)
+
+## API Evangelist rating
+
+**Kin Score 39.8** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 58.9 |
+| Contract quality | 38.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 55.3 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 52.6 |
+
+**Agent readiness 19.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 25.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/docker-hub/](https://apis.io/providers/docker-hub/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Docker Hub: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/docker-hub/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
